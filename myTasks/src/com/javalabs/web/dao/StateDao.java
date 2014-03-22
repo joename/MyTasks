@@ -36,7 +36,7 @@ public class StateDao {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
 
-		return jdbc.queryForObject(sql, params, new StateRowMapper<State>());
+		return jdbc.queryForObject(sql, params, new StateRowMapper());
 	}
 
 	public State get(String stateName) {
@@ -45,20 +45,7 @@ public class StateDao {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("state", stateName);
 
-		return jdbc.queryForObject(sql, params, new RowMapper<State>() {
-
-			public State mapRow(ResultSet rs, int rowNum) throws SQLException {
-				State state = new State();
-
-				state.setIdTaskState(rs.getLong("idTaskState"));
-				state.setSortOrder(rs.getInt("sortOrder"));
-				state.setState(rs.getString("state"));
-				state.setTimestamp(rs.getDate("timestamp"));
-
-				return state;
-			}
-
-		});
+		return jdbc.queryForObject(sql, params, new StateRowMapper());
 	}
 
 	public boolean create(State state) {

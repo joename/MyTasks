@@ -38,8 +38,12 @@ public class UserDaoTests {
 	public void init(){
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		
-		jdbc.execute("delete from t_user");
-		//jdbc.execute("");
+		jdbc.execute("delete from t_task");
+	    jdbc.execute("delete from t_taskaction");
+	    jdbc.execute("delete from t_user");
+	    jdbc.execute("delete from a_taskcategory");
+	    jdbc.execute("delete from a_taskpriority");
+	    jdbc.execute("delete from a_taskstate");
 	}
 	
 	@Test

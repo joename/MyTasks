@@ -40,8 +40,10 @@ public class PriorityDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		logger.info("Init PriorityDaoTests...");
-		jdbc.execute("delete from a_taskPriority");
-		// jdbc.execute("");
+
+        jdbc.execute("delete from t_task");
+        jdbc.execute("delete from a_taskcategory");
+        jdbc.execute("delete from a_taskPriority");
 	}
 
 	@Test

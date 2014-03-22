@@ -108,4 +108,14 @@ public class CategoryDao {
 			return new Category(0);
 		}
 	}
+	
+	public Category get(String stateName) {
+		String sql = "select * from a_taskCategory where category=:category";
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("category", stateName);
+
+		return jdbc.queryForObject(sql, params, new CategoryRowMapper());
+	}
+
 }

@@ -66,7 +66,7 @@ public class UserDao {
 		return jdbc.update("delete from t_user where idUser=:idUser", params) == 1;
 	}
 
-	public User getUser(long id) {
+	public User get(long id) {
 		String sql = "select * from t_user where idUser=:idUser";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
@@ -75,6 +75,15 @@ public class UserDao {
 		return jdbc.queryForObject(sql, params, new UserRowMapper());
 	}
 
+	public User get(String userName) {
+		String sql = "select * from t_user where userName=:userName";
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("userName", userName);
+
+		return jdbc.queryForObject(sql, params, new UserRowMapper());
+	}
+	
 	public List<User> getUsers() {
 		return jdbc.query("select * from t_user", new UserRowMapper());
 	}

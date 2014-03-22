@@ -42,8 +42,8 @@ public class CategoryDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		logger.info("Init CategoryDaoTests...");
-		jdbc.execute("delete from a_taskCategory");
-		// jdbc.execute("");
+		jdbc.execute("delete from t_task");
+	    jdbc.execute("delete from a_taskcategory");
 	}
 
 	@Test

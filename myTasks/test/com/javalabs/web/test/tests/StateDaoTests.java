@@ -45,8 +45,10 @@ public class StateDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		logger.info("Init StateDaoTests...");
-		jdbc.execute("delete from a_taskState");
-		// jdbc.execute("");
+
+        jdbc.execute("delete from t_task");
+        jdbc.execute("delete from a_taskcategory");
+        jdbc.execute("delete from a_taskState");
 	}
 
 	@Test
