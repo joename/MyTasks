@@ -20,6 +20,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.javalabs.web.controllers.HomeController;
 import com.javalabs.web.dao.Category;
 import com.javalabs.web.dao.CategoryDao;
+import com.javalabs.web.dao.Role;
+import com.javalabs.web.dao.RoleDao;
 import com.javalabs.web.dao.State;
 
 @ActiveProfiles("dev")
@@ -28,12 +30,12 @@ import com.javalabs.web.dao.State;
 		"classpath:com/javalabs/web/config/security-context.xml",
 		"classpath:com/javalabs/web/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class CategoryDaoTests {
+public class RoleDaoTests {
 
-	private static Logger logger = Logger.getLogger(CategoryDaoTests.class);
+	private static Logger logger = Logger.getLogger(RoleDaoTests.class);
 
 	@Autowired
-	private CategoryDao categoryDao;
+	private RoleDao roleDao;
 
 	@Autowired
 	private DataSource dataSource;
@@ -42,66 +44,65 @@ public class CategoryDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		logger.info("Init CategoryDaoTests...");
-		jdbc.execute("delete from t_task");
-	    jdbc.execute("delete from a_taskcategory");
+		jdbc.execute("delete from t_role");
 	}
 
 	@Test
 	public void testCategoryCreate() {
-		Category category = new Category("deutsch");
-		assertTrue("Category creation should return true",
-				categoryDao.create(category));
+		Role role = new Role("sherif");
+		assertTrue("Role creation should return true",
+				roleDao.create(role));
 	}
 	
 	@Test
 	public void testCategoryBatchCreate() {
-		Category category1 = new Category("deutsch");
-		Category category2 = new Category("englisch");
-		Category category3 = new Category("spanisch");
-		Category category4 = new Category("catalanisch");
+		Role role1 = new Role("sherif");
+		Role role2 = new Role("cop");
+		Role role3 = new Role("farmer");
+		Role role4 = new Role("citizen");
 
-		List<Category> categories = new ArrayList<Category>();
-		categories.add(category1);
-		categories.add(category2);
-		categories.add(category3);
-		categories.add(category4);
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role1);
+		roles.add(role2);
+		roles.add(role3);
+		roles.add(role4);
 		
-		int rvals[]= categoryDao.create(categories);
+		int rvals[]= roleDao.create(roles);
 
 		int counter=0;
 		for(int value:rvals){
 			System.out.println("Updated " + value + "row");
 			counter++;
 		}
-		assertTrue("Category batch creation should return true",
+		assertTrue("Role batch creation should return true",
 				counter==4);
 	}
 	
 	@Test
 	public void testCategoryUpdate() {
-		Category category1 = new Category("deutsch");
+		Role role1 = new Role("sherif");
 		
-		categoryDao.create(category1);
+		roleDao.create(role1);
 		
-		List<Category> categories = categoryDao.getCategories();
-		Category category = categories.get(0);
+		List<Role> roles = roleDao.getRoles();
+		Role role = roles.get(0);
 		
-		category.setCategory("mallorquinisch");
+		role.setRolename("cop");
 		
-		assertTrue("Category update should return true",
-				categoryDao.update(category));
+		assertTrue("Role update should return true",
+				roleDao.update(role));
 	}
 
 	@Test
 	public void testCategoryDelete() {
-		Category category1 = new Category("deutsch");
+		Role role1 = new Role("cop");
 		
-		categoryDao.create(category1);
+		roleDao.create(role1);
 		
-		List<Category> categories = categoryDao.getCategories();
-		Category category = categories.get(0);
+		List<Role> roles = roleDao.getRoles();
+		Role role = roles.get(0);
 		
-		assertTrue("Category deletion should return true",
-				categoryDao.delete(category.getIdTaskCategory()));
+		assertTrue("Role deletion should return true",
+				roleDao.delete(role.getIdRole()));
 	}
 }
