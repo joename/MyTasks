@@ -17,12 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.javalabs.web.controllers.HomeController;
-import com.javalabs.web.dao.Category;
-import com.javalabs.web.dao.CategoryDao;
 import com.javalabs.web.dao.Role;
 import com.javalabs.web.dao.RoleDao;
-import com.javalabs.web.dao.State;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
@@ -48,14 +44,14 @@ public class RoleDaoTests {
 	}
 
 	@Test
-	public void testCategoryCreate() {
+	public void testRoleCreate() {
 		Role role = new Role("sherif");
 		assertTrue("Role creation should return true",
 				roleDao.create(role));
 	}
-	
+
 	@Test
-	public void testCategoryBatchCreate() {
+	public void testRoleBatchCreate() {
 		Role role1 = new Role("sherif");
 		Role role2 = new Role("cop");
 		Role role3 = new Role("farmer");
@@ -77,9 +73,9 @@ public class RoleDaoTests {
 		assertTrue("Role batch creation should return true",
 				counter==4);
 	}
-	
+
 	@Test
-	public void testCategoryUpdate() {
+	public void testRoleUpdate() {
 		Role role1 = new Role("sherif");
 		
 		roleDao.create(role1);
@@ -94,7 +90,7 @@ public class RoleDaoTests {
 	}
 
 	@Test
-	public void testCategoryDelete() {
+	public void testRoleDelete() {
 		Role role1 = new Role("cop");
 		
 		roleDao.create(role1);

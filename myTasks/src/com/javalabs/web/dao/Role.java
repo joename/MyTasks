@@ -2,7 +2,17 @@ package com.javalabs.web.dao;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="t_role")
 public class Role {
+  
+  @Id
+  @Column(name="idRole")
   private long idRole;
   private String rolename;
   private Date timestamp;

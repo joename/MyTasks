@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -19,16 +21,24 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Component("roleDao")
 public class RoleDao {
 
 	private NamedParameterJdbcTemplate jdbc;
 
 	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Autowired
 	public void setDataSource(DataSource jdbc) {
 		this.jdbc = new NamedParameterJdbcTemplate(jdbc);
 	}
 
+	public Session session(){
+	  return sessionFactory.getCurrentSession();
+	}
+	
 	@Transactional
 	public boolean create(Role role) {
 		System.out.println(">RoleDao create " + role);
@@ -74,9 +84,10 @@ public class RoleDao {
 						params) == 1;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Role> getRoles() {
-		return jdbc.query("select * from t_role",
-				new RoleRowMapper());
+		return session().createQuery("from Role").list();
+		    //jdbc.query("select * from t_role",				new RoleRowMapper());
 	}
 
 	public Role getRole(long idRole) {
