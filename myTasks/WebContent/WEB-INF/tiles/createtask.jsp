@@ -8,29 +8,32 @@
 	commandName="task">
 	<table class="formtable">
 		<tr>
-			<td class="label">User</td>
-			<td><form:input class="control" path="taskname" name="taskname"
-					type="text" /><br /> <form:errors path="taskname"
+			<td class="label">Task</td>
+			<td><form:input cssClass="control" path="taskname"
+					name="taskname" type="text" /><br /> <form:errors path="taskname"
 					cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td class="label">Description</td>
-			<td><form:textarea path="description" name="description"></form:textarea><br />
-				<form:errors path="description" cssClass="error" /></td>
+			<td><form:textarea cssClass="control" path="description"
+					name="description"></form:textarea><br /> <form:errors
+					path="description" cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td class="label">Date (dd/mm/yyyy)</td>
-			<td><form:input path="date" name="date" type="date" /><br /> <form:errors
-					path="date" cssClass="error" /></td>
+			<td><form:input cssClass="control" path="date" name="date"
+					type="date" /><br /> <form:errors path="date" cssClass="error" /></td>
 		</tr>
 		<tr>
 			<td class="label">Deadline (dd/mm/yyyy)</td>
-			<td><form:input path="deadline" name="deadline" type="date" /><br />
-				<form:errors path="deadline" cssClass="error"></form:errors></td>
+			<td><form:input cssClass="control" path="deadline"
+					name="deadline" type="date" /><br /> <form:errors path="deadline"
+					cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">Category</td>
-			<td><form:select path="idCategory" name="idCategory">
+			<td><form:select cssClass="control" path="idCategory"
+					name="idCategory">
 					<form:option value="0" label="Select" />
 					<form:options items="${categories}" itemValue="id"
 						itemLabel="category" />
@@ -38,7 +41,8 @@
 		</tr>
 		<tr>
 			<td class="label">Priority</td>
-			<td><form:select path="idPriority" name="idPriority">
+			<td><form:select cssClass="control" path="idPriority"
+					name="idPriority">
 					<form:option value="0" label="Select" />
 					<form:options items="${priorities}" itemValue="id"
 						itemLabel="priority" />
@@ -46,36 +50,41 @@
 		</tr>
 		<tr>
 			<td class="label">State</td>
-			<td><form:select path="idState" name="idState">
+			<td><form:select cssClass="control" path="idState"
+					name="idState">
 					<form:option value="0" label="Select" />
 					<form:options items="${states}" itemValue="id" itemLabel="state" />
 				</form:select><br /> <form:errors path="idState" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">Pending by</td>
-			<td><form:select path="pending" name="pending">
+			<td><form:select cssClass="control" path="pending"
+					name="pending">
 					<form:option value="1" selected="selected">Responsible</form:option>
 					<form:option value="0">Applicant</form:option>
 				</form:select><br /> <form:errors path="pending" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">User</td>
-			<td><form:select path="idUser">
+			<td><form:select cssClass="control" path="idUser">
 					<form:option value="0" label="Select" />
-					<form:options items="${users}" itemValue="id" itemLabel="user" />
+					<form:options items="${users}" itemValue="idUser"
+						itemLabel="username" />
 				</form:select><br /> <form:errors path="idUser" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">User responsible</td>
-			<td><form:select path="idUserResponsible">
+			<td><form:select cssClass="control" path="idUserResponsible">
 					<form:option value="0" label="Select" />
-					<form:options items="${users}" itemValue="id" itemLabel="user" />
+					<form:options items="${users}" itemValue="idUser"
+						itemLabel="username" />
 				</form:select><br /> <form:errors path="idUserResponsible" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">Evaluation</td>
-			<td><form:textarea path="evaluation" name="evaluation"></form:textarea><br />
-				<form:errors path="evaluation" cssClass="error"></form:errors></td>
+			<td><form:textarea cssClass="control" path="evaluation"
+					name="evaluation"></form:textarea><br /> <form:errors
+					path="evaluation" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td></td>

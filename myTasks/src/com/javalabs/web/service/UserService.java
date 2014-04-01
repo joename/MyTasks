@@ -11,18 +11,22 @@ import com.javalabs.web.dao.UserDao;
 @Service("userService")
 public class UserService {
 
-    private UserDao userDao;
+	private UserDao userDao;
 
-    @Autowired
-    private void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+	@Autowired
+	private void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
-    }
+	public List<User> getAllUsers() {
+		return userDao.getAllUsers();
+	}
 
 	public void create(User user) {
 		userDao.create(user);
+	}
+
+	public boolean exists(String username) {
+		return userDao.exists(username);
 	}
 }

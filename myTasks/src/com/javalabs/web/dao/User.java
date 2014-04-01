@@ -25,11 +25,13 @@ public class User {
 			FormValidationGroup.class })
 	@Column(name = "username")
 	private String username;
-
+	
+	@NotBlank(groups = {FormValidationGroup.class })
 	@Size(min = 5, max = 50, groups = { FormValidationGroup.class })
 	private String password;
 	@Email
 	private String email;
+	private String authority;
 	private Boolean enabled = true;
 	@Size(min = 3, max = 6, groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
@@ -84,6 +86,13 @@ public class User {
 		this.email = email;
 	}
 
+	public String getAuthority() {
+		return this.authority;		
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;		
+	}
 
 	public boolean getEnabled() {
 		return enabled;

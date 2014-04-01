@@ -3,11 +3,18 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html>
-<head>
-<title><tiles:getAsString name="title" /></title>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/static/css/main.css">
-</head>
+	<head>
+	
+	<title><tiles:getAsString name="title" /></title>
+	
+	<link rel="stylesheet" type="text/css"
+		href="${pageContext.request.contextPath}/static/css/main.css">
+	
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/static/script/jquery.js"></script>
+	<tiles:insertAttribute name="includes"></tiles:insertAttribute>
+	
+	</head>
 <body>
 	<div class="header">
 		<tiles:insertAttribute name="header" />

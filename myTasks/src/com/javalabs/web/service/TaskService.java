@@ -18,15 +18,11 @@ public class TaskService {
         this.taskDao = taskDao;
     }
 
-    public List<Task> getCurrent() {
+    public List<Task> getAllTasks() {
         return taskDao.getAllTasks();
     }
 
     public void create(Task task) {
         taskDao.create(task);
-    }
-
-    public void throwTestException() {
-        taskDao.getTask(12345);
     }
 }

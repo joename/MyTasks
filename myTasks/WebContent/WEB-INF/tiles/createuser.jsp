@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <h2>Create New User</h2>
-<form:form method="POST"
+<form:form id="details" method="POST"
 	action="${pageContext.request.contextPath}/docreateuser"
 	commandName="user">
 	<table class="formtable">
@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td class="label">Password</td>
-			<td><form:input class="control" path="password" name="password" type="password" /><br />
+			<td><form:input id="password" class="control" path="password" name="password" type="password" /><br />
 				<div class="error">
 					<form:errors path="password" cssClass="error" />
 				</div></td>

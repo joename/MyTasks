@@ -17,12 +17,12 @@ public class CategoryService {
     public void setCategoryDao(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
     }
-
-    public Category getCategory(long idCategory){
-        return categoryDao.getCategory(idCategory);
-    }
     
     public List<Category> getAllCategories() {
         return categoryDao.getAllCategories();
     }
+    
+	public boolean exists(String username) {
+		return categoryDao.exists(username);
+	}
 }

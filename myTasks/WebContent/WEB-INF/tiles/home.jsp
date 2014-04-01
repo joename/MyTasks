@@ -14,3 +14,6 @@
 <p>
 	<a href="${pageContext.request.contextPath}/createuser">Create user</a>
 </p>
+<p>
+	<a href="<c:url value="/j_spring_security_logout"/>">Log out</a>
+</p>

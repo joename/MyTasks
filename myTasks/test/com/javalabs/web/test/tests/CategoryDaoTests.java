@@ -21,6 +21,7 @@ import com.javalabs.web.controllers.HomeController;
 import com.javalabs.web.dao.Category;
 import com.javalabs.web.dao.CategoryDao;
 import com.javalabs.web.dao.State;
+import com.javalabs.web.dao.User;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
@@ -38,6 +39,11 @@ public class CategoryDaoTests {
 	@Autowired
 	private DataSource dataSource;
 
+	private Category category1 = new Category("deutsch");
+	private Category category2 = new Category("englisch");
+	private Category category3 = new Category("spanisch");
+	private Category category4 = new Category("catalanisch");
+	
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -47,61 +53,30 @@ public class CategoryDaoTests {
 	}
 
 	@Test
-	public void testCategoryCreate() {
-		Category category = new Category("deutsch");
-		assertTrue("Category creation should return true",
-				categoryDao.create(category));
+	public void testCreateRetrieve() {
+		categoryDao.create(category1);
+
+	    List<Category> categories = categoryDao.getAllCategories();
+
+	    assertEquals("One category should have been created and retrieved", 1, categories.size());
+	    assertEquals("Inserted user should match category retreived", category1, categories.get(0));
+	    
+	    categoryDao.create(category2);
+	    categoryDao.create(category3);
+	    categoryDao.create(category4);
+	    
+	    categories = categoryDao.getAllCategories();
+	    
+	    assertEquals("Should be 4 inserted users", 4, categories.size());
 	}
 	
 	@Test
-	public void testCategoryBatchCreate() {
-		Category category1 = new Category("deutsch");
-		Category category2 = new Category("englisch");
-		Category category3 = new Category("spanisch");
-		Category category4 = new Category("catalanisch");
-
-		List<Category> categories = new ArrayList<Category>();
-		categories.add(category1);
-		categories.add(category2);
-		categories.add(category3);
-		categories.add(category4);
-		
-		int rvals[]= categoryDao.create(categories);
-
-		int counter=0;
-		for(int value:rvals){
-			System.out.println("Updated " + value + "row");
-			counter++;
-		}
-		assertTrue("Category batch creation should return true",
-				counter==4);
-	}
-	
-	@Test
-	public void testCategoryUpdate() {
-		Category category1 = new Category("deutsch");
-		
+	public void testExists() {
 		categoryDao.create(category1);
+		categoryDao.create(category2);
+		categoryDao.create(category3);
 		
-		List<Category> categories = categoryDao.getAllCategories();
-		Category category = categories.get(0);
-		
-		category.setCategory("mallorquinisch");
-		
-		assertTrue("Category update should return true",
-				categoryDao.update(category));
-	}
-
-	@Test
-	public void testCategoryDelete() {
-		Category category1 = new Category("deutsch");
-		
-		categoryDao.create(category1);
-		
-		List<Category> categories = categoryDao.getAllCategories();
-		Category category = categories.get(0);
-		
-		assertTrue("Category deletion should return true",
-				categoryDao.delete(category.getIdTaskCategory()));
+		assertTrue("Category should exist.", categoryDao.exists(category2.getCategory()));
+		assertFalse("Category should not exist.", categoryDao.exists("xkjhsfjlsjf"));
 	}
 }

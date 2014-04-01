@@ -2,13 +2,22 @@ package com.javalabs.web.dao;
 
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Component("category")
+import org.hibernate.validator.constraints.NotBlank;
+
+@Entity
+@Table(name = "a_taskCategory")
 public class Category {
 
+	@Id
+	@Column(name="idTaskCategory")
     private long idTaskCategory;
     private long sortOrder;
+    @NotBlank
     private String category;
     private Date timestamp;
 
@@ -59,6 +68,32 @@ public class Category {
     }
 
     @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Category))
+			return false;
+		Category other = (Category) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		return true;
+	}
+
+	@Override
     public String toString() {
         return "Category [idTaskCategory=" + idTaskCategory + ", sortOrder=" + sortOrder + ", category="
                 + category + ", timestamp=" + timestamp + "]";

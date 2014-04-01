@@ -9,7 +9,7 @@ public class HomeController {
 
 	private static Logger logger = Logger.getLogger(HomeController.class);
 	
-	@RequestMapping("/")
+	@RequestMapping(value={"/","/home"})
 	public String showHome() {
 		logger.info("Showing home page...");
 		return "home";

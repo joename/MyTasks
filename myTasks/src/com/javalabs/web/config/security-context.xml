@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
@@ -14,7 +13,10 @@
 		</security:authentication-provider>
 		<security:authentication-provider>
 			<security:jdbc-user-service
-				data-source-ref="dataSource" />
+				data-source-ref="dataSource"
+				authorities-by-username-query='select username, authority from t_user where binary username = ?'
+				users-by-username-query='select username, password, enabled from t_user where binary username = ?'
+				id="jdbcUserService" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
@@ -22,6 +24,9 @@
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/home" access="permitAll" />
+		<security:intercept-url pattern="/loggedout"
+			access="permitAll" />
 		<security:intercept-url pattern="/createuser"
 			access="permitAll" />
 		<security:intercept-url pattern="/usercreated"
@@ -41,5 +46,6 @@
 		<security:intercept-url pattern="/**" access="denyAll" />
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error=true" />
+		<security:logout logout-success-url="/loggedout" />
 	</security:http>
 </beans>

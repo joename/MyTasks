@@ -20,4 +20,9 @@
 			<td class="control">${task.idUser}</td>
 		</tr>
 	</c:forEach>
+
 </table>
+
+<p>
+	<a href="<c:url value="/home"/>">Home</a>
+</p>
