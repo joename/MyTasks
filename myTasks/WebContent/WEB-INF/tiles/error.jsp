@@ -2,4 +2,3 @@
 	pageEncoding="UTF-8"%>
 
 An unforseen error occured. The database may be down. Please use your browser's back button.
-${error.message }

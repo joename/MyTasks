@@ -13,7 +13,7 @@ import com.javalabs.web.test.tests.PriorityDaoTests;
 public class ErrorHandler {
 
 	private static Logger logger = Logger.getLogger(ErrorHandler.class);
-
+	
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDatabaseException(DataAccessException ex) {
 		System.out.println(">ExceptionHandler: " + ex.getMessage());

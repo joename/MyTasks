@@ -37,5 +37,7 @@
 </form>
 
 <p>
-	<a href="<c:url value="${pageContext.request.contextPath}/createuser"/>">Create new account</a>
+	<a
+		href="<c:url value="/createuser"/>">Create
+		new account</a>
 </p>

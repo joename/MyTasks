@@ -2,6 +2,7 @@ package com.javalabs.web.controllers;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import com.javalabs.web.service.UserService;
 public class LoginController {
     
 	private UserService userService;
+	
+	private static Logger logger = Logger.getLogger(LoginController.class);
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -37,6 +40,8 @@ public class LoginController {
     public String doCreateUser(Model model, @Valid User user, BindingResult result){
         System.out.println(">LoginController doCreateUser " + user);
 
+    	logger.info(">LoginController doCreateUser " + user);
+    	
         if (result.hasErrors()) {
             return "createuser";
         } else {

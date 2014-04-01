@@ -63,45 +63,18 @@ public class UserDaoTests {
     userDao.create(user3);
     userDao.create(user4);
     
+    users = userDao.getAllUsers();
+    
     assertEquals("Should be 4 inserted users", 4, users.size());
   }
 
-  @Test
-  public void testUserBatchCreate() {
-
-    List<User> users = new ArrayList<User>();
-    users.add(user1);
-    users.add(user2);
-    users.add(user3);
-    users.add(user4);
-
-    int rvals[] = userDao.create(users);
-
-    int counter = 0;
-    for (int value : rvals) {
-      System.out.println("Updated " + value + "row");
-      counter++;
-    }
-    assertTrue("State batch creation should return true", counter == 4);
-  }
-
-  @Test
-  public void testUserUpdate() {
-    userDao.create(user1);
-
-    List<User> users = userDao.getAllUsers();
-    User usr = users.get(0);
-
-    assertTrue("User creation should return true", userDao.update(usr));
-  }
-
-  @Test
-  public void testUserDelete() {
-    userDao.create(user1);
-
-    List<User> users = userDao.getAllUsers();
-    User usr = users.get(0);
-
-    assertTrue("User creation should return true", userDao.delete(usr.getIdUser()));
-  }
+	@Test
+	public void testExists() {
+		userDao.create(user1);
+		userDao.create(user2);
+		userDao.create(user3);
+		
+		assertTrue("User should exist.", userDao.exists(user2.getUsername()));
+		assertFalse("User should not exist.", userDao.exists("xkjhsfjlsjf"));
+	}
 }

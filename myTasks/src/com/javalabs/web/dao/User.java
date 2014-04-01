@@ -1,6 +1,5 @@
 package com.javalabs.web.dao;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,35 +10,30 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.stereotype.Component;
 
-//@Component("user")
 @Entity
-@Table(name="t_user")
+@Table(name = "t_user")
 public class User {
 
-    @Id
-    @Column(name="idUser")
+	@Id
+	@Column(name = "idUser")
 	private long idUser;
 
-    @NotBlank(groups={PersistenceValidationGroup.class,FormValidationGroup.class})
-	@Size(min = 5, max = 45,groups={PersistenceValidationGroup.class,FormValidationGroup.class})
-	@Column(name="username")
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Size(min = 5, max = 45, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Column(name = "username")
 	private String username;
-	
-	@Size(min = 5, max = 50,groups={FormValidationGroup.class})
+
+	@Size(min = 5, max = 50, groups = { FormValidationGroup.class })
 	private String password;
 	@Email
 	private String email;
-	private Boolean blockedAccess;
-	@Size(min = 3, max = 6,groups={PersistenceValidationGroup.class,FormValidationGroup.class})
+	private Boolean enabled = true;
+	@Size(min = 3, max = 6, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	private String aka = "";
-	private String position = "";
-	private String extension = "";
-	private Date logInSession;
-	private Date logOutSession;
-	private Date passwordDate;
-	private String computerName = "";
 	private Date timestamp;
 
 	public User() {
@@ -50,11 +44,11 @@ public class User {
 	}
 
 	public User(String username, String password, String email,
-			boolean blockedAccess, String aka) {
+			boolean enabled, String aka) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.blockedAccess = blockedAccess;
+		this.enabled = enabled;
 		this.aka = aka;
 	}
 
@@ -74,22 +68,6 @@ public class User {
 		this.aka = aka;
 	}
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getExtension() {
-		return extension;
-	}
-
-	public void setBlockedAccess(boolean blockedAccess) {
-		this.blockedAccess = blockedAccess;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -106,28 +84,13 @@ public class User {
 		this.email = email;
 	}
 
-	public Date getLogInSession() {
-		return logInSession;
+
+	public boolean getEnabled() {
+		return enabled;
 	}
 
-	public void setLogInSession(Date logInSession) {
-		this.logInSession = logInSession;
-	}
-
-	public Date getLogOutSession() {
-		return logOutSession;
-	}
-
-	public void setLogOutSession(Date logOutSession) {
-		this.logOutSession = logOutSession;
-	}
-
-	public boolean getBlockedAccess() {
-		return blockedAccess;
-	}
-
-	public void setblockedAccess(boolean blockedAccess) {
-		this.blockedAccess = blockedAccess;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public String getPassword() {
@@ -136,30 +99,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Date getPasswordDate() {
-		return passwordDate;
-	}
-
-	public void setPasswordDate(Date passwordDate) {
-		this.passwordDate = passwordDate;
-	}
-
-	public void setExtension(String ext) {
-		this.extension = ext;
-	}
-
-	public String setExtension() {
-		return this.extension;
-	}
-
-	public String getComputerName() {
-		return computerName;
-	}
-
-	public void setComputerName(String computerName) {
-		this.computerName = computerName;
 	}
 
 	public void setTimestamp(Date tm) {
@@ -171,14 +110,54 @@ public class User {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((aka == null) ? 0 : aka.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (aka == null) {
+			if (other.aka != null)
+				return false;
+		} else if (!aka.equals(other.aka))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled == null) {
+			if (other.enabled != null)
+				return false;
+		} else if (!enabled.equals(other.enabled))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return "User [idUser=" + idUser + ", aka=" + aka + ", username="
-				+ username + ", email=" + email + ", extension=" + extension
-				+ ", logInSession=" + logInSession + ", logOutSession="
-				+ logOutSession + ", blockedAccess=" + blockedAccess
-				+ ", password=" + password + ", passwordDate=" + passwordDate
-				+ ", computerName=" + computerName + ", timestamp=" + timestamp
-				+ "]";
+		return "User [idUser=" + idUser + ", username=" + username
+				+ ", password=" + password + ", email=" + email + ", enabled="
+				+ enabled + ", aka=" + aka + ", timestamp=" + timestamp + "]";
 	}
 
 }

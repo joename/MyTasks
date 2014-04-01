@@ -35,7 +35,7 @@
 		<security:intercept-url pattern="/tasks"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/static/**"
-			access="isAuthenticated()" />
+			access="permitAll" />
 		<security:intercept-url pattern="/error"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/**" access="denyAll" />
