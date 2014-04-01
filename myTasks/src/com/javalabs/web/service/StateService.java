@@ -18,7 +18,7 @@ public class StateService {
         this.stateDao = stateDao;
     }
 
-    public List<State> getStates() {
-        return stateDao.getStates();
+    public List<State> getAllStates() {
+        return stateDao.getAllStates();
     }
 }

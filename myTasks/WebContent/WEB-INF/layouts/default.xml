@@ -14,8 +14,32 @@
 		<put-attribute name="title" value="Home page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/home.jsp" />
 	</definition>
-	<!-- <definition name="test" extends="baseLayout"> <put-attribute name="Test 
-		Title" value="Default Title"/> </definition> <definition name="package/*" 
-		extends="baseLayout"> <put-attribute name="title" value="{1}" type="string"/> 
-		</definition> <definition name="" extends="baseLayout"> </definition> -->
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="Login page" />
+		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
+	</definition>
+	<definition name="createtask" extends="baseLayout">
+		<put-attribute name="title" value="Create Task" />
+		<put-attribute name="body" value="/WEB-INF/tiles/createtask.jsp" />
+	</definition>
+	<definition name="createuser" extends="baseLayout">
+		<put-attribute name="title" value="Create user" />
+		<put-attribute name="body" value="/WEB-INF/tiles/createuser.jsp" />
+	</definition>
+	<definition name="error" extends="baseLayout">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="body" value="/WEB-INF/tiles/error.jsp" />
+	</definition>
+	<definition name="taskcreated" extends="baseLayout">
+		<put-attribute name="title" value="Task created" />
+		<put-attribute name="body" value="/WEB-INF/tiles/taskcreated.jsp" />
+	</definition>
+	<definition name="tasks" extends="baseLayout">
+		<put-attribute name="title" value="Tasks" />
+		<put-attribute name="body" value="/WEB-INF/tiles/tasks.jsp" />
+	</definition>
+	<definition name="usercreated" extends="baseLayout">
+		<put-attribute name="title" value="User created" />
+		<put-attribute name="body" value="/WEB-INF/tiles/usercreated.jsp" />
+	</definition>
 </tiles-definitions>

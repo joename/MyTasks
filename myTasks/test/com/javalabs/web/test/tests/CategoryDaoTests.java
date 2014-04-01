@@ -83,7 +83,7 @@ public class CategoryDaoTests {
 		
 		categoryDao.create(category1);
 		
-		List<Category> categories = categoryDao.getCategories();
+		List<Category> categories = categoryDao.getAllCategories();
 		Category category = categories.get(0);
 		
 		category.setCategory("mallorquinisch");
@@ -98,7 +98,7 @@ public class CategoryDaoTests {
 		
 		categoryDao.create(category1);
 		
-		List<Category> categories = categoryDao.getCategories();
+		List<Category> categories = categoryDao.getAllCategories();
 		Category category = categories.get(0);
 		
 		assertTrue("Category deletion should return true",

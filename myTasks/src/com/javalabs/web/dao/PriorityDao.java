@@ -70,7 +70,7 @@ public class PriorityDao {
     return jdbc.batchUpdate(sql, params);
   }
 
-  public List<Priority> getPriorities() {
+  public List<Priority> getAllPriorities() {
     return jdbc.query("SELECT * FROM a_taskPriority", new PriorityRowMapper());
   }
 

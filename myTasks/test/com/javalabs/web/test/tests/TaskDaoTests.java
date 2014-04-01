@@ -56,6 +56,12 @@ public class TaskDaoTests {
   @Autowired
   private DataSource dataSource;
 
+  private Category category = new Category("deutsch");
+  private Priority priority = new Priority("low");
+  private State state = new State("pending");
+  private User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
+
+  
   @Before
   public void init() {
     JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -94,10 +100,6 @@ public class TaskDaoTests {
 
   @Test
   public void testCategoryBatchCreate() {
-    Category category = new Category("deutsch");
-    Priority priority = new Priority("low");
-    State state = new State("pending");
-    User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
 
     taskCategoryDao.create(category);
     taskPriorityDao.create(priority);
@@ -157,7 +159,7 @@ public class TaskDaoTests {
                        idPriority, idState, idUser, idUser, "okey", 0, rightnow);
 
     taskDao.create(t1);
-    Task t2 = taskDao.getTasks().get(0);
+    Task t2 = taskDao.getAllTasks().get(0);
     t2.setDate(Calendar.getInstance().getTime());
     t2.setDescription("Modified task.........");
 
@@ -186,7 +188,7 @@ public class TaskDaoTests {
                        idPriority, idState, idUser, idUser, "okey", 0, rightnow);
 
     taskDao.create(t1);
-    Task t2 = taskDao.getTasks().get(0);
+    Task t2 = taskDao.getAllTasks().get(0);
     assertTrue("Task deletion should return true", taskDao.delete(t2.getIdTask()));
   }
 }

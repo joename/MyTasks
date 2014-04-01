@@ -19,7 +19,7 @@ public class TaskService {
     }
 
     public List<Task> getCurrent() {
-        return taskDao.getTasks();
+        return taskDao.getAllTasks();
     }
 
     public void create(Task task) {

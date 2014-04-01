@@ -109,7 +109,7 @@ public class StateDaoTests {
 		stateDao.create(state3);
 		stateDao.create(state4);
 		
-		List<State> states = stateDao.getStates();
+		List<State> states = stateDao.getAllStates();
 		State state = states.get(0);
 		
 System.out.println(state);

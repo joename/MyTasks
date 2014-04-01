@@ -52,7 +52,7 @@ public class TaskActionDao {
                        params) == 1;
   }
 
-  public List<TaskAction> getTaskActions() {
+  public List<TaskAction> getAllTaskActions() {
     String sql = "select * from t_taskaction";
     return jdbc.query(sql, new TaskActionRowMapper());
   }

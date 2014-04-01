@@ -73,10 +73,10 @@ public class TaskController {
 
     @RequestMapping("/createtask")
     public String createTask(Model model) {
-        List<Category> categories = categoryService.getCategories();
-        List<Priority> priorities = priorityService.getPriorities();
-        List<State> states = stateService.getStates();
-        List<User> users = userService.getUsers();
+        List<Category> categories = categoryService.getAllCategories();
+        List<Priority> priorities = priorityService.getAllPriorities();
+        List<State> states = stateService.getAllStates();
+        List<User> users = userService.getAllUsers();
 
         model.addAttribute("task", new Task());
         model.addAttribute("categories", categories);

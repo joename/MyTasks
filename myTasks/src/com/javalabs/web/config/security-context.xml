@@ -23,11 +23,11 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/createuser"
-			access="isAuthenticated()" />
+			access="permitAll" />
 		<security:intercept-url pattern="/usercreated"
-			access="isAuthenticated()" />
+			access="permitAll" />
 		<security:intercept-url pattern="/docreateuser"
-			access="isAuthenticated()" />
+			access="permitAll" />
 		<security:intercept-url pattern="/createtask"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/docreatetask"

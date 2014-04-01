@@ -22,7 +22,7 @@ public class CategoryService {
         return categoryDao.getCategory(idCategory);
     }
     
-    public List<Category> getCategories() {
-        return categoryDao.getCategories();
+    public List<Category> getAllCategories() {
+        return categoryDao.getAllCategories();
     }
 }

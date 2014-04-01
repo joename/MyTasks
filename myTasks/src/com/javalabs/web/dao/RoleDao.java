@@ -1,8 +1,5 @@
 package com.javalabs.web.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -12,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,7 +25,7 @@ public class RoleDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-	
+
 	@Autowired
 	public void setDataSource(DataSource jdbc) {
 		this.jdbc = new NamedParameterJdbcTemplate(jdbc);
@@ -38,7 +34,7 @@ public class RoleDao {
 	public Session session(){
 	  return sessionFactory.getCurrentSession();
 	}
-	
+
 	@Transactional
 	public boolean create(Role role) {
 		System.out.println(">RoleDao create " + role);
@@ -85,12 +81,12 @@ public class RoleDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Role> getRoles() {
+	public List<Role> getAllRoles() {
 		return session().createQuery("from Role").list();
 		    //jdbc.query("select * from t_role",				new RoleRowMapper());
 	}
 
-	public Role getRole(long idRole) {
+	public Role get(long idRole) {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("idRole", idRole);
@@ -116,5 +112,4 @@ public class RoleDao {
 
 		return jdbc.queryForObject(sql, params, new RoleRowMapper());
 	}
-
 }

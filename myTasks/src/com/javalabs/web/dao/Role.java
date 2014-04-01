@@ -14,6 +14,7 @@ public class Role {
   @Id
   @Column(name="idRole")
   private long idRole;
+  @Column(name="rolename")
   private String rolename;
   private Date timestamp;
 

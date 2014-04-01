@@ -49,7 +49,7 @@ public class TaskDao {
     return jdbc.update("delete from t_task where idTask=:idTask", params) == 1;
   }
 
-  public List<Task> getTasks() {
+  public List<Task> getAllTasks() {
     return jdbc.query("select * from t_task", new TaskRowMapper());
   }
 

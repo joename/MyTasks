@@ -98,7 +98,7 @@ public class TaskActionDaoTests {
 
     taskDao.create(t1);
 
-    t1 = taskDao.getTasks().get(0);
+    t1 = taskDao.getAllTasks().get(0);
     rightnow = Calendar.getInstance().getTime();
 
     TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
@@ -129,7 +129,7 @@ public class TaskActionDaoTests {
 
     taskDao.create(t1);
 
-    t1 = taskDao.getTasks().get(0);
+    t1 = taskDao.getAllTasks().get(0);
     rightnow = Calendar.getInstance().getTime();
 
     TaskAction taskAction1 = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
@@ -180,14 +180,14 @@ public class TaskActionDaoTests {
 
     taskDao.create(t1);
 
-    t1 = taskDao.getTasks().get(0);
+    t1 = taskDao.getAllTasks().get(0);
     rightnow = Calendar.getInstance().getTime();
 
     TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
                                    "Task action 1 description", idUser);
     taskActionDao.create(ta);
 
-    TaskAction ta2 = taskActionDao.getTaskActions().get(0);
+    TaskAction ta2 = taskActionDao.getAllTaskActions().get(0);
 
     ta2.setAction("modified no update ");
     ta2.setDate(Calendar.getInstance().getTime());
@@ -219,13 +219,13 @@ public class TaskActionDaoTests {
 
     taskDao.create(t1);
 
-    t1 = taskDao.getTasks().get(0);
+    t1 = taskDao.getAllTasks().get(0);
     rightnow = Calendar.getInstance().getTime();
 
     TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
                                    "Task action 1 description", idUser);
     taskActionDao.create(ta);
-    TaskAction ta1 = taskActionDao.getTaskActions().get(0);
+    TaskAction ta1 = taskActionDao.getAllTaskActions().get(0);
     
     assertTrue("TaskAction deletion should return true",
                taskActionDao.delete(ta1.getIdTaskAction()));

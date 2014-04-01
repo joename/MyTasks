@@ -3,24 +3,36 @@ package com.javalabs.web.dao;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Component;
 
-@Component("user")
+//@Component("user")
+@Entity
+@Table(name="t_user")
 public class User {
 
+    @Id
+    @Column(name="idUser")
 	private long idUser;
 
-	@Size(min = 5, max = 45)
+    @NotBlank(groups={PersistenceValidationGroup.class,FormValidationGroup.class})
+	@Size(min = 5, max = 45,groups={PersistenceValidationGroup.class,FormValidationGroup.class})
+	@Column(name="username")
 	private String username;
-	@Size(min = 5, max = 50)
+	
+	@Size(min = 5, max = 50,groups={FormValidationGroup.class})
 	private String password;
 	@Email
 	private String email;
 	private Boolean blockedAccess;
-	@Size(min = 3, max = 6)
+	@Size(min = 3, max = 6,groups={PersistenceValidationGroup.class,FormValidationGroup.class})
 	private String aka = "";
 	private String position = "";
 	private String extension = "";

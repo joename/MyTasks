@@ -70,7 +70,7 @@ public class CategoryDao {
                        params) == 1;
   }
 
-  public List<Category> getCategories() {
+  public List<Category> getAllCategories() {
     return jdbc.query("select * from a_taskCategory", new CategoryRowMapper());
   }
 

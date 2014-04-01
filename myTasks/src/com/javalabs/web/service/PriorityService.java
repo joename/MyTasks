@@ -18,7 +18,7 @@ public class PriorityService {
         this.priorityDao = priorityDao;
     }
 
-    public List<Priority> getPriorities() {
-        return priorityDao.getPriorities();
+    public List<Priority> getAllPriorities() {
+        return priorityDao.getAllPriorities();
     }
 }

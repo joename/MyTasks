@@ -90,7 +90,7 @@ public class PriorityDaoTests {
 		priorityDao.create(priority3);
 		priorityDao.create(priority4);
 
-		List<Priority> priorities = priorityDao.getPriorities();
+		List<Priority> priorities = priorityDao.getAllPriorities();
 		Priority priority = priorities.get(1);
 
 		priority.setPriority("superurgent");
@@ -107,7 +107,7 @@ public class PriorityDaoTests {
 
 		priorityDao.create(priority1);
 
-		List<Priority> priorities = priorityDao.getPriorities();
+		List<Priority> priorities = priorityDao.getAllPriorities();
 		Priority priority = priorities.get(0);
 
 		assertTrue("Priority deletion should return true",

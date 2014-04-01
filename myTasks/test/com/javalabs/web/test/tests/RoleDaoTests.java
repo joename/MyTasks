@@ -36,6 +36,11 @@ public class RoleDaoTests {
 	@Autowired
 	private DataSource dataSource;
 
+    Role role1 = new Role("sherif");
+    Role role2 = new Role("cop");
+    Role role3 = new Role("farmer");
+    Role role4 = new Role("citizen");
+	
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -45,17 +50,12 @@ public class RoleDaoTests {
 
 	@Test
 	public void testRoleCreate() {
-		Role role = new Role("sherif");
 		assertTrue("Role creation should return true",
-				roleDao.create(role));
+				roleDao.create(role1));
 	}
 
 	@Test
 	public void testRoleBatchCreate() {
-		Role role1 = new Role("sherif");
-		Role role2 = new Role("cop");
-		Role role3 = new Role("farmer");
-		Role role4 = new Role("citizen");
 
 		List<Role> roles = new ArrayList<Role>();
 		roles.add(role1);
@@ -76,11 +76,10 @@ public class RoleDaoTests {
 
 	@Test
 	public void testRoleUpdate() {
-		Role role1 = new Role("sherif");
 		
 		roleDao.create(role1);
 		
-		List<Role> roles = roleDao.getRoles();
+		List<Role> roles = roleDao.getAllRoles();
 		Role role = roles.get(0);
 		
 		role.setRolename("cop");
@@ -91,11 +90,10 @@ public class RoleDaoTests {
 
 	@Test
 	public void testRoleDelete() {
-		Role role1 = new Role("cop");
 		
 		roleDao.create(role1);
 		
-		List<Role> roles = roleDao.getRoles();
+		List<Role> roles = roleDao.getAllRoles();
 		Role role = roles.get(0);
 		
 		assertTrue("Role deletion should return true",

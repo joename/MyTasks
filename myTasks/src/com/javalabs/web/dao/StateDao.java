@@ -1,15 +1,12 @@
 package com.javalabs.web.dao;
 
-import static org.junit.Assert.assertTrue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -88,7 +85,7 @@ public class StateDao {
 				params) == 1;
 	}
 
-	public List<State> getStates() {
+	public List<State> getAllStates() {
 		return jdbc.query("select * from a_taskState", new RowMapper<State>() {
 
 			public State mapRow(ResultSet rs, int rowNum) throws SQLException {
