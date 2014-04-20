@@ -12,7 +12,7 @@ public class CategoryRowMapper implements RowMapper<Category> {
 		Category category = new Category();
 
 		category.setIdTaskCategory(rs.getLong("idTaskCategory"));
-		category.setCategory(rs.getString("category"));
+		category.setCategoryname(rs.getString("categoryname"));
 		category.setSortOrder(rs.getInt("sortOrder"));
 		category.setTimestamp(rs.getDate("timestamp"));
 

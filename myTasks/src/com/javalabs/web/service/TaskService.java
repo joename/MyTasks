@@ -23,6 +23,6 @@ public class TaskService {
     }
 
     public void create(Task task) {
-        taskDao.create(task);
+        taskDao.saveOrUpdate(task);
     }
 }

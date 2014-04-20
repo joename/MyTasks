@@ -2,7 +2,6 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,13 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.javalabs.web.controllers.HomeController;
-import com.javalabs.web.dao.Category;
-import com.javalabs.web.dao.CategoryDao;
 import com.javalabs.web.dao.State;
 import com.javalabs.web.dao.StateDao;
-import com.javalabs.web.dao.User;
-import com.javalabs.web.dao.UserDao;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
@@ -41,6 +35,13 @@ public class StateDaoTests {
 	@Autowired
 	private DataSource dataSource;
 
+	private State state1 = new State("pending");
+	private State state2 = new State("open");
+	private State state3 = new State("resolved");
+	private State state4 = new State("not resolved");
+	private State state5 = new State("keep it for later");
+	private State state6 = new State("keep it undone");
+	
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -52,69 +53,75 @@ public class StateDaoTests {
 	}
 
 	@Test
-	public void testCategoryCreate() {
-		State state = new State("pending");
-		assertTrue("Category creation should return true",
-				stateDao.create(state));
-	}
+	public void testCreateRetrieve() {
+		stateDao.saveOrUpdate(state1);
+		stateDao.saveOrUpdate(state2);
+		stateDao.saveOrUpdate(state3);
+		stateDao.saveOrUpdate(state4);
 
-	@Test
-	public void testStateBatchCreate() {
-		State state1 = new State("pending");
-		State state2 = new State("open");
-		State state3 = new State("resolved");
-		State state4 = new State("not resolved");
-
-		List<State> states = new ArrayList<State>();
-		states.add(state1);
-		states.add(state2);
-		states.add(state3);
-		states.add(state4);
-		
-		int rvals[]= stateDao.create(states);
-
-		int counter=0;
-		for(int value:rvals){
-			System.out.println("Updated " + value + "row");
-			counter++;
-		}
-		assertTrue("State batch creation should return true",
-				counter==4);
-	}
-
-	@Test
-	public void testCategoryUpdate() {
-		State state1 = new State("hello");
-		
-		stateDao.create(state1);
-		
-		State state = stateDao.get("hello");
-		
-		state.setState("bye");
-		state.setSortOrder(21);
-		
-		assertTrue("State update should return true",
-				stateDao.update(state));
-	}
-
-	@Test
-	public void testCategoryDelete() {
-		State state1 = new State("pending");
-		State state2 = new State("open");
-		State state3 = new State("resolved");
-		State state4 = new State("not resolved");
-
-		stateDao.create(state1);
-		stateDao.create(state2);
-		stateDao.create(state3);
-		stateDao.create(state4);
-		
 		List<State> states = stateDao.getAllStates();
-		State state = states.get(0);
-		
-System.out.println(state);
+		assertEquals("Should be one state.", 4, states.size());
 
-		assertTrue("Category deletion should return true",
-				stateDao.delete(state.getIdTaskState()));
+		State stateR1 = stateDao.get(state1.getIdTaskState());
+
+		assertEquals("Retrieved state should equal inserted state.", stateR1,
+				states.get(0));
+
+		stateDao.saveOrUpdate(state5);
+		stateDao.saveOrUpdate(state6);
+
+		List<State> states2 = stateDao.getAllStates();
+		assertEquals("Should be six states.", 6,states2.size());
+	}
+
+	@Test
+	public void testGetById() {
+		stateDao.saveOrUpdate(state1);
+		stateDao.saveOrUpdate(state2);
+		stateDao.saveOrUpdate(state3);
+		stateDao.saveOrUpdate(state4);
+		
+		State stateR1 = stateDao.get(state1.getIdTaskState());
+		assertEquals("states should match", state1, stateR1);
+	}
+
+	@Test
+	public void testUpdate() {
+		stateDao.saveOrUpdate(state1);
+		stateDao.saveOrUpdate(state2);
+		
+		state2.setStatename("modifiedstate");
+		stateDao.saveOrUpdate(state2);
+
+		State retrieved = stateDao.get(state2.getIdTaskState());
+		assertEquals("Retrieved state should be updated.", state2, retrieved);
+	}
+
+	@Test
+	public void testGetStatename() {
+		stateDao.saveOrUpdate(state1);
+		stateDao.saveOrUpdate(state2);
+
+		State stateR1 = stateDao.get(state2.getStatename());
+		assertNotNull("Should be one state.",  stateR1);
+
+		State stateR2 = stateDao.get("abcd");
+		assertNull("Should be zeri states.", stateR2);
+	}
+	
+	@Test
+	public void testDelete() {
+		stateDao.saveOrUpdate(state1);
+		stateDao.saveOrUpdate(state2);
+
+		State stateR1 = stateDao.get(state1.getIdTaskState());
+		assertNotNull("State with ID " + state1.getIdTaskState()
+				+ " should not be null (deleted, actual)", stateR1);
+
+		stateDao.delete(state1.getIdTaskState());
+
+		State stateR2 = stateDao.get(stateR1.getIdTaskState());
+		assertNull("State with ID " + stateR1.getIdTaskState()
+				+ " should be null (deleted, actual)", stateR2);
 	}
 }

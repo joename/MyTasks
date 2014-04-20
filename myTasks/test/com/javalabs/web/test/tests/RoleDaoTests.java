@@ -2,7 +2,6 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -36,11 +35,13 @@ public class RoleDaoTests {
 	@Autowired
 	private DataSource dataSource;
 
-    Role role1 = new Role("sherif");
-    Role role2 = new Role("cop");
-    Role role3 = new Role("farmer");
-    Role role4 = new Role("citizen");
-	
+	Role role1 = new Role("sherif");
+	Role role2 = new Role("cop");
+	Role role3 = new Role("farmer");
+	Role role4 = new Role("citizen");
+	Role role5 = new Role("neighbour");
+	Role role6 = new Role("fireman");
+
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -49,54 +50,78 @@ public class RoleDaoTests {
 	}
 
 	@Test
-	public void testRoleCreate() {
-		assertTrue("Role creation should return true",
-				roleDao.create(role1));
-	}
+	public void testCreateRetrieve() {
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+		roleDao.saveOrUpdate(role3);
+		roleDao.saveOrUpdate(role4);
 
-	@Test
-	public void testRoleBatchCreate() {
-
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(role1);
-		roles.add(role2);
-		roles.add(role3);
-		roles.add(role4);
-		
-		int rvals[]= roleDao.create(roles);
-
-		int counter=0;
-		for(int value:rvals){
-			System.out.println("Updated " + value + "row");
-			counter++;
-		}
-		assertTrue("Role batch creation should return true",
-				counter==4);
-	}
-
-	@Test
-	public void testRoleUpdate() {
-		
-		roleDao.create(role1);
-		
 		List<Role> roles = roleDao.getAllRoles();
-		Role role = roles.get(0);
-		
-		role.setRolename("cop");
-		
-		assertTrue("Role update should return true",
-				roleDao.update(role));
+		assertEquals("Should be one role.", 4, roles.size());
+
+		Role roleR1 = roleDao.get(role1.getIdRole());
+
+		assertEquals("Retrieved role should equal inserted role.", role1,
+				roles.get(0));
+
+		roleDao.saveOrUpdate(role5);
+		roleDao.saveOrUpdate(role6);
+
+		List<Role> roles2 = roleDao.getAllRoles();
+		assertEquals("Should be six roles.", 6,roles2.size());
 	}
 
 	@Test
-	public void testRoleDelete() {
+	public void testGetById() {
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+		roleDao.saveOrUpdate(role3);
+		roleDao.saveOrUpdate(role4);
+
+		Role roleR1 = roleDao.get(role1.getIdRole());
+		assertEquals("Roles should match", role1, roleR1);
+	}
+
+	@Test
+	public void testUpdate() {
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+
+		role2.setRolename("modifiedRole");
+		roleDao.saveOrUpdate(role2);
+
+		Role retrieved = roleDao.get(role2.getIdRole());
+		assertEquals("Retrieved role should be updated.", role2, retrieved);
+	}
+
+	@Test
+	public void testGetRolename() {
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+
+		Role roleR1 = roleDao.get(role1.getRolename());
+		assertNotNull("Should be one role.",  roleR1);
+
+		Role roleR2 = roleDao.get("abcd");
+		assertNull("Should be zeri roles.", roleR2);
+	}
+
+	@Test
+	public void testDelete() {
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+
+		Role roleR1 = roleDao.get(role1.getIdRole());
+		assertNotNull("Role with ID " + role1.getIdRole()
+				+ " should not be null (deleted, actual)", roleR1);
+
+		long idRole2 = role2.getIdRole();
 		
-		roleDao.create(role1);
+		roleDao.delete(idRole2);
+
+		Role roleR2 = roleDao.get(idRole2);
 		
-		List<Role> roles = roleDao.getAllRoles();
-		Role role = roles.get(0);
-		
-		assertTrue("Role deletion should return true",
-				roleDao.delete(role.getIdRole()));
+		assertNull("Role with ID " + idRole2
+				+ " should be null (deleted, actual)", roleR2);
 	}
 }

@@ -13,7 +13,7 @@ public class StateRowMapper implements RowMapper<State> {
 
 		state.setIdTaskState(rs.getLong("idTaskState"));
 		state.setSortOrder(rs.getInt("sortOrder"));
-		state.setState(rs.getString("state"));
+		state.setStatename(rs.getString("statename"));
 		state.setTimestamp(rs.getDate("timestamp"));
 
 		return state;

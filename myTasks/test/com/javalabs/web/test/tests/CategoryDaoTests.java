@@ -54,16 +54,16 @@ public class CategoryDaoTests {
 
 	@Test
 	public void testCreateRetrieve() {
-		categoryDao.create(category1);
+		categoryDao.saveOrUpdate(category1);
 
 	    List<Category> categories = categoryDao.getAllCategories();
 
 	    assertEquals("One category should have been created and retrieved", 1, categories.size());
 	    assertEquals("Inserted user should match category retreived", category1, categories.get(0));
 	    
-	    categoryDao.create(category2);
-	    categoryDao.create(category3);
-	    categoryDao.create(category4);
+	    categoryDao.saveOrUpdate(category2);
+	    categoryDao.saveOrUpdate(category3);
+	    categoryDao.saveOrUpdate(category4);
 	    
 	    categories = categoryDao.getAllCategories();
 	    
@@ -72,11 +72,11 @@ public class CategoryDaoTests {
 	
 	@Test
 	public void testExists() {
-		categoryDao.create(category1);
-		categoryDao.create(category2);
-		categoryDao.create(category3);
+		categoryDao.saveOrUpdate(category1);
+		categoryDao.saveOrUpdate(category2);
+		categoryDao.saveOrUpdate(category3);
 		
-		assertTrue("Category should exist.", categoryDao.exists(category2.getCategory()));
+		assertTrue("Category should exist.", categoryDao.exists(category2.getCategoryname()));
 		assertFalse("Category should not exist.", categoryDao.exists("xkjhsfjlsjf"));
 	}
 }

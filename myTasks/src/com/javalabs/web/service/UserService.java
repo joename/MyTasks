@@ -22,8 +22,8 @@ public class UserService {
 		return userDao.getAllUsers();
 	}
 
-	public void create(User user) {
-		userDao.create(user);
+	public void saveOrUpdate(User user) {
+		userDao.saveOrUpdate(user);
 	}
 
 	public boolean exists(String username) {

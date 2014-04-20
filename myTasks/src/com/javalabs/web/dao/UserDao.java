@@ -21,9 +21,8 @@ public class UserDao {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@Transactional
-	public void create(User user) {
-		session().save(user);
+	public void saveOrUpdate(User user) {
+		session().saveOrUpdate(user);
 	}
 
 	public User get(long id) {
@@ -41,11 +40,15 @@ public class UserDao {
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
 		return session().createQuery("from User").list();
-		// return jdbc.query("select * from t_user", new UserRowMapper());
 	}
 
 	public boolean exists(String username) {
 		User user = this.get(username);
 		return user != null;
+	}
+	
+	public void delete(long idUser) {
+		User userToDel = (User) session().load(User.class, idUser);
+		session().delete(userToDel);
 	}
 }

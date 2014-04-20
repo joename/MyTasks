@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -13,56 +17,40 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Component("taskActionDao")
 public class TaskActionDao {
 
-  private NamedParameterJdbcTemplate jdbc;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-  @Autowired
-  public void setDataSource(DataSource jdbc) {
-    this.jdbc = new NamedParameterJdbcTemplate(jdbc);
-  }
+	public Session session() {
+		return sessionFactory.getCurrentSession();
+	}
 
-  @Transactional
-  public boolean create(TaskAction ta) {
+	public void saveOrUpdate(TaskAction ta) {
+		session().saveOrUpdate(ta);
+	}
 
-    BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(ta);
-    String sql = "INSERT INTO t_taskaction (idTask, date, action, description, duration, idUser)"
-        + " VALUES (:idTask, :date, :action, :description, :duration, :idUser)";
+	public void delete(long id) {
+		TaskAction taToDel = (TaskAction) session().load(TaskAction.class, id);
+		session().delete(taToDel);
+	}
 
-    return jdbc.update(sql, params) == 1;
-  }
+	public TaskAction get(long id) {
+		Criteria crit = session().createCriteria(TaskAction.class);
+		crit.add(Restrictions.idEq(id));
+		return (TaskAction) crit.uniqueResult();
+	}
 
-  @Transactional
-  public boolean update(TaskAction ta) {
-    BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(ta);
-
-    String sql = " UPDATE t_taskaction"
-        + " SET date=:date, action=:action, description=:description, duration=:duration, idUser=:idUser"
-        + " WHERE idTaskAction=:idTaskAction";
-
-    return jdbc.update(sql, params) == 1;
-  }
-
-  @Transactional
-  public boolean delete(long id) {
-    MapSqlParameterSource params = new MapSqlParameterSource("idTaskAction", id);
-
-    return jdbc.update("delete from t_taskaction where idTaskAction=:idTaskAction",
-                       params) == 1;
-  }
-
-  public List<TaskAction> getAllTaskActions() {
-    String sql = "select * from t_taskaction";
-    return jdbc.query(sql, new TaskActionRowMapper());
-  }
-
-  @Transactional
-  public int[] create(List<TaskAction> tas) {
-
-    SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(tas.toArray());
-    String sql = "INSERT INTO t_taskaction (idTask, date, action, description, duration, idUser)"
-        + " VALUES (:idTask, :date, :action, :description, :duration, :idUser)";
-    return jdbc.batchUpdate(sql, params);
-  }
+	public TaskAction get(String taskActionName) {
+		Criteria crit = session().createCriteria(TaskAction.class);
+		crit.add(Restrictions.ilike("taskActionname", taskActionName));
+		return (TaskAction)crit.uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TaskAction> getAllTaskActions() {
+		return session().createQuery("from TaskAction").list();
+	}
 }

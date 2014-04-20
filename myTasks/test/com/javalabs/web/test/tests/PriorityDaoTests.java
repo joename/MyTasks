@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.javalabs.web.dao.Priority;
 import com.javalabs.web.dao.PriorityDao;
+import com.javalabs.web.dao.Priority;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
@@ -36,82 +37,94 @@ public class PriorityDaoTests {
 	@Autowired
 	private DataSource dataSource;
 
+	private Priority priority1 = new Priority("low");
+	private Priority priority2 = new Priority("medium");
+	private Priority priority3 = new Priority("hight");
+	private Priority priority4 = new Priority("urgent");
+	private Priority priority5 = new Priority("+urgent");
+	private Priority priority6 = new Priority("++urgent");
+
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		logger.info("Init PriorityDaoTests...");
 
-        jdbc.execute("delete from t_task");
-        jdbc.execute("delete from a_taskcategory");
-        jdbc.execute("delete from a_taskPriority");
+		jdbc.execute("delete from t_task");
+		jdbc.execute("delete from a_taskcategory");
+		jdbc.execute("delete from a_taskPriority");
 	}
 
 	@Test
-	public void testPriorityCreate() {
-		Priority priority = new Priority("low");
-		logger.info("Create Priority..." + priority);
-		assertTrue("Priority creation should return true",
-				priorityDao.create(priority));
-	}
-
-	@Test
-	public void testPriorityBatchCreate() {
-		Priority priority1 = new Priority("low");
-		Priority priority2 = new Priority("medium");
-		Priority priority3 = new Priority("hight");
-		Priority priority4 = new Priority("urgent");
-
-		List<Priority> priorities = new ArrayList<Priority>();
-		priorities.add(priority1);
-		priorities.add(priority2);
-		priorities.add(priority3);
-		priorities.add(priority4);
-		
-		int rvals[]=priorityDao.create(priorities);
-
-		int counter=0;
-		for(int value:rvals){
-			System.out.println("Updated " + value + "row");
-			counter++;
-		}
-		assertTrue("Priority batch creation should return true",
-				counter==4);
-	}
-	
-	@Test
-	public void testPriorityUpdate() {
-		Priority priority1 = new Priority("low");
-		Priority priority2 = new Priority("medium");
-		Priority priority3 = new Priority("hight");
-		Priority priority4 = new Priority("urgent");
-
-		priorityDao.create(priority1);
-		priorityDao.create(priority2);
-		priorityDao.create(priority3);
-		priorityDao.create(priority4);
+	public void testCreateRetrieve() {
+		priorityDao.saveOrUpdate(priority1);
+		priorityDao.saveOrUpdate(priority2);
+		priorityDao.saveOrUpdate(priority3);
+		priorityDao.saveOrUpdate(priority4);
 
 		List<Priority> priorities = priorityDao.getAllPriorities();
-		Priority priority = priorities.get(1);
+		assertEquals("Should be 4 priorities.", 4, priorities.size());
 
-		priority.setPriority("superurgent");
-		
-		priorityDao.update(priority);
+		Priority priorityR1 = priorityDao.get(priority1.getIdTaskPriority());
 
-		assertTrue("Priority update should return true",
-				priorityDao.update(priority));
+		assertEquals("Retrieved priority should equal inserted priority.",
+				priorityR1, priorities.get(0));
+
+		priorityDao.saveOrUpdate(priority5);
+		priorityDao.saveOrUpdate(priority6);
+
+		List<Priority> priorities2 = priorityDao.getAllPriorities();
+		assertEquals("Should be six prioritys.", 6, priorities2.size());
 	}
 
 	@Test
-	public void testPriorityDelete() {
-		Priority priority1 = new Priority("lowest");
+	public void testGetById() {
+		priorityDao.saveOrUpdate(priority1);
+		priorityDao.saveOrUpdate(priority2);
+		priorityDao.saveOrUpdate(priority3);
+		priorityDao.saveOrUpdate(priority4);
 
-		priorityDao.create(priority1);
-
-		List<Priority> priorities = priorityDao.getAllPriorities();
-		Priority priority = priorities.get(0);
-
-		assertTrue("Priority deletion should return true",
-				priorityDao.delete(priority.getIdTaskPriority()));
+		Priority priorityR1 = priorityDao.get(priority1.getIdTaskPriority());
+		assertEquals("prioritys should match", priority1, priorityR1);
 	}
 
+	@Test
+	public void testUpdate() {
+		priorityDao.saveOrUpdate(priority1);
+		priorityDao.saveOrUpdate(priority2);
+
+		priority2.setPriorityname("modifiedpriority");
+		priorityDao.saveOrUpdate(priority2);
+
+		Priority retrieved = priorityDao.get(priority2.getIdTaskPriority());
+		assertEquals("Retrieved priority should be updated.", priority2,
+				retrieved);
+	}
+
+	@Test
+	public void testGetPriorityname() {
+		priorityDao.saveOrUpdate(priority1);
+		priorityDao.saveOrUpdate(priority2);
+
+		Priority priorityR1 = priorityDao.get(priority2.getPriorityname());
+		assertNotNull("Should be one priority.", priorityR1);
+
+		Priority priorityR2 = priorityDao.get("abcd");
+		assertNull("Should be zeri prioritys.", priorityR2);
+	}
+
+	@Test
+	public void testDelete() {
+		priorityDao.saveOrUpdate(priority1);
+		priorityDao.saveOrUpdate(priority2);
+
+		Priority priorityR1 = priorityDao.get(priority1.getIdTaskPriority());
+		assertNotNull("Priority with ID " + priority1.getIdTaskPriority()
+				+ " should not be null (deleted, actual)", priorityR1);
+
+		priorityDao.delete(priority1.getIdTaskPriority());
+
+		Priority priorityR2 = priorityDao.get(priorityR1.getIdTaskPriority());
+		assertNull("Priority with ID " + priorityR1.getIdTaskPriority()
+				+ " should be null (deleted, actual)", priorityR2);
+	}
 }

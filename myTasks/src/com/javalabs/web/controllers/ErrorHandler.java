@@ -7,8 +7,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.javalabs.web.test.tests.PriorityDaoTests;
-
 @ControllerAdvice
 public class ErrorHandler {
 

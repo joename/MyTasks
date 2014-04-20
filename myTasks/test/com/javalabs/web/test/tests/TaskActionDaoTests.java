@@ -33,201 +33,154 @@ import com.javalabs.web.dao.User;
 import com.javalabs.web.dao.UserDao;
 
 @ActiveProfiles("dev")
-@ContextConfiguration(locations = { "classpath:com/javalabs/web/config/dao-context.xml",
-    "classpath:com/javalabs/web/config/security-context.xml",
-    "classpath:com/javalabs/web/test/config/datasource.xml" })
+@ContextConfiguration(locations = {
+		"classpath:com/javalabs/web/config/dao-context.xml",
+		"classpath:com/javalabs/web/config/security-context.xml",
+		"classpath:com/javalabs/web/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TaskActionDaoTests {
 
-  private static Logger logger = Logger.getLogger(TaskActionDaoTests.class);
+	private static Logger logger = Logger.getLogger(TaskActionDaoTests.class);
 
-  @Autowired
-  private TaskDao taskDao;
+	@Autowired
+	private TaskDao taskDao;
+	@Autowired
+	private TaskActionDao taskActionDao;
+	@Autowired
+	private PriorityDao taskPriorityDao;
+	@Autowired
+	private CategoryDao taskCategoryDao;
+	@Autowired
+	private StateDao taskStateDao;
+	@Autowired
+	private UserDao userDao;
 
-  @Autowired
-  private TaskActionDao taskActionDao;
+	@Autowired
+	private DataSource dataSource;
 
-  @Autowired
-  private PriorityDao taskPriorityDao;
+	private Category category = new Category("deutsch");
+	private Priority priority = new Priority("low");
+	private State state = new State("pending");
+	private User user = new User("jose", "jose", "jose@javalabs.com", true,
+			"ROLE_USER", "joe");
 
-  @Autowired
-  private CategoryDao taskCategoryDao;
+	@Before
+	public void init() {
+		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+		logger.info("Init TestActionDaoTests...");
 
-  @Autowired
-  private StateDao taskStateDao;
+		jdbc.execute("delete from t_task");
+		jdbc.execute("delete from t_taskaction");
+		jdbc.execute("delete from t_user");
+		jdbc.execute("delete from a_taskcategory");
+		jdbc.execute("delete from a_taskpriority");
+		jdbc.execute("delete from a_taskstate");
+	}
 
-  @Autowired
-  private UserDao userDao;
+	@Test
+	public void testTaskActionCreate() {
+		taskPriorityDao.saveOrUpdate(priority);
+		taskCategoryDao.saveOrUpdate(category);
+		taskStateDao.saveOrUpdate(state);
+		userDao.saveOrUpdate(user);
 
-  @Autowired
-  private DataSource dataSource;
+		long idCategory = category.getIdTaskCategory();
 
-  @Before
-  public void init() {
-    JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-    logger.info("Init TestActionDaoTests...");
+		logger.info(">>>>idCategory" + idCategory);
 
-    jdbc.execute("delete from t_task");
-    jdbc.execute("delete from t_taskaction");
-    jdbc.execute("delete from t_user");
-    jdbc.execute("delete from a_taskcategory");
-    jdbc.execute("delete from a_taskpriority");
-    jdbc.execute("delete from a_taskstate");
-  }
+		long idPriority = priority.getIdTaskPriority();
+		long idState = state.getIdTaskState();
+		long idUser = user.getIdUser();
+		Date rightnow = Calendar.getInstance().getTime();
 
-  @Test
-  public void testTaskActionCreate() {
-    Category category = new Category("deutsch");
-    Priority priority = new Priority("low");
-    State state = new State("pending");
-    User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
+		Task t1 = new Task("My first task", "This is a task", rightnow,
+				rightnow, idCategory, idPriority, idState, idUser, idUser,
+				"okey", 0);
 
-    taskCategoryDao.create(category);
-    taskPriorityDao.create(priority);
-    taskStateDao.create(state);
-    userDao.create(user);
+		taskDao.saveOrUpdate(t1);
 
-    Date rightnow = Calendar.getInstance().getTime();
-    long idUser = userDao.get("jose").getIdUser();
-    long idCategory = taskCategoryDao.get("deutsch").getIdTaskCategory();
-    long idState = taskStateDao.get("pending").getIdTaskState();
-    long idPriority = taskPriorityDao.get("low").getIdTaskPriority();
+		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 1", "Task action 1 description", idUser);
+		TaskAction ta2 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 2", "Task action 2 description", idUser);
+		TaskAction ta3 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 3", "Task action 3 description", idUser);
+		TaskAction ta4 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 4", "Task action 4 description", idUser);
 
-    Task t1 = new Task("My first task", "This is a task", rightnow, rightnow, idCategory,
-                       idPriority, idState, idUser, idUser, "okey", 0, rightnow);
+		List<TaskAction> tasks = taskActionDao.getAllTaskActions();
+		assertEquals("Should be 4 taskActions.", 4, tasks.size());
+	}
 
-    taskDao.create(t1);
+	@Test
+	public void testTaskActionUpdate() {
+		taskPriorityDao.saveOrUpdate(priority);
+		taskCategoryDao.saveOrUpdate(category);
+		taskStateDao.saveOrUpdate(state);
+		userDao.saveOrUpdate(user);
 
-    t1 = taskDao.getAllTasks().get(0);
-    rightnow = Calendar.getInstance().getTime();
+		long idCategory = category.getIdTaskCategory();
 
-    TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
-                                   "Task action 1 description", idUser);
-    assertTrue("TaskAction creation should return true", taskActionDao.create(ta));
-  }
+		logger.info(">>>>idCategory" + idCategory);
 
-  @Test
-  public void testTaskActionBatchCreate() {
-    Category category = new Category("deutsch");
-    Priority priority = new Priority("low");
-    State state = new State("pending");
-    User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
+		long idPriority = priority.getIdTaskPriority();
+		long idState = state.getIdTaskState();
+		long idUser = user.getIdUser();
+		Date rightnow = Calendar.getInstance().getTime();
 
-    taskCategoryDao.create(category);
-    taskPriorityDao.create(priority);
-    taskStateDao.create(state);
-    userDao.create(user);
+		Task t1 = new Task("My first task", "This is a task", rightnow,
+				rightnow, idCategory, idPriority, idState, idUser, idUser,
+				"okey", 0);
 
-    Date rightnow = Calendar.getInstance().getTime();
-    long idUser = userDao.get("jose").getIdUser();
-    long idCategory = taskCategoryDao.get("deutsch").getIdTaskCategory();
-    long idState = taskStateDao.get("pending").getIdTaskState();
-    long idPriority = taskPriorityDao.get("low").getIdTaskPriority();
+		taskDao.saveOrUpdate(t1);
 
-    Task t1 = new Task("My first task", "This is a task", rightnow, rightnow, idCategory,
-                       idPriority, idState, idUser, idUser, "okey", 0, rightnow);
+		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 1", "Task action 1 description", idUser);
+		TaskAction ta2 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 2", "Task action 2 description", idUser);
 
-    taskDao.create(t1);
+		taskActionDao.saveOrUpdate(ta1);
+		taskActionDao.saveOrUpdate(ta2);
 
-    t1 = taskDao.getAllTasks().get(0);
-    rightnow = Calendar.getInstance().getTime();
+		ta2.setActionname("modified update taskAction");
+		ta2.setDate(Calendar.getInstance().getTime());
 
-    TaskAction taskAction1 = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
-                                            "Task action 1 description", idUser);
-    TaskAction taskAction2 = new TaskAction(t1.getIdTask(), rightnow, "Task action 2",
-                                            "Task action 2 description", idUser);
-    TaskAction taskAction3 = new TaskAction(t1.getIdTask(), rightnow, "Task action 3",
-                                            "Task action 3 description", idUser);
-    TaskAction taskAction4 = new TaskAction(t1.getIdTask(), rightnow, "Task action 4",
-                                            "Task action 4 description", idUser);
+		taskActionDao.saveOrUpdate(ta2);
 
-    List<TaskAction> taskActions = new ArrayList<TaskAction>();
-    taskActions.add(taskAction1);
-    taskActions.add(taskAction2);
-    taskActions.add(taskAction3);
-    taskActions.add(taskAction4);
+		assertTrue("TaskAction update should return true",
+				ta2.equals(ta2));
+	}
 
-    int rvals[] = taskActionDao.create(taskActions);
+	@Test
+	public void testTaskActionDelete() {
+		taskPriorityDao.saveOrUpdate(priority);
+		taskCategoryDao.saveOrUpdate(category);
+		taskStateDao.saveOrUpdate(state);
+		userDao.saveOrUpdate(user);
 
-    int counter = 0;
-    for (int value : rvals) {
-      System.out.println("Updated " + value + "row");
-      counter++;
-    }
-    assertTrue("TaskAction batch creation should return true", counter == 4);
-  }
+		long idCategory = category.getIdTaskCategory();
 
-  @Test
-  public void testTaskActionUpdate() {
-    Category category = new Category("deutsch");
-    Priority priority = new Priority("low");
-    State state = new State("pending");
-    User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
+		logger.info(">>>>idCategory" + idCategory);
 
-    taskCategoryDao.create(category);
-    taskPriorityDao.create(priority);
-    taskStateDao.create(state);
-    userDao.create(user);
+		long idPriority = priority.getIdTaskPriority();
+		long idState = state.getIdTaskState();
+		long idUser = user.getIdUser();
+		Date rightnow = Calendar.getInstance().getTime();
 
-    Date rightnow = Calendar.getInstance().getTime();
-    long idUser = userDao.get("jose").getIdUser();
-    long idCategory = taskCategoryDao.get("deutsch").getIdTaskCategory();
-    long idState = taskStateDao.get("pending").getIdTaskState();
-    long idPriority = taskPriorityDao.get("low").getIdTaskPriority();
+		Task t1 = new Task("My first task", "This is a task", rightnow,
+				rightnow, idCategory, idPriority, idState, idUser, idUser,
+				"okey", 0);
 
-    Task t1 = new Task("My first task", "This is a task", rightnow, rightnow, idCategory,
-                       idPriority, idState, idUser, idUser, "okey", 0, rightnow);
+		taskDao.saveOrUpdate(t1);
 
-    taskDao.create(t1);
+		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
+				"Task action 1", "Task action 1 description", idUser);
 
-    t1 = taskDao.getAllTasks().get(0);
-    rightnow = Calendar.getInstance().getTime();
-
-    TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
-                                   "Task action 1 description", idUser);
-    taskActionDao.create(ta);
-
-    TaskAction ta2 = taskActionDao.getAllTaskActions().get(0);
-
-    ta2.setAction("modified no update ");
-    ta2.setDate(Calendar.getInstance().getTime());
-
-    assertTrue("TaskAction update should return true", taskActionDao.update(ta2));
-  }
-
-  @Test
-  public void testTaskActionDelete() {
-
-    Category category = new Category("deutsch");
-    Priority priority = new Priority("low");
-    State state = new State("pending");
-    User user = new User("jose", "jose", "jose@javalabs.com", true, "joe");
-
-    taskCategoryDao.create(category);
-    taskPriorityDao.create(priority);
-    taskStateDao.create(state);
-    userDao.create(user);
-
-    Date rightnow = Calendar.getInstance().getTime();
-    long idUser = userDao.get("jose").getIdUser();
-    long idCategory = taskCategoryDao.get("deutsch").getIdTaskCategory();
-    long idState = taskStateDao.get("pending").getIdTaskState();
-    long idPriority = taskPriorityDao.get("low").getIdTaskPriority();
-
-    Task t1 = new Task("My first task", "This is a task", rightnow, rightnow, idCategory,
-                       idPriority, idState, idUser, idUser, "okey", 0, rightnow);
-
-    taskDao.create(t1);
-
-    t1 = taskDao.getAllTasks().get(0);
-    rightnow = Calendar.getInstance().getTime();
-
-    TaskAction ta = new TaskAction(t1.getIdTask(), rightnow, "Task action 1",
-                                   "Task action 1 description", idUser);
-    taskActionDao.create(ta);
-    TaskAction ta1 = taskActionDao.getAllTaskActions().get(0);
-    
-    assertTrue("TaskAction deletion should return true",
-               taskActionDao.delete(ta1.getIdTaskAction()));
-  }
+		taskActionDao.saveOrUpdate(ta1);
+		
+		long idTaskAction = ta1.getIdTaskAction();
+		taskActionDao.delete(idTaskAction);
+		assertTrue("TaskAction deletion should return true",
+				null == taskActionDao.get(idTaskAction));
+	}
 }

@@ -1,7 +1,5 @@
 package com.javalabs.web.controllers;
 
-import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -65,7 +63,7 @@ public class LoginController {
 		user.setEnabled(true);
 
     	try {
-        	userService.create(user);
+        	userService.saveOrUpdate(user);
             System.out.println("Form does validate");
         } catch (DuplicateKeyException e){
         	result.rejectValue("username", "DuplicateKey.user.username","This username already exists.");

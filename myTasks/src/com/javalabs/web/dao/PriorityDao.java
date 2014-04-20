@@ -1,85 +1,49 @@
 package com.javalabs.web.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Component("priorityDao")
 public class PriorityDao {
 
-  private NamedParameterJdbcTemplate jdbc;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-  @Autowired
-  public void setDataSource(DataSource jdbc) {
-    this.jdbc = new NamedParameterJdbcTemplate(jdbc);
-  }
+	public Session session() {
+		return sessionFactory.getCurrentSession();
+	}
 
-  public boolean create(Priority priority) {
-    BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(priority);
-    String sql = "INSERT INTO a_taskPriority (priority)" + " VALUES (:priority)";
+	public void saveOrUpdate(Priority priority) {
+		session().saveOrUpdate(priority);
+	}
 
-    return jdbc.update(sql, params) == 1;
-  }
+	@SuppressWarnings("unchecked")
+	public List<Priority> getAllPriorities() {
+		return session().createQuery("from Priority").list();
+	}
 
-  public boolean update(Priority priority) {
-    BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(priority);
+	public Priority get(long id) {
+		Criteria crit = session().createCriteria(Priority.class);
+		crit.add(Restrictions.idEq(id));
+		return (Priority) crit.uniqueResult();
+	}
 
-    String sql = " UPDATE a_taskPriority SET sortOrder=:sortOrder, aka=:aka, priority=:priority"
-        + " WHERE idTaskPriority=:idTaskPriority";
+	public Priority get(String priorityname) {
+		Criteria crit = session().createCriteria(Priority.class);
+		crit.add(Restrictions.ilike("priorityname", priorityname));
+		return (Priority) crit.uniqueResult();
+	}
 
-    return jdbc.update(sql, params) == 1;
-  }
-
-  public boolean delete(long idTaskPriority) {
-    MapSqlParameterSource params = new MapSqlParameterSource("idTaskPriority",
-        idTaskPriority);
-
-    String sql = "DELETE FROM a_taskPriority WHERE idTaskPriority=:idTaskPriority";
-
-    return jdbc.update(sql, params) == 1;
-  }
-
-  public boolean delete(Priority priority) {
-    BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(priority);
-
-    String sql = "DELETE FROM a_taskPriority WHERE idTaskPriority=:idTaskPriority";
-
-    return jdbc.update(sql, params) == 1;
-  }
-
-  @Transactional
-  public int[] create(List<Priority> priorities) {
-
-    String sql = "INSERT INTO a_taskPriority (priority) VALUES (:priority)";
-
-    SqlParameterSource[] params = SqlParameterSourceUtils.createBatch(priorities
-        .toArray());
-    return jdbc.batchUpdate(sql, params);
-  }
-
-  public List<Priority> getAllPriorities() {
-    return jdbc.query("SELECT * FROM a_taskPriority", new PriorityRowMapper());
-  }
-
-  public Priority get(String priority) {
-    String sql = "select * from a_taskPriority where priority=:priority";
-
-    MapSqlParameterSource params = new MapSqlParameterSource();
-    params.addValue("priority", priority);
-
-    return jdbc.queryForObject(sql, params, new PriorityRowMapper());
-  }
+	public void delete(long id) {
+		Priority priorityToDel = (Priority) session().load(Priority.class, id);
+		session().delete(priorityToDel);
+	}
 }

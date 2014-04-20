@@ -2,14 +2,24 @@ package com.javalabs.web.dao;
 
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Component("state")
+@Entity
+@Table(name = "a_taskstate")
 public class State {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "idTaskState")
 	private long idTaskState;
 	private long sortOrder;
-	private String state;
+	@Column(name = "statename")
+	private String statename;
 	private Date timestamp;
 
 	public State() {
@@ -19,13 +29,13 @@ public class State {
 		this.idTaskState = idTaskState;
 	}
 
-	public State(String state) {
-		this.state = state;
+	public State(String statename) {
+		this.statename = statename;
 	}
 
-	public State(long sortOrder, String state) {
+	public State(long sortOrder, String statename) {
 		this.sortOrder = sortOrder;
-		this.state = state;
+		this.statename = statename;
 	}
 
 	public void setIdTaskState(long idTaskState) {
@@ -44,16 +54,16 @@ public class State {
 		this.sortOrder = sortOrder;
 	}
 
-	public String getState() {
-		return state;
+	public String getStatename() {
+		return statename;
 	}
 
 	public void setTimestamp(Date tm) {
 		this.timestamp = tm;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public void setStatename(String statename) {
+		this.statename = statename;
 	}
 
 	public Date getTimestamp() {
@@ -61,9 +71,35 @@ public class State {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((statename == null) ? 0 : statename.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof State))
+			return false;
+		State other = (State) obj;
+		if (statename == null) {
+			if (other.statename != null)
+				return false;
+		} else if (!statename.equals(other.statename))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "State [idTaskState=" + idTaskState + ", sortOrder=" + sortOrder
-				+ ", state=" + state + ", timestamp=" + timestamp + "]";
+				+ ", state=" + statename + ", timestamp=" + timestamp + "]";
 	}
 
 }

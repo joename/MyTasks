@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -16,6 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idUser")
 	private long idUser;
 
@@ -46,11 +49,12 @@ public class User {
 	}
 
 	public User(String username, String password, String email,
-			boolean enabled, String aka) {
+			boolean enabled, String authority, String aka) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.enabled = enabled;
+		this.authority = authority;
 		this.aka = aka;
 	}
 

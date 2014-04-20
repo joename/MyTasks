@@ -2,43 +2,67 @@ package com.javalabs.web.dao;
 
 import java.util.Date;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Component("priority")
+@Entity
+@Table(name = "a_taskpriority")
 public class Priority {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "idTaskPriority")
 	private long idTaskPriority = 0;
     private long sortOrder = 0;
     private String aka = "";
-    private String priority = "";
+    @Column(name="priorityname")
+    private String priorityname = "";
     private Date timestamp;
 
     public Priority() {
-    }
-
-    public Priority(long idTaskPriority) {
-        this.idTaskPriority = idTaskPriority;
     }
 
     /**
      * @param priority
      */
     public Priority(String priority) {
-        this.priority = priority;
+        this.priorityname = priority;
     }
     
+    
+    /**
+     * @param aka
+     * @param priority
+     */
+    public Priority(String aka, String priority) {
+        this.aka = aka;
+        this.priorityname = priority;
+    }
+
     /**
      * @param order
      * @param aka
      * @param priority
      */
     public Priority(long sortOrder, String aka, String priority) {
-        super();
         this.sortOrder = sortOrder;
         this.aka = aka;
-        this.priority = priority;
+        this.priorityname = priority;
     }
-
+    
+    /**
+     * @param order
+     * @param priority
+     */
+    public Priority(long sortOrder, String priority) {
+        this.sortOrder = sortOrder;
+        this.priorityname = priority;
+    }
+    
     public void setIdTaskPriority(long idTaskPriority) {
         this.idTaskPriority = idTaskPriority;
     }
@@ -63,12 +87,12 @@ public class Priority {
         this.aka = aka;
     }
 
-    public String getPriority() {
-        return priority;
+    public String getPriorityname() {
+        return priorityname;
     }
 
-    public void setPriority(String priority) {
-        this.priority = priority;
+    public void setPriorityname(String priorityname) {
+        this.priorityname = priorityname;
     }
 
     public void setTimestamp(Date timestamp) {
@@ -80,9 +104,44 @@ public class Priority {
     }
 
     @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((aka == null) ? 0 : aka.hashCode());
+		result = prime * result
+				+ ((priorityname == null) ? 0 : priorityname.hashCode());
+		result = prime * result + (int) (sortOrder ^ (sortOrder >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Priority))
+			return false;
+		Priority other = (Priority) obj;
+		if (aka == null) {
+			if (other.aka != null)
+				return false;
+		} else if (!aka.equals(other.aka))
+			return false;
+		if (priorityname == null) {
+			if (other.priorityname != null)
+				return false;
+		} else if (!priorityname.equals(other.priorityname))
+			return false;
+		if (sortOrder != other.sortOrder)
+			return false;
+		return true;
+	}
+
+	@Override
     public String toString() {
         return "Priority [idTaskPriority=" + idTaskPriority + ", sortOrder=" + sortOrder + ", aka=" + aka
-                + ", priority=" + priority + ", timestamp=" + timestamp + "]";
+                + ", priority=" + priorityname + ", timestamp=" + timestamp + "]";
     }
 
 }

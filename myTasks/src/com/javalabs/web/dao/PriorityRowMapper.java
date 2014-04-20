@@ -14,7 +14,7 @@ public class PriorityRowMapper implements RowMapper<Priority> {
 		priority.setIdTaskPriority(rs.getLong("idTaskPriority"));
 		priority.setSortOrder(rs.getInt("sortOrder"));
 		priority.setAka(rs.getString("aka"));
-		priority.setPriority(rs.getString("priority"));
+		priority.setPriorityname(rs.getString("priorityname"));
 		priority.setTimestamp(rs.getDate("timestamp"));
 
 		return priority;

@@ -2,8 +2,6 @@ package com.javalabs.web.dao;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,9 +21,8 @@ public class CategoryDao {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@Transactional
-	public void create(Category category) {
-		session().save(category);
+	public void saveOrUpdate(Category category) {
+		session().saveOrUpdate(category);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,7 +38,7 @@ public class CategoryDao {
 
 	public Category get(String category) {
 		Criteria crit = session().createCriteria(Category.class);
-		crit.add(Restrictions.ilike("category", category));
+		crit.add(Restrictions.ilike("categoryname", category));
 		return (Category)crit.uniqueResult();
 	}
 	
