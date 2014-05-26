@@ -20,11 +20,6 @@
 					path="description" cssClass="error" /></td>
 		</tr>
 		<tr>
-			<td class="label">Date (dd/mm/yyyy)</td>
-			<td><form:input cssClass="control" path="date" name="date"
-					type="date" /><br /> <form:errors path="date" cssClass="error" /></td>
-		</tr>
-		<tr>
 			<td class="label">Deadline (dd/mm/yyyy)</td>
 			<td><form:input cssClass="control" path="deadline"
 					name="deadline" type="date" /><br /> <form:errors path="deadline"
@@ -35,25 +30,28 @@
 			<td><form:select cssClass="control" path="idCategory"
 					name="idCategory">
 					<form:option value="0" label="Select" />
-					<form:options items="${categories}" itemValue="id"
-						itemLabel="category" />
+					<form:options items="${categories}" itemValue="idTaskCategory"
+						itemLabel="categoryname" />
+
 				</form:select><br /> <form:errors path="idCategory" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">Priority</td>
 			<td><form:select cssClass="control" path="idPriority"
 					name="idPriority">
-					<form:option value="0" label="Select" />
-					<form:options items="${priorities}" itemValue="id"
-						itemLabel="priority" />
-				</form:select><br /> <form:errors path="idPriority" cssClass="error"></form:errors></td>
+					<form:option value="1" label="Low" />
+					<form:options  items="${priorities}" itemValue="idTaskPriority"
+						itemLabel="priorityname" />
+				</form:select><br />
+			<form:errors path="idPriority" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">State</td>
 			<td><form:select cssClass="control" path="idState"
 					name="idState">
-					<form:option value="0" label="Select" />
-					<form:options items="${states}" itemValue="id" itemLabel="state" />
+					<form:option value="1" label="Pending" />
+					<form:options items="${states}" itemValue="idTaskState"
+						itemLabel="statename" />
 				</form:select><br /> <form:errors path="idState" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
@@ -63,14 +61,6 @@
 					<form:option value="1" selected="selected">Responsible</form:option>
 					<form:option value="0">Applicant</form:option>
 				</form:select><br /> <form:errors path="pending" cssClass="error"></form:errors></td>
-		</tr>
-		<tr>
-			<td class="label">User</td>
-			<td><form:select cssClass="control" path="idUser">
-					<form:option value="0" label="Select" />
-					<form:options items="${users}" itemValue="idUser"
-						itemLabel="username" />
-				</form:select><br /> <form:errors path="idUser" cssClass="error"></form:errors></td>
 		</tr>
 		<tr>
 			<td class="label">User responsible</td>

@@ -3,6 +3,7 @@ package com.javalabs.web.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.javalabs.web.dao.User;
@@ -18,6 +19,11 @@ public class UserService {
 		this.userDao = userDao;
 	}
 
+	public User get(String username){
+		return userDao.get(username);
+	}
+	
+	@Secured("ROLE_ADMIN")
 	public List<User> getAllUsers() {
 		return userDao.getAllUsers();
 	}

@@ -1,5 +1,7 @@
 package com.javalabs.web.controllers;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,6 +33,23 @@ public class LoginController {
 		return "login";
 	}
 
+	@RequestMapping("/denied")
+	public String showDenied() {
+		return "denied";
+	}
+	
+	@RequestMapping(value={"/admin"})
+	public String showAdmin(Model model) {
+		logger.info("Showing admin page...");
+		try{
+		List<User> users = userService.getAllUsers();
+		model.addAttribute("users", users);
+		} catch(Exception e){
+			System.out.println("Exception " + e.getClass());
+		}
+		return "admin";
+	}
+	
 	@RequestMapping("/loggedout")
 	public String showLoggedOut() {
 		return "loggedout";

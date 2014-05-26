@@ -23,6 +23,14 @@
 		<put-attribute name="title" value="Login page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
 	</definition>
+	<definition name="admin" extends="baseLayout">
+		<put-attribute name="title" value="Admin page" />
+		<put-attribute name="body" value="/WEB-INF/tiles/admin.jsp" />
+	</definition>
+	<definition name="denied" extends="baseLayout">
+		<put-attribute name="title" value="Access denied page" />
+		<put-attribute name="body" value="/WEB-INF/tiles/denied.jsp" />
+	</definition>
 	<definition name="createtask" extends="baseLayout">
 		<put-attribute name="title" value="Create Task" />
 		<put-attribute name="body" value="/WEB-INF/tiles/createtask.jsp" />

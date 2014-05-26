@@ -116,7 +116,7 @@ public class UserDaoTests {
 		userDao.saveOrUpdate(user2);
 
 		User userR1 = userDao.get(user1.getUsername());
-		assertNotNull("Should be one user.", userR1);
+		assertEquals("Should be the same username.", userR1.getUsername(), user1.getUsername());
 
 		User userR2 = userDao.get("abcd");
 		assertNull("Should be zeri users.", userR2);

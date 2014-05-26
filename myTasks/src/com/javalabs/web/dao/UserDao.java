@@ -33,7 +33,7 @@ public class UserDao {
 
 	public User get(String username) {
 		Criteria crit = session().createCriteria(User.class);
-		crit.add(Restrictions.ilike("username", username));
+		crit.add(Restrictions.eq("username", username));
 		return (User)crit.uniqueResult();
 	}
 

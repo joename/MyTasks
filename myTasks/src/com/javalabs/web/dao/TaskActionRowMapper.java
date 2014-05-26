@@ -15,7 +15,7 @@ public class TaskActionRowMapper implements RowMapper<TaskAction> {
 		ta.setIdTaskAction(rs.getLong("idTaskAction"));
 		ta.setIdTask(rs.getLong("idTask"));
 		ta.setDate(rs.getDate("date"));
-		ta.setAction(rs.getString("action"));
+		ta.setActionname(rs.getString("action"));
 		ta.setDescription(rs.getString("description"));
 		ta.setDuration(rs.getInt("duration"));
 		ta.setIdUser(rs.getLong("idUser"));

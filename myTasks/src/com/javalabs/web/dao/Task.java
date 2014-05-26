@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,32 +24,33 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idTask")
 	private long idTask;
-	@Size(min = 5, max = 100, message = "Task must be between 5 and 100 characters")
+	@Size(min = 5, max = 100)
 	@Column(name = "taskname")
 	private String taskname;
 	@Column(name = "description")
 	private String description;
-	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
 	private Date date;
-	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Column(name = "deadline")
+	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date deadline;
-	@NotNull(message = "Category must be introduced")
+	@NotNull
+	@DecimalMin("1")
 	@Column(name = "idTaskCategory")
 	private long idCategory;
-	@NotNull(message = "Priority must be introduced")
+	@NotNull
+	@DecimalMin("1")
 	@Column(name = "idTaskPriority")
 	private long idPriority;
-	@NotNull(message = "State must be introduced")
+	@NotNull
+	@DecimalMin("1")
 	@Column(name = "idTaskState")
 	private long idState;
-	@NotNull(message = "User must be introduced")
 	@Column(name = "idUser")
 	private long idUser;
 	@Column(name = "idUser_responsible")
-	private long idUserResponsible;
+	private Long idUserResponsible;
 	@Column(name = "evaluation")
 	private String evaluation;
 	private Date timestamp;
@@ -69,12 +71,12 @@ public class Task {
 	 */
 	public Task(String taskname, String description, Date date,
 			long idCategory, long idUser) {
-		super();
 		this.taskname = taskname;
 		this.description = description;
 		this.date = date;
 		this.idCategory = idCategory;
 		this.idUser = idUser;
+		this.idUserResponsible = null;
 	}
 
 	/**
@@ -179,11 +181,11 @@ public class Task {
 		this.idUser = idUser;
 	}
 
-	public long getIdUserResponsible() {
+	public Long getIdUserResponsible() {
 		return idUserResponsible;
 	}
 
-	public void setIdUserResponsible(long idUserResponsible) {
+	public void setIdUserResponsible(Long idUserResponsible) {
 		this.idUserResponsible = idUserResponsible;
 	}
 
@@ -238,8 +240,8 @@ public class Task {
 		result = prime * result + (int) (idState ^ (idState >>> 32));
 		result = prime * result + (int) (idTask ^ (idTask >>> 32));
 		result = prime * result + (int) (idUser ^ (idUser >>> 32));
-		result = prime * result
-				+ (int) (idUserResponsible ^ (idUserResponsible >>> 32));
+		result = ((idUserResponsible == null) ? prime * result : prime * result
+				+ (int) (idUserResponsible ^ (idUserResponsible >>> 32)));
 		result = prime * result + pending;
 		result = prime * result
 				+ ((taskname == null) ? 0 : taskname.hashCode());
@@ -302,5 +304,5 @@ public class Task {
 		} else if (!timestamp.equals(other.timestamp))
 			return false;
 		return true;
-	}	
+	}
 }

@@ -7,14 +7,16 @@
 	<tr>
 		<td class="control">id</td>
 		<td class="control">Task</td>
+		<td class="control">Date</td>
 		<td class="control">Last Update</td>
 		<td class="control">Responsible</td>
 		<td class="control">User</td>
 	</tr>
 	<c:forEach var="task" items="${tasks}">
 		<tr>
-			<td class="control">${task.id}</td>
+			<td class="control">${task.idTask}</td>
 			<td class="control">${task.taskname}</td>
+			<td class="control">${task.date}</td>
 			<td class="control">${task.timestamp}</td>
 			<td class="control">${task.idUserResponsible}</td>
 			<td class="control">${task.idUser}</td>

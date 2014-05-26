@@ -33,6 +33,7 @@ public class User {
 	@Size(min = 5, max = 50, groups = { FormValidationGroup.class })
 	private String password;
 	@Email
+	@NotBlank
 	private String email;
 	private String authority;
 	private Boolean enabled = true;

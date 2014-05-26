@@ -15,5 +15,15 @@
 	<a href="${pageContext.request.contextPath}/createuser">Create user</a>
 </p>
 <p>
-	<a href="<c:url value="/j_spring_security_logout"/>">Log out</a>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<a href="<c:url value="/admin"/>">Admin</a>
+	</sec:authorize>
+</p>
+<p>
+	<sec:authorize access="!isAuthenticated()">
+		<a href="<c:url value='/login'/>">Log in</a>
+	</sec:authorize>
+	<sec:authorize access="isAuthenticated()">
+		<a href="<c:url value="/j_spring_security_logout"/>">Log out</a>
+	</sec:authorize>
 </p>
