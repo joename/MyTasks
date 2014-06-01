@@ -4,7 +4,9 @@ import static org.junit.Assert.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -83,32 +85,46 @@ public class TaskActionDaoTests {
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-
-		logger.info(">>>>idCategory" + idCategory);
-
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				rightnow, category, priority, state, user, user, "okey", 0);
 
-		taskDao.saveOrUpdate(t1);
+		taskDao.save(t1);
 
-		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 1", "Task action 1 description", idUser);
-		TaskAction ta2 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 2", "Task action 2 description", idUser);
-		TaskAction ta3 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 3", "Task action 3 description", idUser);
-		TaskAction ta4 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 4", "Task action 4 description", idUser);
+		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
+				"Task action 1 description", user);
+		TaskAction ta2 = new TaskAction(t1, rightnow, "Task action 2",
+				"Task action 2 description", user);
+		TaskAction ta3 = new TaskAction(t1, rightnow, "Task action 3",
+				"Task action 3 description", user);
+		TaskAction ta4 = new TaskAction(t1, rightnow, "Task action 4",
+				"Task action 4 description", user);
 
-		List<TaskAction> tasks = taskActionDao.getAllTaskActions();
-		assertEquals("Should be 4 taskActions.", 4, tasks.size());
+		taskActionDao.saveOrUpdate(ta1);
+		taskActionDao.saveOrUpdate(ta2);
+		taskActionDao.saveOrUpdate(ta3);
+		taskActionDao.saveOrUpdate(ta4);
+
+		List<TaskAction> taskActions = taskActionDao.getAllTaskActions();
+		assertEquals("Should be 4 taskActions.", 4, taskActions.size());
+
+		// OneToMany annotation
+		/*
+		 * Set<TaskAction> taskActions1 = new
+		 * HashSet<TaskAction>(t1.getActions());
+		 * assertEquals("Should be 4 taskActions.", 4, taskActions1.size());
+		 */
+		t1.setDate(new Date());
+		taskDao.merge(t1);
+		List<TaskAction> h = (List<TaskAction>)t1.getActions();
+		if (h != null){
+			for (TaskAction a : h) {
+				System.out.println("P_>" + a.getActionname());
+			}
+		} else{
+			System.out.println("Null actions");
+		}
 	}
 
 	@Test
@@ -118,36 +134,30 @@ public class TaskActionDaoTests {
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-
-		logger.info(">>>>idCategory" + idCategory);
-
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				rightnow, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 
-		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 1", "Task action 1 description", idUser);
-		TaskAction ta2 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 2", "Task action 2 description", idUser);
+		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
+				"Task action 1 description", user);
+		TaskAction ta2 = new TaskAction(t1, rightnow, "Task action 2",
+				"Task action 2 description", user);
 
 		taskActionDao.saveOrUpdate(ta1);
 		taskActionDao.saveOrUpdate(ta2);
 
 		ta2.setActionname("modified update taskAction");
 		ta2.setDate(Calendar.getInstance().getTime());
+		ta2.setActionname("Action modified");
+		ta2.setDescription("Description modified");
+		ta2.setDuration(ta2.getDuration() + 20);
 
 		taskActionDao.saveOrUpdate(ta2);
 
-		assertTrue("TaskAction update should return true",
-				ta2.equals(ta2));
+		assertTrue("TaskAction update should return true", ta2.equals(ta2));
 	}
 
 	@Test
@@ -157,26 +167,18 @@ public class TaskActionDaoTests {
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-
-		logger.info(">>>>idCategory" + idCategory);
-
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				rightnow, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 
-		TaskAction ta1 = new TaskAction(t1.getIdTask(), rightnow,
-				"Task action 1", "Task action 1 description", idUser);
+		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
+				"Task action 1 description", user);
 
 		taskActionDao.saveOrUpdate(ta1);
-		
+
 		long idTaskAction = ta1.getIdTaskAction();
 		taskActionDao.delete(idTaskAction);
 		assertTrue("TaskAction deletion should return true",

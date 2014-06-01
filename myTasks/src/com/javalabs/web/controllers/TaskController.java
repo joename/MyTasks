@@ -126,11 +126,11 @@ public class TaskController {
 		}
 
 		if (delete == null) {
-			if (task.getIdUserResponsible() == 0) {
-				task.setIdUserResponsible(null);
+			if (task.getUserResponsible() == null) {
+				task.setUserResponsible(null);
 			}
 			String username = principal.getName();
-			task.setIdUser(userService.get(username).getIdUser());
+			task.setUser(userService.get(username));
 			task.setDate(new Date());
 			taskService.create(task);
 			return "taskcreated";

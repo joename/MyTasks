@@ -1,16 +1,23 @@
 package com.javalabs.web.dao;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -33,29 +40,31 @@ public class Task {
 	@Column(name = "date")
 	private Date date;
 	@Column(name = "deadline")
-	// @DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date deadline;
 	@NotNull
-	@DecimalMin("1")
-	@Column(name = "idTaskCategory")
-	private long idCategory;
-	@NotNull
-	@DecimalMin("1")
-	@Column(name = "idTaskPriority")
-	private long idPriority;
-	@NotNull
-	@DecimalMin("1")
-	@Column(name = "idTaskState")
-	private long idState;
-	@Column(name = "idUser")
-	private long idUser;
-	@Column(name = "idUser_responsible")
-	private Long idUserResponsible;
+	@ManyToOne
+	@JoinColumn(name = "idTaskCategory")
+	private Category category;
+	@ManyToOne
+	@JoinColumn(name = "idTaskPriority")
+	private Priority priority;
+	@ManyToOne
+	@JoinColumn(name = "idTaskState")
+	private State state;
+	@ManyToOne
+	@JoinColumn(name = "idUser")
+	private User user;
+	@ManyToOne
+	@JoinColumn(name = "idUser_responsible", nullable = true)
+	private User userResponsible;
 	@Column(name = "evaluation")
 	private String evaluation;
-	private Date timestamp;
 	@Column(name = "pending")
 	private int pending;
+	@Column(name = "timestamp")
+	private Timestamp timestamp;
+	@OneToMany(mappedBy = "task")
+	private Collection<TaskAction> actions = new ArrayList<TaskAction>();
 
 	public Task() {
 		System.out.println("Task constructor loaded");
@@ -63,24 +72,30 @@ public class Task {
 
 	/**
 	 * @author Jose Manuel Sanchez
-	 * @param task
+	 * @param taskname
+	 *            Title of the task
 	 * @param description
+	 *            Description details of the task
 	 * @param date
+	 *            Date of the task creation
 	 * @param category
+	 *            Category of the task
 	 * @param user
+	 *            User that creates the task
 	 */
 	public Task(String taskname, String description, Date date,
-			long idCategory, long idUser) {
+			Category category, Priority priority, User user) {
 		this.taskname = taskname;
 		this.description = description;
-		this.date = date;
-		this.idCategory = idCategory;
-		this.idUser = idUser;
-		this.idUserResponsible = null;
+		this.date = new Date((date.getTime() / 1000) * 1000);
+		this.deadline = null;// new Date((deadline.getTime()/1000)*1000);
+		this.category = category;
+		this.priority = priority;
+		this.user = user;
+		this.userResponsible = null;
 	}
 
 	/**
-	 * @param idTask
 	 * @param task
 	 * @param description
 	 * @param date
@@ -94,17 +109,18 @@ public class Task {
 	 * @param pending
 	 */
 	public Task(String taskname, String description, Date date, Date deadline,
-			long idCategory, long idPriority, long idState, long idUser,
-			long idUserResponsible, String evaluation, int pending) {
+			Category category, Priority priority, State state, User user,
+			User userResponsible, String evaluation, int pending) {
 		this.taskname = taskname;
 		this.description = description;
-		this.date = date;
-		this.deadline = deadline;
-		this.idCategory = idCategory;
-		this.idPriority = idPriority;
-		this.idState = idState;
-		this.idUser = idUser;
-		this.idUserResponsible = idUserResponsible;
+		this.date = new Date((date.getTime() / 1000) * 1000);// delete milis
+		this.deadline = new Date((deadline.getTime() / 1000) * 1000);// delete
+																		// milis
+		this.category = category;
+		this.priority = priority;
+		this.state = state;
+		this.user = user;
+		this.userResponsible = userResponsible;
 		this.evaluation = evaluation;
 		this.pending = pending;
 	}
@@ -138,7 +154,7 @@ public class Task {
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.date = date;// new Date((date.getTime()/1000)*1000);
 	}
 
 	public Date getDeadline() {
@@ -146,47 +162,47 @@ public class Task {
 	}
 
 	public void setDeadline(Date deadline) {
-		this.deadline = deadline;
+		this.deadline = deadline;// new Date((deadline.getTime()/1000)*1000);
 	}
 
-	public long getIdCategory() {
-		return idCategory;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setIdCategory(long idCategory) {
-		this.idCategory = idCategory;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
-	public long getIdPriority() {
-		return idPriority;
+	public Priority getPriority() {
+		return priority;
 	}
 
-	public void setIdPriority(long idPriority) {
-		this.idPriority = idPriority;
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 
-	public long getIdState() {
-		return idState;
+	public State getState() {
+		return state;
 	}
 
-	public void setIdState(long idState) {
-		this.idState = idState;
+	public void setState(State state) {
+		this.state = state;
 	}
 
-	public long getIdUser() {
-		return idUser;
+	public User getUser() {
+		return user;
 	}
 
-	public void setIdUser(long idUser) {
-		this.idUser = idUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Long getIdUserResponsible() {
-		return idUserResponsible;
+	public User getUserResponsible() {
+		return userResponsible;
 	}
 
-	public void setIdUserResponsible(Long idUserResponsible) {
-		this.idUserResponsible = idUserResponsible;
+	public void setUserResponsible(User userResponsible) {
+		this.userResponsible = userResponsible;
 	}
 
 	public String getEvaluation() {
@@ -197,14 +213,6 @@ public class Task {
 		this.evaluation = evaluation;
 	}
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public int getPending() {
 		return pending;
 	}
@@ -213,21 +221,39 @@ public class Task {
 		this.pending = pending;
 	}
 
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public Collection<TaskAction> getActions() {
+		return actions;
+	}
+
+	public void setActions(Set<TaskAction> actions) {
+		this.actions = actions;
+	}
+
 	@Override
 	public String toString() {
-		return "Task [id=" + idTask + ", taskname=" + taskname
+		return "Task [idTask=" + idTask + ", taskname=" + taskname
 				+ ", description=" + description + ", date=" + date
-				+ ", deadline=" + deadline + ", idCategory=" + idCategory
-				+ ", idPriority=" + idPriority + ", idState=" + idState
-				+ ", idUser=" + idUser + ", idUserResponsible="
-				+ idUserResponsible + ", evaluation=" + evaluation
-				+ ", timestamp=" + timestamp + ", pending=" + pending + "]";
+				+ ", deadline=" + deadline + ", category=" + category
+				+ ", priority=" + priority + ", state=" + state + ", user="
+				+ user + ", userResponsible=" + userResponsible
+				+ ", evaluation=" + evaluation + ", timestamp=" + timestamp
+				+ ", pending=" + pending + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((category == null) ? 0 : category.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result
 				+ ((deadline == null) ? 0 : deadline.hashCode());
@@ -235,18 +261,15 @@ public class Task {
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result
 				+ ((evaluation == null) ? 0 : evaluation.hashCode());
-		result = prime * result + (int) (idCategory ^ (idCategory >>> 32));
-		result = prime * result + (int) (idPriority ^ (idPriority >>> 32));
-		result = prime * result + (int) (idState ^ (idState >>> 32));
-		result = prime * result + (int) (idTask ^ (idTask >>> 32));
-		result = prime * result + (int) (idUser ^ (idUser >>> 32));
-		result = ((idUserResponsible == null) ? prime * result : prime * result
-				+ (int) (idUserResponsible ^ (idUserResponsible >>> 32)));
 		result = prime * result + pending;
 		result = prime * result
-				+ ((taskname == null) ? 0 : taskname.hashCode());
+				+ ((priority == null) ? 0 : priority.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result
-				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+				+ ((taskname == null) ? 0 : taskname.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result
+				+ ((userResponsible == null) ? 0 : userResponsible.hashCode());
 		return result;
 	}
 
@@ -259,6 +282,11 @@ public class Task {
 		if (!(obj instanceof Task))
 			return false;
 		Task other = (Task) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
 		if (date == null) {
 			if (other.date != null)
 				return false;
@@ -279,29 +307,32 @@ public class Task {
 				return false;
 		} else if (!evaluation.equals(other.evaluation))
 			return false;
-		if (idCategory != other.idCategory)
-			return false;
-		if (idPriority != other.idPriority)
-			return false;
-		if (idState != other.idState)
-			return false;
-		if (idTask != other.idTask)
-			return false;
-		if (idUser != other.idUser)
-			return false;
-		if (idUserResponsible != other.idUserResponsible)
-			return false;
 		if (pending != other.pending)
+			return false;
+		if (priority == null) {
+			if (other.priority != null)
+				return false;
+		} else if (!priority.equals(other.priority))
+			return false;
+		if (state == null) {
+			if (other.state != null)
+				return false;
+		} else if (!state.equals(other.state))
 			return false;
 		if (taskname == null) {
 			if (other.taskname != null)
 				return false;
 		} else if (!taskname.equals(other.taskname))
 			return false;
-		if (timestamp == null) {
-			if (other.timestamp != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!timestamp.equals(other.timestamp))
+		} else if (!user.equals(other.user))
+			return false;
+		if (userResponsible == null) {
+			if (other.userResponsible != null)
+				return false;
+		} else if (!userResponsible.equals(other.userResponsible))
 			return false;
 		return true;
 	}

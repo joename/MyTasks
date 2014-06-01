@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,14 +20,16 @@ public class TaskAction {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idTaskAction")
 	private long idTaskAction;
-	@Column(name = "idTask")
-	private long idTask;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idTask", nullable = false)
+	private Task task;
 	private Date date;
 	private String actionname;
 	private String description;
 	private int duration;
-	@Column(name = "idUser")
-	private long idUser;
+	@ManyToOne
+	@JoinColumn(name = "idUser")
+	private User user;
 	private Date timestamp;
 
 	public TaskAction() {
@@ -38,13 +43,13 @@ public class TaskAction {
 	 * @param description
 	 * @param user
 	 */
-	public TaskAction(long idTask, Date date, String action,
-			String description, long idUser) {
-		this.idTask = idTask;
-		this.date = date;
+	public TaskAction(Task task, Date date, String action, String description,
+			User user) {
+		this.task = task;
+		this.date = new Date((date.getTime() / 1000) * 1000);
 		this.actionname = action;
 		this.description = description;
-		this.idUser = idUser;
+		this.user = user;
 	}
 
 	public long getIdTaskAction() {
@@ -55,12 +60,12 @@ public class TaskAction {
 		this.idTaskAction = idTaskAction;
 	}
 
-	public long getIdTask() {
-		return idTask;
+	public Task getTask() {
+		return task;
 	}
 
-	public void setIdTask(long idTask) {
-		this.idTask = idTask;
+	public void setTask(Task task) {
+		this.task = task;
 	}
 
 	public Date getDate() {
@@ -68,7 +73,7 @@ public class TaskAction {
 	}
 
 	public void setDate(Date date) {
-		this.date = date;
+		this.date = new Date((date.getTime() / 1000) * 1000);
 	}
 
 	public String getActionname() {
@@ -95,12 +100,12 @@ public class TaskAction {
 		this.duration = duration;
 	}
 
-	public long getIdUser() {
-		return idUser;
+	public User getUser() {
+		return user;
 	}
 
-	public void setIdUser(long idUser) {
-		this.idUser = idUser;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getTimestamp() {
@@ -121,11 +126,8 @@ public class TaskAction {
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + duration;
-		result = prime * result + (int) (idTask ^ (idTask >>> 32));
-		result = prime * result + (int) (idTaskAction ^ (idTaskAction >>> 32));
-		result = prime * result + (int) (idUser ^ (idUser >>> 32));
-		result = prime * result
-				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + ((task == null) ? 0 : task.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -155,25 +157,24 @@ public class TaskAction {
 			return false;
 		if (duration != other.duration)
 			return false;
-		if (idTask != other.idTask)
-			return false;
-		if (idTaskAction != other.idTaskAction)
-			return false;
-		if (idUser != other.idUser)
-			return false;
-		if (timestamp == null) {
-			if (other.timestamp != null)
+		if (task == null) {
+			if (other.task != null)
 				return false;
-		} else if (!timestamp.equals(other.timestamp))
+		} else if (!task.equals(other.task))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "TaskAction [idTaskAction=" + idTaskAction + ", idTask="
-				+ idTask + ", date=" + date + ", actionname=" + actionname
+		return "TaskAction [idTaskAction=" + idTaskAction + ", task=" + task
+				+ ", date=" + date + ", actionname=" + actionname
 				+ ", description=" + description + ", duration=" + duration
-				+ ", idUser=" + idUser + ", timestamp=" + timestamp + "]";
+				+ ", user=" + user + ", timestamp=" + timestamp + "]";
 	}
 }
