@@ -2,6 +2,7 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -79,34 +80,20 @@ public class TaskDaoTests {
 		taskCategoryDao.saveOrUpdate(category);
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
-
-		long idCategory = category.getIdTaskCategory();
-
-		logger.info(">>>>idCategory" + idCategory);
-
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
-		Date rightnow = Calendar.getInstance().getTime();
+		
+		java.util.Date date = new java.util.Date();
+		java.sql.Date datesql = new java.sql.Date(date.getTime());
+		java.sql.Timestamp stamp = new java.sql.Timestamp(date.getTime());
+		Date rightnow = stamp;//Calendar.getInstance().getTime();
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
-		Task t2 = new Task("My second task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
-		Task t3 = new Task("My third task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
-		Task t4 = new Task("My forth task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
-		Task t5 = new Task("My fifth task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
-		Task t6 = new Task("My sixth task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
+		Task t2 = new Task("My second task", "This is a task", date,
+				stamp, category, priority, state, user, user, "okey", 0);
+		Task t3 = new Task("My third task", "This is a task", datesql,
+				stamp, category, priority, state, user, user, "okey", 0);
+		Task t4 = new Task("My sixth task", "This is a task", rightnow,
+				category, priority, user);
 
 		taskDao.saveOrUpdate(t1);
 		taskDao.saveOrUpdate(t2);
@@ -117,15 +104,48 @@ public class TaskDaoTests {
 		assertEquals("Should be 4 tasks.", 4, tasks.size());
 
 		Task taskR1 = taskDao.get(t1.getIdTask());
-		assertEquals("New comparation",new Date(taskR1.getDate().getTime()), t1.getDate());
-assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.getDate());
-		assertEquals("Retrieved task should be equal inserted task.", taskR1,
-				t1);
-		taskDao.saveOrUpdate(t5);
-		taskDao.saveOrUpdate(t6);
-
-		List<Task> tasks2 = taskDao.getAllTasks();
-		assertEquals("Should be six tasks.", 6, tasks2.size());
+		Task taskR2 = taskDao.get(t2.getIdTask());
+		Task taskR3 = taskDao.get(t3.getIdTask());
+		
+		System.out.println("Date obj     >"+((rightnow.getTime()))
+				+" - Timest obj>"+((stamp.getTime())));
+		//System.out.println("BD>>>"+((t1.getDate().getTime()))
+		//		+"T***"+((t1.getDeadline().getTime())));
+		System.out.println("After recover>"+((taskR1.getDate().getTime()))
+				+" - After TS  >"+((taskR1.getDate().getTime())));
+		System.out.println("Date before/ >"+((t1.getDeadline().getTime()/1000)*1000)
+				+" - Before TS/>"+((t1.getDeadline().getTime()/1000)*1000));
+		System.out.println("Date after / >"+((taskR1.getDate().getTime()/1000)*1000)
+				+" - After TS/ >"+((taskR1.getDeadline().getTime()/1000)*1000));
+		
+		System.out.println("l timestamp> "+rightnow.getTime());
+		System.out.println("l date     >"+date.getTime());
+		System.out.println("l datesql  >"+datesql.getTime());
+		System.out.println("l tr1date  >"+taskR1.getDate().getTime());
+		System.out.println("l tr2date  >"+taskR2.getDate().getTime());
+		System.out.println("l tr3date  >"+taskR3.getDate().getTime());
+		
+		System.out.println("rightnow "+rightnow);
+		System.out.println("date     "+date);
+		System.out.println("date sql "+datesql);
+		System.out.println("t1 date  "+t1.getDate());
+		System.out.println("tR1 date "+taskR1.getDate());
+		System.out.println("t2 date  "+t2.getDate());
+		System.out.println("tR2 date "+taskR2.getDate());
+		System.out.println("t3 date  "+t2.getDate());
+		System.out.println("tR3 date "+taskR2.getDate());
+		//System.out.println((Date)t1.getDate());
+		//System.out.println((Date)taskR1.getDate());
+		
+		System.out.println("t3.getDate().compareTo(taskR3.getDate()) == 0 :" + (t3.getDate().compareTo(taskR3.getDate()) == 0));
+		System.out.println("t3.getDate().equal(taskR3.getDate()) == 0 :" + (t3.getDate().compareTo(taskR3.getDate()) == 0));
+		System.out.println("taskR3.getDate().compareTo(t3.getDate()) == 0 :" + (t3.getDate().compareTo(taskR3.getDate()) == 0));
+		System.out.println("taskR3.getDate().equal(t3.getDate()) == 0 :" + (t3.getDate().compareTo(taskR3.getDate()) == 0));
+		
+		assertTrue("Task dates must be equal",
+				t1.getDate().compareTo(taskR1.getDate()) == 0);
+		assertEquals("Retrieved task should be same hashCode inserted task.", taskR1.hashCode(),
+				t1.hashCode());
 	}
 
 	@Test
@@ -135,15 +155,11 @@ assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
+		Timestamp stamp = new Timestamp(rightnow.getTime());
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 
@@ -158,18 +174,13 @@ assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
+		Timestamp stamp = new Timestamp(rightnow.getTime());
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 		Task t2 = new Task("My second task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 		taskDao.saveOrUpdate(t2);
@@ -188,18 +199,13 @@ assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
+		Timestamp stamp = new Timestamp(rightnow.getTime());
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 		Task t2 = new Task("My second task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 		taskDao.saveOrUpdate(t2);
@@ -218,18 +224,13 @@ assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.
 		taskStateDao.saveOrUpdate(state);
 		userDao.saveOrUpdate(user);
 
-		long idCategory = category.getIdTaskCategory();
-		long idPriority = priority.getIdTaskPriority();
-		long idState = state.getIdTaskState();
-		long idUser = user.getIdUser();
 		Date rightnow = Calendar.getInstance().getTime();
+		Timestamp stamp = new Timestamp(rightnow.getTime());
 
 		Task t1 = new Task("My first task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 		Task t2 = new Task("My second task", "This is a task", rightnow,
-				rightnow, idCategory, idPriority, idState, idUser, idUser,
-				"okey", 0);
+				stamp, category, priority, state, user, user, "okey", 0);
 
 		taskDao.saveOrUpdate(t1);
 		taskDao.saveOrUpdate(t2);
@@ -244,4 +245,42 @@ assertEquals("They should have to be equal dates",taskR1.getDate().getTime(),t1.
 		assertNull("Task with ID " + taskR1.getIdTask()
 				+ " should be null (deleted, actual)", taskR2);
 	}
+
+	/*@Test
+	public void testTimestampVsDate() {
+		java.util.Date date = new java.util.Date();
+		java.util.Date stamp = new java.sql.Timestamp(date.getTime());
+		assertTrue("date.equals(stamp)", date.equals(stamp));
+		assertTrue("stamp.compareTo(date)", stamp.compareTo(date) == 0);
+		assertTrue("date.compareTo(stamp)", date.compareTo(stamp) == 0);
+		assertTrue("stamp.equals(date)", stamp.equals(date));
+	}
+
+	@Test
+	public void testTimestampVsDate1() {
+		java.util.Date date = new java.util.Date();
+		java.util.Date stamp = new java.sql.Timestamp(date.getTime());
+		assertTrue("date.equals(stamp)", date.equals(stamp));
+	}
+
+	@Test
+	public void testTimestampVsDate2() {
+		java.util.Date date = new java.util.Date();
+		java.util.Date stamp = new java.sql.Timestamp(date.getTime());
+		assertTrue("stamp.compareTo(date)", stamp.compareTo(date) == 0);
+	}
+
+	@Test
+	public void testTimestampVsDate3() {
+		java.util.Date date = new java.util.Date();
+		java.util.Date stamp = new java.sql.Timestamp(date.getTime());
+		assertTrue("date.compareTo(stamp)", date.compareTo(stamp) == 0);
+	}
+
+	@Test
+	public void testTimestampVsDate4() {
+		java.util.Date date = new java.util.Date();
+		java.util.Date stamp = new java.sql.Timestamp(date.getTime());
+		assertTrue("stamp.equals(date)", stamp.equals(date));
+	}*/
 }
