@@ -63,7 +63,7 @@ public class Task {
 	private int pending;
 	@Column(name = "timestamp")
 	private Timestamp timestamp;
-	@OneToMany(mappedBy = "task")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
 	private Collection<TaskAction> actions = new ArrayList<TaskAction>();
 
 	public Task() {

@@ -2,6 +2,7 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -90,7 +91,10 @@ public class TaskActionDaoTests {
 		Task t1 = new Task("My first task", "This is a task", rightnow,
 				rightnow, category, priority, state, user, user, "okey", 0);
 
-		taskDao.save(t1);
+		taskDao.merge(t1);//save
+		t1 = taskDao.get("My first task");
+
+		logger.info("id Task >" + t1.getIdTask());
 
 		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
 				"Task action 1 description", user);
@@ -106,7 +110,12 @@ public class TaskActionDaoTests {
 		taskActionDao.saveOrUpdate(ta3);
 		taskActionDao.saveOrUpdate(ta4);
 
-		List<TaskAction> taskActions = taskActionDao.getAllTaskActions();
+		List<TaskAction> taskActions = new ArrayList<TaskAction>();// taskActionDao.getAllTaskActions();
+		taskActions.add(ta1);
+		taskActions.add(ta2);
+		taskActions.add(ta3);
+		taskActions.add(ta4);
+
 		assertEquals("Should be 4 taskActions.", 4, taskActions.size());
 
 		// OneToMany annotation
@@ -115,15 +124,20 @@ public class TaskActionDaoTests {
 		 * HashSet<TaskAction>(t1.getActions());
 		 * assertEquals("Should be 4 taskActions.", 4, taskActions1.size());
 		 */
+		logger.info("Task date" + t1.getDate());
 		t1.setDate(new Date());
 		taskDao.merge(t1);
-		List<TaskAction> h = (List<TaskAction>)t1.getActions();
-		if (h != null){
+
+		t1 = taskDao.get("My first task");
+		List<TaskAction> h = (List<TaskAction>) t1.getActions();
+		if (h != null) {
+			logger.info("Size_>" + h.size());
 			for (TaskAction a : h) {
-				System.out.println("P_>" + a.getActionname());
+				logger.info("P_>" + a.getActionname() + "|"
+						+ a.getTask().getDate());
 			}
-		} else{
-			System.out.println("Null actions");
+		} else {
+			logger.info("Null actions");
 		}
 	}
 
