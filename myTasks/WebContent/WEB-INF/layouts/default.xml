@@ -3,25 +3,34 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-	<definition name="baseLayout" template="/WEB-INF/templates/default.jsp">
-		<put-attribute name="includes" value=""></put-attribute>
+	<definition name="loginLayout" template ="/WEB-INF/templates/login.tpl.jsp">
+		<put-attribute name="includes" value="" />
+		<put-attribute name="title" value="Login page" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
+		<put-attribute name="afterfooter" value="" />
+	</definition>
+	<definition name="baseLayout" template="/WEB-INF/templates/default.tpl.jsp">
+		<put-attribute name="includes" value="" />
 		<put-attribute name="title" value="Tiles tutorial homepage" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/tiles/base/menu.jsp" />
 		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/base/footer.jsp" />
+		<put-attribute name="afterfooter" value="" />
 	</definition>
 	<definition name="home" extends="baseLayout">
 		<put-attribute name="title" value="Home page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/home.jsp" />
 	</definition>
-	<definition name="login" extends="baseLayout">
+	<definition name="login" extends="loginLayout">
 		<put-attribute name="title" value="Login page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
+		<put-attribute name="includes" value="/WEB-INF/tiles/login.includes.jsp" />
 	</definition>
 	<definition name="loggedout" extends="baseLayout">
 		<put-attribute name="title" value="Login page" />
-		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/loggedout.jsp" />
 	</definition>
 	<definition name="admin" extends="baseLayout">
 		<put-attribute name="title" value="Admin page" />
@@ -36,9 +45,10 @@
 		<put-attribute name="body" value="/WEB-INF/tiles/createtask.jsp" />
 	</definition>
 	<definition name="createuser" extends="baseLayout">
-		<put-attribute name="includes" value="/WEB-INF/tiles/createuserscript.jsp" />
+		<put-attribute name="includes" value="/WEB-INF/tiles/createuser.includes.jsp" />
 		<put-attribute name="title" value="Create user" />
 		<put-attribute name="body" value="/WEB-INF/tiles/createuser.jsp" />
+		<put-attribute name="afterfooter" value="/WEB-INF/tiles/afterfooter.jsp" />
 	</definition>
 	<definition name="error" extends="baseLayout">
 		<put-attribute name="title" value="Error" />

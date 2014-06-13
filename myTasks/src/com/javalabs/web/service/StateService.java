@@ -21,4 +21,8 @@ public class StateService {
     public List<State> getAllStates() {
         return stateDao.getAllStates();
     }
+
+	public State get(Long stateId) {
+		return stateDao.get(stateId);
+	}
 }

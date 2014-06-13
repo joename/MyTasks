@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script type="text/javascript">
@@ -8,36 +9,33 @@
 	});
 </script>
 
-<h3>Login with Username and Password</h3>
-<c:if test="${param.error != null }">
-	<p class="error">Login failed. Check that your username and
-		password are correct.</p>
-</c:if>
-<form name='f'
-	action='${pageContext.request.contextPath}/j_spring_security_check'
-	method='POST'>
-	<table>
-		<tr>
-			<td>User:</td>
-			<td><input type='text' name='j_username' value=''></td>
-		</tr>
-		<tr>
-			<td>Password:</td>
-			<td><input type='password' name='j_password' /></td>
-		</tr>
-		<tr>
-			<td>Remember me:</td>
-			<td><input type='checkbox' name='_spring_security_remember_me'
-				checked="checked" /></td>
-		</tr>
-		<tr>
-			<td colspan='2'><input name="submit" type="submit" value="Login" /></td>
-		</tr>
-	</table>
-</form>
-
 <p>
-	<a
-		href="<c:url value="/createuser"/>">Create
-		new account</a>
+	<a href="<c:url value="/createuser"/>">Create new account</a>
 </p>
+<div class="container">
+	<form method="POST"
+		action="${pageContext.request.contextPath}/j_spring_security_check"
+		class="form-signin" role="form">
+		<h2 class="form-signin-heading">Please sign in</h2>
+		<input name="j_username" type="text" class="form-control"
+			placeholder="Username" required autofocus />
+		<input name='j_password' type="password" class="form-control"
+			placeholder="Password" required />
+		<c:if test="${param.error != null }">
+			<div class="alert alert-danger"><strong>Login failed!</strong> Check that your username and
+				password are correct.</div>
+		</c:if>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+			in</button>
+		<label class="checkbox"> <input type="checkbox"
+				name="_spring_security_remember_me" value="remember-me">
+			Remember me
+		</label>
+	</form>
+</div>
+<!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->

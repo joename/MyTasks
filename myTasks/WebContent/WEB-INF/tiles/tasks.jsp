@@ -3,26 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<table class="formtable">
+<table class="table table-striped table-condensed">
 	<tr>
-		<td class="control">id</td>
-		<td class="control">Task</td>
-		<td class="control">Date</td>
-		<td class="control">Last Update</td>
-		<td class="control">Responsible</td>
-		<td class="control">User</td>
+		<th>id</th>
+		<th>Task</th>
+		<th>Date</th>
+		<th>Last Update</th>
+		<th>Responsible</th>
+		<th>User</th>
+		<th></th>
 	</tr>
 	<c:forEach var="task" items="${tasks}">
 		<tr>
-			<td class="control">${task.idTask}</td>
-			<td class="control">${task.taskname}</td>
-			<td class="control">${task.date}</td>
-			<td class="control">${task.timestamp}</td>
-			<td class="control">${task.idUserResponsible}</td>
-			<td class="control">${task.idUser}</td>
+			<td>${task.idTask}</td>
+			<td>${task.taskname}</td>
+			<td>${task.date}</td>
+			<td>${task.timestamp}</td>
+			<td>${task.userResponsible.username}</td>
+			<td>${task.user.username}</td>
+			<td>
+				<button type="button" class="btn btn-default btn-xs btn-primary">Edit</button>
+				<button type="button" class="btn btn-default btn-xs btn-danger">Delete</button>
+			</td>
 		</tr>
 	</c:forEach>
-
 </table>
 
 <p>

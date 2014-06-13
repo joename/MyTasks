@@ -25,4 +25,8 @@ public class CategoryService {
 	public boolean exists(String username) {
 		return categoryDao.exists(username);
 	}
+
+	public Category get(Long id) {
+		return categoryDao.get(id);
+	}
 }

@@ -2,9 +2,11 @@ package com.javalabs.web.controllers;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javalabs.web.dao.Category;
+import com.javalabs.web.dao.CategoryPropertyEditor;
 import com.javalabs.web.dao.Priority;
+import com.javalabs.web.dao.PriorityPropertyEditor;
 import com.javalabs.web.dao.State;
+import com.javalabs.web.dao.StatePropertyEditor;
 import com.javalabs.web.dao.Task;
 import com.javalabs.web.dao.User;
+import com.javalabs.web.dao.UserPropertyEditor;
 import com.javalabs.web.service.CategoryService;
 import com.javalabs.web.service.PriorityService;
 import com.javalabs.web.service.StateService;
@@ -64,11 +70,23 @@ public class TaskController {
 	}
 
 	@InitBinder
-	public void initBinder(WebDataBinder webDataBinder) {
+	public void initBinder(WebDataBinder binder, HttpServletRequest req) {
+
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		dateFormat.setLenient(false);
-		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(
-				dateFormat, true));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		StatePropertyEditor spe =  new StatePropertyEditor();
+		spe.setStateService(stateService);
+		binder.registerCustomEditor(State.class, spe);
+		CategoryPropertyEditor cpe = new CategoryPropertyEditor();
+		cpe.setCategoryService(categoryService);
+		binder.registerCustomEditor(Category.class,cpe);
+		PriorityPropertyEditor ppe = new PriorityPropertyEditor();
+		ppe.setPriorityService(priorityService);
+		binder.registerCustomEditor(Priority.class, ppe);
+		UserPropertyEditor upe = new UserPropertyEditor();
+		upe.setUserService(userService);
+		binder.registerCustomEditor(User.class, "userResponsible", upe);
 	}
 
 	@RequestMapping("/tasks")
@@ -96,9 +114,8 @@ public class TaskController {
 		return "createtask";
 	}
 
-	@RequestMapping(value = "/docreatetask", method = RequestMethod.POST)
-	public String doCreateTask(Model model, @Valid Task task,
-			BindingResult result, Principal principal,
+	@RequestMapping(value = "/docreatetask", method = { RequestMethod.POST, RequestMethod.GET })
+	public String doCreateTask(Model model, @Valid Task task, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
 		System.out.println("Task /docreatetask: " + task);

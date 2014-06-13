@@ -3,49 +3,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<h2>Create New User</h2>
-<form:form id="details" method="POST"
+<h1>Create New User</h1>
+<form:form id="details" class="form-horizontal" method="POST"
 	action="${pageContext.request.contextPath}/docreateuser"
-	commandName="user">
-	<table class="formtable">
-		<tr>
-			<td class="label">Username</td>
-			<td><form:input class="control" path="username" name="username"
-					type="text" /><br />
-				<div class="error">
-					<form:errors path="username" cssClass="error" />
-				</div></td>
-		</tr>
-		<tr>
-			<td class="label">aka</td>
-			<td><form:input class="control" path="aka" name="aka" /><br />
-				<div class="error">
-					<form:errors path="aka" cssClass="error" />
-				</div></td>
-		</tr>
-		<tr>
-			<td class="label">Email</td>
-			<td><form:input class="control" path="email" name="email" /><br />
-				<div class="error">
-					<form:errors path="email" cssClass="error" />
-				</div></td>
-		</tr>
-		<tr>
-			<td class="label">Password</td>
-			<td><form:input id="password" class="control" path="password" name="password" type="password" /><br />
-				<div class="error">
-					<form:errors path="password" cssClass="error" />
-				</div></td>
-		</tr>
-		<tr>
-			<td class="label">Confirm Password:</td>
-			<td><input id="confirmpass" class="control" name="confirmpass"
-				type="password" />
-				<div id="matchpass"></div></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input value="Create new user" type="submit" /></td>
-		</tr>
-	</table>
+	commandName="user" role="form">
+	<div class="form-group">
+		<label for="username" class="col-sm-2 control-label">Username</label>
+		<div class="col-sm-10">
+			<form:input path="username" name="username" type="text"
+				class="form-control" id="username" placeholder="username" />
+			<div id="username.error">
+				<span class="text-danger"><form:errors path="username" /></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="aka" class="col-sm-2 control-label">Aka</label>
+		<div class="col-sm-10">
+			<form:input path="aka" name="aka" type="text" class="form-control"
+				id="aka" placeholder="also known as" />
+			<div id="aka.error">
+				<span class="text-danger"><form:errors path="aka" /></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="email" class="col-sm-2 control-label">Email</label>
+		<div class="col-sm-10">
+			<form:input path="email" name="email" type="email"
+				class="form-control" id="email" placeholder="email" />
+			<div id="email.error">
+				<span class="text-danger"><form:errors path="email" /></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="password" class="col-sm-2 control-label">Password</label>
+		<div class="col-sm-10">
+			<form:input name="password" path="password" type="password"
+				class="form-control" id="password" placeholder="password" />
+			<div id="password.error">
+				<span class="text-danger"><form:errors path="password" /></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="confirmPassword" class="col-sm-2 control-label">Confirm
+			Password</label>
+		<div class="col-sm-10">
+			<input name="confirmpass" type="password" class="form-control"
+				id="confirmpass" placeholder="confirm password" />
+			<div id="matchpass"></div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</div>
 </form:form>

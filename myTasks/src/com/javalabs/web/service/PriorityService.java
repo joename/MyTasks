@@ -21,4 +21,8 @@ public class PriorityService {
     public List<Priority> getAllPriorities() {
         return priorityDao.getAllPriorities();
     }
+
+	public Priority get(Long priorityId) {
+		return priorityDao.get(priorityId);
+	}
 }

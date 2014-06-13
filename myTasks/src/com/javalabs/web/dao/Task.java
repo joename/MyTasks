@@ -16,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,7 +34,6 @@ public class Task {
 	private String taskname;
 	@Column(name = "description")
 	private String description;
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
 	private Date date;
 	@Column(name = "deadline")
@@ -44,7 +41,7 @@ public class Task {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "idTaskCategory")
-	private Category category;
+	private Category category = new Category();
 	@ManyToOne
 	@JoinColumn(name = "idTaskPriority")
 	private Priority priority;

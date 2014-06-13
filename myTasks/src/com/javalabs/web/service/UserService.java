@@ -35,4 +35,8 @@ public class UserService {
 	public boolean exists(String username) {
 		return userDao.exists(username);
 	}
+
+	public User get(Long userId) {
+		return userDao.get(userId);
+	}
 }
