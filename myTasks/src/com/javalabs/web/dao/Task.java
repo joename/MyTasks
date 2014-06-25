@@ -2,10 +2,10 @@ package com.javalabs.web.dao;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,6 +34,7 @@ public class Task {
 	private String taskname;
 	@Column(name = "description")
 	private String description;
+	@NotNull
 	@Column(name = "date")
 	private Date date;
 	@Column(name = "deadline")
@@ -41,7 +42,7 @@ public class Task {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "idTaskCategory")
-	private Category category = new Category();
+	private Category category;
 	@ManyToOne
 	@JoinColumn(name = "idTaskPriority")
 	private Priority priority;
@@ -58,10 +59,10 @@ public class Task {
 	private String evaluation;
 	@Column(name = "pending")
 	private int pending;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "task")
+	private List<TaskAction> actions = new ArrayList<TaskAction>();
 	@Column(name = "timestamp")
 	private Timestamp timestamp;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
-	private Collection<TaskAction> actions = new ArrayList<TaskAction>();
 
 	public Task() {
 		System.out.println("Task constructor loaded");
@@ -225,15 +226,19 @@ public class Task {
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
-
-	public Collection<TaskAction> getActions() {
+	
+	public List<TaskAction> getActions() {
 		return actions;
 	}
-
-	public void setActions(Set<TaskAction> actions) {
+	
+	public void setActions(List<TaskAction> actions) {
 		this.actions = actions;
 	}
-
+	
+	public void addAction(TaskAction a){
+		this.actions.add(a);
+	}
+	
 	@Override
 	public String toString() {
 		return "Task [idTask=" + idTask + ", taskname=" + taskname

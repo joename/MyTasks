@@ -2,11 +2,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script type="text/javascript">
 	function onLoad() {
-
+		$.getJSON("<c:url value="/getactions"/>", updateActionLink)
+		
 		$("#password").keyup(checkPasswordsMatch);
 		$("#confirmpass").keyup(checkPasswordsMatch);
 
 		$("#details").submit(canSubmit);
+	}
+
+	function updateActionLink(data){
+		alert(data.number);
 	}
 	
 	function canSubmit() {

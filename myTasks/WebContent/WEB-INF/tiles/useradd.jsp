@@ -5,7 +5,7 @@
 
 <h1>Create New User</h1>
 <form:form id="details" class="form-horizontal" method="POST"
-	action="${pageContext.request.contextPath}/docreateuser"
+	action="${pageContext.request.contextPath}/user/add"
 	commandName="user" role="form">
 	<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">Username</label>

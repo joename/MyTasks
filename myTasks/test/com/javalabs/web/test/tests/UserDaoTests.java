@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,8 +19,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.javalabs.web.dao.Category;
-import com.javalabs.web.dao.User;
-import com.javalabs.web.dao.User;
+import com.javalabs.web.dao.Role;
+import com.javalabs.web.dao.RoleDao;
 import com.javalabs.web.dao.User;
 import com.javalabs.web.dao.UserDao;
 
@@ -34,6 +36,9 @@ public class UserDaoTests {
 	private UserDao userDao;
 
 	@Autowired
+	private RoleDao roleDao;
+	
+	@Autowired
 	private DataSource dataSource;
 
 	private User user1 = new User("josema", "josema", "jose@javalabs.com",
@@ -45,6 +50,9 @@ public class UserDaoTests {
 	private User user4 = new User("josema3", "joema3", "jose3@javalabs.com",
 			false, "ROLE_USER", "joe3");
 
+	Role role1 = new Role("sherif");
+	Role role2 = new Role("cop");
+	
 	@Before
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
@@ -138,5 +146,36 @@ public class UserDaoTests {
 		
 		assertNull("User with ID " + idUser2
 				+ " should be null (deleted, actual)", userR2);
+	}
+	
+	@Test
+	public void testAddUserRole(){
+		userDao.saveOrUpdate(user1);
+		roleDao.saveOrUpdate(role1);
+		roleDao.saveOrUpdate(role2);
+
+		user1.getRoles().add(role1);
+		user1.getRoles().add(role2);
+
+		userDao.saveOrUpdate(user1);
+		
+		assertEquals("User roles must be 2.", 2, user1.getRoles().size());
+		if (role1.getUsers().size()>0){
+		System.out.println(role1.getUsers().iterator().next().getAka());
+		}else{
+			System.out.println("Role1 has not users;");
+		}
+	}
+	
+	@Test
+	public void testRetrieving(){
+		userDao.saveOrUpdate(user1);
+		userDao.saveOrUpdate(user2);
+		userDao.saveOrUpdate(user3);
+		
+		List<User> users = userDao.getAllUsers();
+		for (User u:users){
+			System.out.println(u);
+		}
 	}
 }

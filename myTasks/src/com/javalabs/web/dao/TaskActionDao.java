@@ -53,11 +53,20 @@ public class TaskActionDao {
 	public TaskAction get(String taskActionName) {
 		Criteria crit = session().createCriteria(TaskAction.class);
 		crit.add(Restrictions.ilike("taskActionname", taskActionName));
-		return (TaskAction)crit.uniqueResult();
+		return (TaskAction) crit.uniqueResult();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<TaskAction> getAllTaskActions() {
-		return session().createQuery("from TaskAction").list();
+		List<TaskAction> la = session().createQuery("from TaskAction").list();//createQuery("from TaskAction").list();
+		System.out.println(">>>>>>>>>>>>>>>>>>>>> " + la.size());
+		return la;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TaskAction> getAllTaskActions(long idTask) {
+		Criteria crit = session().createCriteria(TaskAction.class);
+		crit.add(Restrictions.eq("task.idTask", idTask));
+		return crit.list();
 	}
 }

@@ -20,15 +20,15 @@ public class TaskAction {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "idTaskAction")
 	private long idTaskAction;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idTask", nullable = false)
 	private Task task;
 	private Date date;
 	private String actionname;
 	private String description;
 	private int duration;
-	@ManyToOne
-	@JoinColumn(name = "idUser")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUser", nullable = false)
 	private User user;
 	private Date timestamp;
 

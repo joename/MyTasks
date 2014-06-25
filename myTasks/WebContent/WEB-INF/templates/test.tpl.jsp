@@ -15,9 +15,9 @@
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/static/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+	<!-- Custom styles for this template -->
     <link href="${pageContext.request.contextPath}/static/css/default.css" rel="stylesheet">
-
+    
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 

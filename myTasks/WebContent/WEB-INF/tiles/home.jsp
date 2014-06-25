@@ -5,14 +5,14 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <p>
-	<a href="${pageContext.request.contextPath}/tasks">Show current
+	<a href="${pageContext.request.contextPath}/task/lst">Show current
 		tasks</a>
 </p>
 <p>
-	<a href="${pageContext.request.contextPath}/createtask">Create task</a>
+	<a href="${pageContext.request.contextPath}/task/add">Create task</a>
 </p>
 <p>
-	<a href="${pageContext.request.contextPath}/createuser">Create user</a>
+	<a href="${pageContext.request.contextPath}/user/add">Create user</a>
 </p>
 <p>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">

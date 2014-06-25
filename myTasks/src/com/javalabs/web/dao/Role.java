@@ -1,12 +1,15 @@
 package com.javalabs.web.dao;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,6 +23,8 @@ public class Role {
 	@Column(name = "rolename")
 	private String rolename;
 	private Date timestamp;
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users = new HashSet<User>();
 
 	public Role() {
 	}
@@ -47,15 +52,23 @@ public class Role {
 	public void setRolename(String rolename) {
 		this.rolename = rolename;
 	}
-
+	
+	public Set<User> getUsers() {
+		return users;
+	}
+	
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+	
 	public Date getTimestamp() {
 		return timestamp;
 	}
-
+	
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

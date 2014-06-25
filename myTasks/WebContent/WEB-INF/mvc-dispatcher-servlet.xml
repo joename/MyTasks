@@ -26,7 +26,7 @@
 	</bean>
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="com.javalabs.web.messages.messages_en">
+		<property name="basename" value="com.javalabs.web.messages.messages">
 		</property>
 	</bean>
 </beans>

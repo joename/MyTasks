@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
+import org.hibernate.classic.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +34,7 @@ import com.javalabs.web.dao.TaskActionDao;
 import com.javalabs.web.dao.TaskDao;
 import com.javalabs.web.dao.User;
 import com.javalabs.web.dao.UserDao;
+import com.javalabs.web.service.TaskActionService;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
@@ -91,11 +93,6 @@ public class TaskActionDaoTests {
 		Task t1 = new Task("My first task", "This is a task", rightnow,
 				rightnow, category, priority, state, user, user, "okey", 0);
 
-		taskDao.merge(t1);//save
-		t1 = taskDao.get("My first task");
-
-		logger.info("id Task >" + t1.getIdTask());
-
 		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
 				"Task action 1 description", user);
 		TaskAction ta2 = new TaskAction(t1, rightnow, "Task action 2",
@@ -105,40 +102,30 @@ public class TaskActionDaoTests {
 		TaskAction ta4 = new TaskAction(t1, rightnow, "Task action 4",
 				"Task action 4 description", user);
 
-		taskActionDao.saveOrUpdate(ta1);
-		taskActionDao.saveOrUpdate(ta2);
-		taskActionDao.saveOrUpdate(ta3);
-		taskActionDao.saveOrUpdate(ta4);
+		t1.addAction(ta1);
+		t1.addAction(ta2);
+		t1.addAction(ta3);
+		t1.addAction(ta4);
 
-		List<TaskAction> taskActions = new ArrayList<TaskAction>();// taskActionDao.getAllTaskActions();
-		taskActions.add(ta1);
-		taskActions.add(ta2);
-		taskActions.add(ta3);
-		taskActions.add(ta4);
+		taskDao.save(t1);
 
-		assertEquals("Should be 4 taskActions.", 4, taskActions.size());
+		Task t2a = new Task("My first task", "This is a task", rightnow,
+				rightnow, category, priority, state, user, user, "okey", 0);
+		TaskAction ta21 = new TaskAction(t2a, rightnow, "Task action 1",
+				"Task action 21 description", user);
+		t2a.addAction(ta21);
+		taskDao.save(t2a);
+		
+		assertEquals("Should be 4 taskActions with getAllTaskActions.", 4, t1
+				.getActions().size());
+		assertEquals("Should be 5 taskActions with getAllTaskActions.", 5,
+				taskActionDao.getAllTaskActions().size());
 
-		// OneToMany annotation
-		/*
-		 * Set<TaskAction> taskActions1 = new
-		 * HashSet<TaskAction>(t1.getActions());
-		 * assertEquals("Should be 4 taskActions.", 4, taskActions1.size());
-		 */
-		logger.info("Task date" + t1.getDate());
-		t1.setDate(new Date());
-		taskDao.merge(t1);
-
-		t1 = taskDao.get("My first task");
-		List<TaskAction> h = (List<TaskAction>) t1.getActions();
-		if (h != null) {
-			logger.info("Size_>" + h.size());
-			for (TaskAction a : h) {
-				logger.info("P_>" + a.getActionname() + "|"
-						+ a.getTask().getDate());
-			}
-		} else {
-			logger.info("Null actions");
-		}
+		Task t2 = taskDao.get(t1.getIdTask());
+		assertEquals("Should be 4 taskActions with getAllTaskActions.", 4, t2
+				.getActions().size());
+		assertEquals("Should be 4 taskActions with getAllTaskActions.", 4,
+				taskActionDao.getAllTaskActions(t2.getIdTask()).size());
 	}
 
 	@Test
@@ -197,5 +184,40 @@ public class TaskActionDaoTests {
 		taskActionDao.delete(idTaskAction);
 		assertTrue("TaskAction deletion should return true",
 				null == taskActionDao.get(idTaskAction));
+	}
+
+	@Test
+	public void testTaskActionOnetoMany() {
+		taskPriorityDao.saveOrUpdate(priority);
+		taskCategoryDao.saveOrUpdate(category);
+		taskStateDao.saveOrUpdate(state);
+		userDao.saveOrUpdate(user);
+
+		Date rightnow = Calendar.getInstance().getTime();
+
+		Task t1 = new Task("My first task", "This is a task", rightnow,
+				rightnow, category, priority, state, user, user, "okey", 0);
+
+		TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1",
+				"Task action 1 description", user);
+		TaskAction ta2 = new TaskAction(t1, rightnow, "Task action 2",
+				"Task action 2 description", user);
+		TaskAction ta3 = new TaskAction(t1, rightnow, "Task action 3",
+				"Task action 3 description", user);
+		TaskAction ta4 = new TaskAction(t1, rightnow, "Task action 4",
+				"Task action 4 description", user);
+
+		t1.addAction(ta1);
+		t1.addAction(ta2);
+		t1.addAction(ta3);
+		t1.addAction(ta4);
+
+		taskDao.save(t1);
+
+		System.out.println("id tarea" + t1.getIdTask());
+		System.out.println("taskAction size "
+				+ taskActionDao.getAllTaskActions().size());
+
+		assertEquals("Should be 4 taskActions.", 4, t1.getActions().size());
 	}
 }

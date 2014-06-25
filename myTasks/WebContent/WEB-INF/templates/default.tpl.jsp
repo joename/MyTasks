@@ -37,10 +37,12 @@
 		<tiles:insertAttribute name="body" />
 	</div>
 	<tiles:insertAttribute name="footer" />
-	
+
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="${pageContext.request.contextPath}/static/script/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/static/script/bootstrap.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/static/script/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/static/script/bootstrap.min.js"></script>
 	<tiles:insertAttribute name="afterfooter" />
 </body>
 </html>

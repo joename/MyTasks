@@ -25,4 +25,16 @@ public class TaskService {
     public void create(Task task) {
         taskDao.saveOrUpdate(task);
     }
+
+	public void saveOrUpdate(Task task) {
+		taskDao.saveOrUpdate(task);		
+	}
+
+	public Task get(long idTask) {
+		return taskDao.get(idTask);
+	}
+
+	public void delete(long idTask) {
+		taskDao.delete(idTask);
+	}
 }

@@ -1,12 +1,18 @@
 package com.javalabs.web.dao;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -41,7 +47,10 @@ public class User {
 			FormValidationGroup.class })
 	private String aka = "";
 	private Date timestamp;
-
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "r_userrole", joinColumns = { @JoinColumn(name = "idUser") }, inverseJoinColumns = { @JoinColumn(name = "idRole") })
+	private Set<Role> roles = new HashSet<Role>();
+	
 	public User() {
 	}
 
@@ -115,6 +124,14 @@ public class User {
 		this.password = password;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 	public void setTimestamp(Date tm) {
 		this.timestamp = tm;
 	}

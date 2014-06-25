@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
@@ -26,20 +25,21 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/home" access="permitAll" />
-		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/admin"
+			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/loggedout"
 			access="permitAll" />
-		<security:intercept-url pattern="/createuser"
+		<security:intercept-url pattern="/user/add"
 			access="permitAll" />
-		<security:intercept-url pattern="/usercreated"
-			access="permitAll" />
-		<security:intercept-url pattern="/docreateuser"
-			access="permitAll" />
-		<security:intercept-url pattern="/createtask"
+		<security:intercept-url pattern="/task/add"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/docreatetask"
+		<security:intercept-url pattern="/task/upd/**"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/tasks"
+		<security:intercept-url pattern="/task/del/*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/task/lst"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/getactions/**"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/static/**"
 			access="permitAll" />
@@ -49,7 +49,9 @@
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error=true" />
 		<security:logout logout-success-url="/loggedout" />
-		<security:access-denied-handler error-page="/denied" />
+		<security:access-denied-handler
+			error-page="/denied" />
 	</security:http>
-	<security:global-method-security secured-annotations="enabled"></security:global-method-security>
+	<security:global-method-security
+		secured-annotations="enabled"></security:global-method-security>
 </beans>

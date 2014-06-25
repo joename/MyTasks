@@ -40,27 +40,37 @@
 		<put-attribute name="title" value="Access denied page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/denied.jsp" />
 	</definition>
-	<definition name="createtask" extends="baseLayout">
+	<definition name="taskadd" extends="baseLayout">
 		<put-attribute name="title" value="Create Task" />
-		<put-attribute name="body" value="/WEB-INF/tiles/createtask.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/taskadd.jsp" />
 	</definition>
-	<definition name="createuser" extends="baseLayout">
-		<put-attribute name="includes" value="/WEB-INF/tiles/createuser.includes.jsp" />
+	<definition name="taskupd" extends="baseLayout">
+		<put-attribute name="title" value="Create Task" />
+		<put-attribute name="body" value="/WEB-INF/tiles/taskupd.jsp" />
+	</definition>
+	<definition name="useradd" extends="baseLayout">
+		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
 		<put-attribute name="title" value="Create user" />
-		<put-attribute name="body" value="/WEB-INF/tiles/createuser.jsp" />
-		<put-attribute name="afterfooter" value="/WEB-INF/tiles/afterfooter.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/useradd.jsp" />
+		<put-attribute name="afterfooter" value="/WEB-INF/tiles/useradd.script.jsp" />
+	</definition>
+	<definition name="userupd" extends="baseLayout">
+		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
+		<put-attribute name="title" value="Create user" />
+		<put-attribute name="body" value="/WEB-INF/tiles/userupd.jsp" />
+		<put-attribute name="afterfooter" value="/WEB-INF/tiles/userupd.script.jsp" />
 	</definition>
 	<definition name="error" extends="baseLayout">
 		<put-attribute name="title" value="Error" />
 		<put-attribute name="body" value="/WEB-INF/tiles/error.jsp" />
 	</definition>
-	<definition name="taskcreated" extends="baseLayout">
+	<definition name="taskadd" extends="baseLayout">
 		<put-attribute name="title" value="Task created" />
-		<put-attribute name="body" value="/WEB-INF/tiles/taskcreated.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/taskadd.jsp" />
 	</definition>
-	<definition name="tasks" extends="baseLayout">
+	<definition name="tasklst" extends="baseLayout">
 		<put-attribute name="title" value="Tasks" />
-		<put-attribute name="body" value="/WEB-INF/tiles/tasks.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/tasklst.jsp" />
 	</definition>
 	<definition name="usercreated" extends="baseLayout">
 		<put-attribute name="title" value="User created" />

@@ -2,10 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
+<div id="notifications">
+<c:if test="${!empty notifications}">
+    <c:out value="${notifications}"/>
+</c:if>
+</div>
 <h1>Create task</h1>
-<form:form method="GET" class="form-horizontal"
-	action="${pageContext.request.contextPath}/docreatetask"
+<form:form method="POST" class="form-horizontal"
+	action="${pageContext.request.contextPath}/task/add"
 	commandName="task">
 	<div class="form-group">
 		<label for="taskname" class="col-sm-2 control-label">Taskname</label>
@@ -92,7 +96,8 @@
 		<label for="userresponsible" class="col-sm-2 control-label">User
 			responsible</label>
 		<div class="col-sm-10">
-			<form:select path="userResponsible"  name="userResponsible" class="form-control">
+			<form:select path="userResponsible" name="userResponsible"
+				class="form-control">
 				<form:option value="0" label="Select" />
 				<form:options items="${users}" itemValue="idUser"
 					itemLabel="username" />
