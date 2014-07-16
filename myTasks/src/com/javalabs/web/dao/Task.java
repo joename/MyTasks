@@ -34,7 +34,6 @@ public class Task {
 	private String taskname;
 	@Column(name = "description")
 	private String description;
-	@NotNull
 	@Column(name = "date")
 	private Date date;
 	@Column(name = "deadline")

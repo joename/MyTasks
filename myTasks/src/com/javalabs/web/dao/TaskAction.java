@@ -23,6 +23,7 @@ public class TaskAction {
 	@ManyToOne
 	@JoinColumn(name = "idTask", nullable = false)
 	private Task task;
+	@Column(name = "date")
 	private Date date;
 	private String actionname;
 	private String description;
@@ -30,6 +31,7 @@ public class TaskAction {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser", nullable = false)
 	private User user;
+	@Column(name = "timestamp")
 	private Date timestamp;
 
 	public TaskAction() {

@@ -4,7 +4,6 @@ import java.beans.PropertyEditorSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.javalabs.web.service.CategoryService;
 import com.javalabs.web.service.PriorityService;
 
 public class PriorityPropertyEditor extends PropertyEditorSupport {

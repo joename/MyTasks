@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -98,7 +100,10 @@ public class TaskController {
 		binder.registerCustomEditor(Priority.class, ppe);
 		UserPropertyEditor upe = new UserPropertyEditor();
 		upe.setUserService(userService);
-		binder.registerCustomEditor(User.class, "userResponsible", upe);
+		binder.registerCustomEditor(User.class, "user", upe);
+		UserPropertyEditor uper = new UserPropertyEditor();
+		uper.setUserService(userService);
+		binder.registerCustomEditor(User.class, "userResponsible", uper);
 	}
 
 	@RequestMapping(value = "/task/lst", method = RequestMethod.GET)
@@ -112,7 +117,7 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/task/add", method = RequestMethod.GET)
-	public String createTask(Model model) {
+	public String createTask(Model model, Principal principal) {
 		logger.info("Task controller task add GET...");
 
 		List<Category> categories = categoryService.getAllCategories();
@@ -125,6 +130,7 @@ public class TaskController {
 		model.addAttribute("priorities", priorities);
 		model.addAttribute("states", states);
 		model.addAttribute("users", users);
+		model.addAttribute("principal", principal);
 
 		return "taskadd";
 	}
@@ -153,15 +159,18 @@ public class TaskController {
 			model.addAttribute("users", users);
 			model.addAttribute("task", task);
 
+			notifications = "-" + result.getAllErrors().toString();
+			model.addAttribute("notifications", notifications);
+
 			return "taskadd";
 		}
 		if (principal != null) {
 			task.setDate(new Date());
 			task.setUser(userService.get(principal.getName()));
 			taskService.saveOrUpdate(task);
-			notifications = "Task succesfully created";
+			notifications = "+Task succesfully created";
 		} else {
-			notifications = "Task can not be created";
+			notifications = "!Task can not be created";
 		}
 		model.addAttribute("notifications", notifications);
 
@@ -195,19 +204,23 @@ public class TaskController {
 	}
 
 	@RequestMapping(value = "/task/upd", method = RequestMethod.POST)
-	public String postTaskUpdate(Model model, @Valid Task task,
-			BindingResult result, Principal principal) {
+	public String postTaskUpdate(Model model,
+			@ModelAttribute("task") @Valid Task task, BindingResult result,
+			Principal principal,
+			@RequestParam MultiValueMap<String, List<String>> parameters) {
 
 		logger.info("Task controller task upd POST...");
-		logger.info("-------------------- (" + task.getIdTask() + ") "
-				+ task.getDate() + " | " + task.getUser());
+		logger.info("--------------------id (" + task.getIdTask() + ") date "
+				+ task.getDate() + " | user " + task.getUser());
 		logger.info("-------" + result.getErrorCount());
-		logger.info("-------" + result.getAllErrors());
+		logger.info(">>-------" + parameters);
 
 		String notifications = "";
 
 		if (result.hasErrors()) {
-			notifications = "Task can not be updated, fix the errors.";
+			logger.info("-------" + result.getAllErrors());
+			notifications = "-Task can not be updated, fix the errors."
+					+ result.getAllErrors();
 			model.addAttribute("notifications", notifications);
 
 			List<Category> categories = categoryService.getAllCategories();
@@ -227,33 +240,44 @@ public class TaskController {
 			model.addAttribute("task", task);
 
 			return "taskupd";
-		}
-		taskService.saveOrUpdate(task);
-		notifications = "Task succesfully updated";
-		model.addAttribute("notifications", notifications);
+		} else {
+			taskService.saveOrUpdate(task);
+			notifications = "+Task succesfully updated";
+			model.addAttribute("notifications", notifications);
 
-		return "tasklst";
+			List<Task> tasks = taskService.getAllTasks();
+			model.addAttribute("tasks", tasks);
+
+			return "tasklst";
+		}
 	}
 
 	@RequestMapping(value = "/task/del/{id}", method = RequestMethod.GET)
 	public String getTaskDelete(@PathVariable("id") long idTask,
 			Principal principal, Model model) {
-		logger.info("Task controller task del GET...");
+		logger.info("Task controller task del GET(" + idTask + ")...");
 		String notifications = "";
 
 		if (principal == null) {
-			notifications = "Any user is authenthicated.";
+			notifications = "=You can delete task because any user is authenthicated.";
 		} else {
 			String user = principal.getName();
-			if (user == taskService.get(idTask).getUser().getUsername()) {
+			if (user.equals(taskService.get(idTask).getUser().getUsername())) {
 				taskService.delete(idTask);
+
+				notifications = "+Task (" + idTask + ") succesfully deleted.";
+			} else {
+				notifications = "=Task (" + idTask
+						+ ") can not be deleted by this user.";
 			}
-			notifications = "Task (" + idTask + ") succesfully deleted.";
+			notifications = "User: " + notifications;
 		}
-		model.addAttribute("notifications", notifications);
+
 		List<Task> tasks = taskService.getAllTasks();
 
 		model.addAttribute("tasks", tasks);
+		model.addAttribute("notifications", notifications);
+		logger.info("-----Del--notifications: " + notifications);
 		return "tasklst";
 	}
 
@@ -268,8 +292,6 @@ public class TaskController {
 		if (principal == null) {
 			actions = new ArrayList<TaskAction>();
 		} else {
-			// long idTask = (id == null ? 0 : id);
-			String name = principal.getName();
 			actions = taskActionService.getAllTaskActions();
 		}
 

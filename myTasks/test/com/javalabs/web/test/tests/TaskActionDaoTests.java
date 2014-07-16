@@ -2,17 +2,12 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
-import org.hibernate.classic.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +29,6 @@ import com.javalabs.web.dao.TaskActionDao;
 import com.javalabs.web.dao.TaskDao;
 import com.javalabs.web.dao.User;
 import com.javalabs.web.dao.UserDao;
-import com.javalabs.web.service.TaskActionService;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {

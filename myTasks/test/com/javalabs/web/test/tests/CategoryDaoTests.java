@@ -2,7 +2,6 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -17,11 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.javalabs.web.controllers.HomeController;
 import com.javalabs.web.dao.Category;
 import com.javalabs.web.dao.CategoryDao;
-import com.javalabs.web.dao.State;
-import com.javalabs.web.dao.User;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {

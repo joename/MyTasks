@@ -26,7 +26,7 @@ public class TaskActionService {
         return taskActionDao.getAllTaskActions(idTask);
     }
 
-    public void create(TaskAction taskAction) {
+    public void saveOrUpdate(TaskAction taskAction) {
         taskActionDao.saveOrUpdate(taskAction);
     }
 }

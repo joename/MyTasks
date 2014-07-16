@@ -2,13 +2,10 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.javalabs.web.dao.Category;
 import com.javalabs.web.dao.Role;
 import com.javalabs.web.dao.RoleDao;
 import com.javalabs.web.dao.User;

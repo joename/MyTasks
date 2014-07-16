@@ -2,15 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<div id="notifications">
-<c:if test="${!empty notifications}">
-    <c:out value="${notifications}"/>
-</c:if>
-</div>
+<%@ include file="/WEB-INF/tiles/notifications.jsp"%>
 <h1>Create task</h1>
 <form:form method="POST" class="form-horizontal"
-	action="${pageContext.request.contextPath}/task/add"
-	commandName="task">
+	action="${pageContext.request.contextPath}/task/add" commandName="task">
 	<div class="form-group">
 		<label for="taskname" class="col-sm-2 control-label">Taskname</label>
 		<div class="col-sm-10">

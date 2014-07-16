@@ -22,23 +22,23 @@ public class TaskDao {
 	public Session session() {
 		return sessionFactory.getCurrentSession();
 	}
-	
+
 	public void save(Task task) {
 		session().save(task);
 	}
-	
+
 	public void update(Task task) {
 		session().update(task);
 	}
-	
+
 	public void saveOrUpdate(Task task) {
 		session().saveOrUpdate(task);
 	}
-	
+
 	public void merge(Task task) {
 		session().merge(task);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Task> getAllTasks() {
 		return session().createQuery("from Task").list();
@@ -49,15 +49,18 @@ public class TaskDao {
 		crit.add(Restrictions.idEq(id));
 		return (Task) crit.uniqueResult();
 	}
-	
+
 	public Task get(String taskname) {
 		Criteria crit = session().createCriteria(Task.class);
 		crit.add(Restrictions.ilike("taskname", taskname));
-		return (Task)crit.uniqueResult();
+		return (Task) crit.uniqueResult();
 	}
 
 	public void delete(long id) {
 		Task taskToDel = (Task) session().load(Task.class, id);
 		session().delete(taskToDel);
+		// Query query = session().createQuery("delete from Task where idTask=:id");
+		// query.setLong("id", id);
+		//return query.executeUpdate() == 1;
 	}
 }

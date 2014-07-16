@@ -59,7 +59,7 @@ public class RoleDaoTests {
 		List<Role> roles = roleDao.getAllRoles();
 		assertEquals("Should be one role.", 4, roles.size());
 
-		Role roleR1 = roleDao.get(role1.getIdRole());
+		//Role roleR1 = roleDao.get(role1.getIdRole());
 
 		assertEquals("Retrieved role should equal inserted role.", role1,
 				roles.get(0));

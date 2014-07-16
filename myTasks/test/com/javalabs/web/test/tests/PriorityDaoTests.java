@@ -2,7 +2,6 @@ package com.javalabs.web.test.tests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -19,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.javalabs.web.dao.Priority;
 import com.javalabs.web.dao.PriorityDao;
-import com.javalabs.web.dao.Priority;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = {
