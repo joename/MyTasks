@@ -54,7 +54,6 @@ public class UserController {
 			return "useradd";
 		}
 
-		user.setAuthority("ROLE_USER");
 		user.setEnabled(true);
 
 		try {

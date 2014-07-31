@@ -12,16 +12,16 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-@Table(name = "a_taskCategory")
+@Table(name = "a_ifoctareacategoria")
 public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idTaskCategory")
+	@Column(name = "id")
 	private long idTaskCategory;
 	private long sortOrder;
 	@NotBlank
-	@Column(name = "categoryname")
+	@Column(name = "categoria")
 	private String categoryname;
 	private Date timestamp;
 

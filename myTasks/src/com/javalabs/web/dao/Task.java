@@ -22,21 +22,21 @@ import javax.validation.constraints.Size;
 //import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "t_task")
+@Table(name = "t_ifoctarea")
 public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idTask")
+	@Column(name = "id")
 	private long idTask;
 	@Size(min = 5, max = 100)
-	@Column(name = "taskname")
+	@Column(name = "tarea")
 	private String taskname;
-	@Column(name = "description")
+	@Column(name = "descripcion")
 	private String description;
-	@Column(name = "date")
+	@Column(name = "fecha")
 	private Date date;
-	@Column(name = "deadline")
+	@Column(name = "fechaAproxRes")
 	private Date deadline;
 	@NotNull
 	@ManyToOne

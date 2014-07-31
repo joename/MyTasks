@@ -6,9 +6,8 @@
 	<definition name="loginLayout" template ="/WEB-INF/templates/login.tpl.jsp">
 		<put-attribute name="includes" value="" />
 		<put-attribute name="title" value="Login page" />
-		<put-attribute name="menu" value="" />
 		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
-		<put-attribute name="afterfooter" value="" />
+		<put-attribute name="bottom" value="" />
 	</definition>
 	<definition name="baseLayout" template="/WEB-INF/templates/default.tpl.jsp">
 		<put-attribute name="includes" value="" />
@@ -17,16 +16,17 @@
 		<put-attribute name="menu" value="/WEB-INF/tiles/base/menu.jsp" />
 		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tiles/base/footer.jsp" />
-		<put-attribute name="afterfooter" value="" />
+		<put-attribute name="bottom" value="" />
 	</definition>
 	<definition name="home" extends="baseLayout">
 		<put-attribute name="title" value="Home page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/home.jsp" />
 	</definition>
 	<definition name="login" extends="loginLayout">
-		<put-attribute name="title" value="Login page" />
-		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
+		<put-attribute name="title" value="Inicio IFOC" />
 		<put-attribute name="includes" value="/WEB-INF/tiles/login.includes.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
+		<put-attribute name="bottom" value="/WEB-INF/tiles/login.bottom.jsp" />
 	</definition>
 	<definition name="loggedout" extends="baseLayout">
 		<put-attribute name="title" value="Login page" />
@@ -52,13 +52,13 @@
 		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
 		<put-attribute name="title" value="Create user" />
 		<put-attribute name="body" value="/WEB-INF/tiles/useradd.jsp" />
-		<put-attribute name="afterfooter" value="/WEB-INF/tiles/useradd.script.jsp" />
+		<put-attribute name="bottom" value="/WEB-INF/tiles/useradd.script.jsp" />
 	</definition>
 	<definition name="userupd" extends="baseLayout">
 		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
 		<put-attribute name="title" value="Create user" />
 		<put-attribute name="body" value="/WEB-INF/tiles/userupd.jsp" />
-		<put-attribute name="afterfooter" value="/WEB-INF/tiles/userupd.script.jsp" />
+		<put-attribute name="bottom" value="/WEB-INF/tiles/userupd.script.jsp" />
 	</definition>
 	<definition name="error" extends="baseLayout">
 		<put-attribute name="title" value="Error" />

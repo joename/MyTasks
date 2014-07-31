@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -21,59 +22,47 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "t_user")
-public class User {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "idUser")
-	private long idUser;
+@PrimaryKeyJoinColumn(name = "fkPersona", referencedColumnName = "id")
+public class User extends Person {
 
 	@NotBlank(groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
 	@Size(min = 5, max = 45, groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
-	@Column(name = "username")
-	private String username;
-	
-	@NotBlank(groups = {FormValidationGroup.class })
-	@Size(min = 5, max = 50, groups = { FormValidationGroup.class })
-	private String password;
-	@Email
-	@NotBlank
-	private String email;
-	private String authority;
-	private Boolean enabled = true;
+	@Column(name = "user")
+	private String user;
 	@Size(min = 3, max = 6, groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
+	@Column(name="aka")
 	private String aka = "";
+	@Column(name="puesto")
+	private String puesto;
+	@NotBlank(groups = { FormValidationGroup.class })
+	@Size(min = 5, max = 50, groups = { FormValidationGroup.class })
+	private String password;
+	@Column(name="fechaPassword")
+	private Date passwordate;
+	@Column(name="nivel")
+	private byte level;
+	@Column(name="extension")
+	private String extension;
+	private String computername;
+	private String username;
+	private Boolean enabled = true;
 	private Date timestamp;
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "r_userrole", joinColumns = { @JoinColumn(name = "idUser") }, inverseJoinColumns = { @JoinColumn(name = "idRole") })
 	private Set<Role> roles = new HashSet<Role>();
-	
+
 	public User() {
 	}
-
-	public User(long idUser) {
-		this.idUser = idUser;
+	
+	public String getUser() {
+		return user;
 	}
 
-	public User(String username, String password, String email,
-			boolean enabled, String authority, String aka) {
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.enabled = enabled;
-		this.authority = authority;
-		this.aka = aka;
-	}
-
-	public void setIdUser(long idUser) {
-		this.idUser = idUser;
-	}
-
-	public long getIdUser() {
-		return idUser;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getAka() {
@@ -84,36 +73,12 @@ public class User {
 		this.aka = aka;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getPuesto() {
+		return puesto;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAuthority() {
-		return this.authority;		
-	}
-
-	public void setAuthority(String authority) {
-		this.authority = authority;		
-	}
-
-	public boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public void setPuesto(String puesto) {
+		this.puesto = puesto;
 	}
 
 	public String getPassword() {
@@ -124,6 +89,62 @@ public class User {
 		this.password = password;
 	}
 
+	public Date getPasswordate() {
+		return passwordate;
+	}
+
+	public void setPasswordate(Date passwordate) {
+		this.passwordate = passwordate;
+	}
+
+	public byte getLevel() {
+		return level;
+	}
+
+	public void setLevel(byte level) {
+		this.level = level;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+
+	public String getComputername() {
+		return computername;
+	}
+
+	public void setComputername(String computername) {
+		this.computername = computername;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -131,22 +152,27 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
-	public void setTimestamp(Date tm) {
-		this.timestamp = tm;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((aka == null) ? 0 : aka.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result
+				+ ((computername == null) ? 0 : computername.hashCode());
 		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result
+				+ ((extension == null) ? 0 : extension.hashCode());
+		result = prime * result + level;
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((passwordate == null) ? 0 : passwordate.hashCode());
+		result = prime * result + ((puesto == null) ? 0 : puesto.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result
+				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		result = prime * result
 				+ ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -156,7 +182,7 @@ public class User {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -166,15 +192,52 @@ public class User {
 				return false;
 		} else if (!aka.equals(other.aka))
 			return false;
-		if (email == null) {
-			if (other.email != null)
+		if (computername == null) {
+			if (other.computername != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!computername.equals(other.computername))
 			return false;
 		if (enabled == null) {
 			if (other.enabled != null)
 				return false;
 		} else if (!enabled.equals(other.enabled))
+			return false;
+		if (extension == null) {
+			if (other.extension != null)
+				return false;
+		} else if (!extension.equals(other.extension))
+			return false;
+		if (level != other.level)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (passwordate == null) {
+			if (other.passwordate != null)
+				return false;
+		} else if (!passwordate.equals(other.passwordate))
+			return false;
+		if (puesto == null) {
+			if (other.puesto != null)
+				return false;
+		} else if (!puesto.equals(other.puesto))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (timestamp == null) {
+			if (other.timestamp != null)
+				return false;
+		} else if (!timestamp.equals(other.timestamp))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -186,9 +249,12 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [idUser=" + idUser + ", username=" + username
-				+ ", password=" + password + ", email=" + email + ", enabled="
-				+ enabled + ", aka=" + aka + ", timestamp=" + timestamp + "]";
+		return "User [user=" + user + ", aka=" + aka + ", puesto=" + puesto
+				+ ", password=" + password + ", passwordate=" + passwordate
+				+ ", level=" + level + ", extension=" + extension
+				+ ", computername=" + computername + ", username=" + username
+				+ ", enabled=" + enabled + ", timestamp=" + timestamp
+				+ ", roles=" + roles + "]";
 	}
 
 }

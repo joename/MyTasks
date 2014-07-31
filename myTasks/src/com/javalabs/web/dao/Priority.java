@@ -10,16 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "a_taskpriority")
+@Table(name = "a_tareaprioridad")
 public class Priority {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "idTaskPriority")
+	@Column(name = "id")
 	private long idTaskPriority = 0;
+	@Column(name = "orden")
     private long sortOrder = 0;
     private String aka = "";
-    @Column(name="priorityname")
+    @Column(name="prioridad")
     private String priorityname = "";
     private Date timestamp;
 

@@ -11,7 +11,7 @@
 	<context:component-scan base-package="com.javalabs.web.dao"></context:component-scan>
 
 	<beans profile="production">
-		<jee:jndi-lookup jndi-name="jdbc/myTask" id="dataSource"
+		<jee:jndi-lookup jndi-name="jdbc/sifoc" id="dataSource"
 			expected-type="javax.sql.DataSource"></jee:jndi-lookup>
 
 		<bean id="transactionManager"

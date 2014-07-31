@@ -13,19 +13,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "t_taskaction")
+@Table(name = "t_ifoctareaaccion")
 public class TaskAction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "idTaskAction")
+	@Column(name = "id")
 	private long idTaskAction;
 	@ManyToOne
 	@JoinColumn(name = "idTask", nullable = false)
 	private Task task;
-	@Column(name = "date")
+	@Column(name = "fecha")
 	private Date date;
+	@Column(name = "accion")
 	private String actionname;
+	@Column(name = "descripcion")
 	private String description;
 	private int duration;
 	@ManyToOne(fetch = FetchType.LAZY)

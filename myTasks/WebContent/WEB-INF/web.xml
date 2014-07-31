@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>myTasks</display-name>
+	<description>Tasks app</description>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -24,11 +25,10 @@
 		<servlet-name>mvc-dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<description>MySQL DB</description>
 
 	<resource-ref>
 		<description>Datasource connection</description>
-		<res-ref-name>jdbc/myTask</res-ref-name>
+		<res-ref-name>jdbc/sifoc</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>

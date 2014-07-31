@@ -10,15 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "a_taskstate")
+@Table(name = "a_tareaestado")
 public class State {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "idTaskState")
+	@Column(name = "id")
 	private long idTaskState;
+	@Column(name = "orden")
 	private long sortOrder;
-	@Column(name = "statename")
+	@Column(name = "estado")
 	private String statename;
 	private Date timestamp;
 

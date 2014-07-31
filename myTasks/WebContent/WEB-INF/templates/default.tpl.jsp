@@ -11,7 +11,7 @@
 <meta name="author" content="">
 <title><tiles:getAsString name="title" /></title>
 
-<!-- Bootstrap core CSS -->
+<!-- CSS -->
 <link
 	href="${pageContext.request.contextPath}/static/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -43,6 +43,6 @@
 		src="${pageContext.request.contextPath}/static/script/jquery.min.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/static/script/bootstrap.min.js"></script>
-	<tiles:insertAttribute name="afterfooter" />
+	<tiles:insertAttribute name="bottom" />
 </body>
 </html>
