@@ -40,23 +40,23 @@ public class Task {
 	private Date deadline;
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "idTaskCategory")
+	@JoinColumn(name = "fkIfocTareaCategoria")
 	private Category category;
 	@ManyToOne
-	@JoinColumn(name = "idTaskPriority")
+	@JoinColumn(name = "fkTareaPrioridad")
 	private Priority priority;
 	@ManyToOne
-	@JoinColumn(name = "idTaskState")
+	@JoinColumn(name = "fkTareaEstado")
 	private State state;
 	@ManyToOne
-	@JoinColumn(name = "idUser")
+	@JoinColumn(name = "fkIfocUsuario")
 	private User user;
 	@ManyToOne
-	@JoinColumn(name = "idUser_responsible", nullable = true)
+	@JoinColumn(name = "fkIfocUsuarioRes", nullable = true)
 	private User userResponsible;
-	@Column(name = "evaluation")
+	@Column(name = "valoracion")
 	private String evaluation;
-	@Column(name = "pending")
+	@Column(name = "pdte")
 	private int pending;
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "task")
 	private List<TaskAction> actions = new ArrayList<TaskAction>();

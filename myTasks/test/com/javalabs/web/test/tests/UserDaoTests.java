@@ -21,157 +21,149 @@ import com.javalabs.web.dao.User;
 import com.javalabs.web.dao.UserDao;
 
 @ActiveProfiles("dev")
-@ContextConfiguration(locations = {
-		"classpath:com/javalabs/web/config/dao-context.xml",
-		"classpath:com/javalabs/web/config/security-context.xml",
-		"classpath:com/javalabs/web/test/config/datasource.xml" })
+@ContextConfiguration(locations = { "classpath:com/javalabs/web/config/dao-context.xml",
+    "classpath:com/javalabs/web/config/security-context.xml",
+    "classpath:com/javalabs/web/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDaoTests {
 
-	@Autowired
-	private UserDao userDao;
+  @Autowired
+  private UserDao userDao;
 
-	@Autowired
-	private RoleDao roleDao;
-	
-	@Autowired
-	private DataSource dataSource;
+  @Autowired
+  private RoleDao roleDao;
 
-	private User user1 = new User("josema", "josema", "jose@javalabs.com",
-			false, "ROLE_USER", "joe");
-	private User user2 = new User("josema1", "joema1", "jose1@javalabs.com",
-			false, "ROLE_USER", "joe1");
-	private User user3 = new User("josema2", "joema2", "jose2@javalabs.com",
-			false, "ROLE_USER", "joe2");
-	private User user4 = new User("josema3", "joema3", "jose3@javalabs.com",
-			false, "ROLE_USER", "joe3");
+  @Autowired
+  private DataSource dataSource;
 
-	Role role1 = new Role("sherif");
-	Role role2 = new Role("cop");
-	
-	@Before
-	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+  private User user1 = new User("jose", "joe", "jose", true, new Role("ROLE_USER"));
+  private User user2 = new User("josema1", "josema1", "josema1", false, new Role("ROLE_USER"));
+  private User user3 = new User("josema2", "josema2", "josema2", false, new Role("ROLE_USER"));
+  private User user4 = new User("josema3", "josema3", "josema3", false, new Role("ROLE_USER"));
 
-		jdbc.execute("delete from t_task");
-		jdbc.execute("delete from t_taskaction");
-		jdbc.execute("delete from t_user");
-		jdbc.execute("delete from a_taskcategory");
-		jdbc.execute("delete from a_taskpriority");
-		jdbc.execute("delete from a_taskstate");
-	}
+  Role role1 = new Role("sherif");
+  Role role2 = new Role("cop");
 
-	@Test
-	public void testCreateRetrieve() {
-		userDao.saveOrUpdate(user1);
+  @Before
+  public void init() {
+    JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 
-		List<User> users = userDao.getAllUsers();
+    jdbc.execute("delete from t_task");
+    jdbc.execute("delete from t_taskaction");
+    jdbc.execute("delete from t_user");
+    jdbc.execute("delete from a_taskcategory");
+    jdbc.execute("delete from a_taskpriority");
+    jdbc.execute("delete from a_taskstate");
+  }
 
-		assertEquals("One user should have been created and retrieved", 1,
-				users.size());
-		assertEquals("Inserted user should match user retreived", user1,
-				users.get(0));
+  @Test
+  public void testCreateRetrieve() {
+    userDao.saveOrUpdate(user1);
 
-		userDao.saveOrUpdate(user2);
-		userDao.saveOrUpdate(user3);
-		userDao.saveOrUpdate(user4);
+    List<User> users = userDao.getAllUsers();
 
-		users = userDao.getAllUsers();
+    assertEquals("One user should have been created and retrieved", 1, users.size());
+    assertEquals("Inserted user should match user retreived", user1, users.get(0));
 
-		assertEquals("Should be 4 inserted users", 4, users.size());
-	}
+    userDao.saveOrUpdate(user2);
+    userDao.saveOrUpdate(user3);
+    userDao.saveOrUpdate(user4);
 
-	@Test
-	public void testExists() {
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
-		userDao.saveOrUpdate(user3);
+    users = userDao.getAllUsers();
 
-		assertTrue("User should exist.", userDao.exists(user2.getUsername()));
-		assertFalse("User should not exist.", userDao.exists("xkjhsfjlsjf"));
-	}
+    assertEquals("Should be 4 inserted users", 4, users.size());
+  }
 
-	@Test
-	public void testGetById() {
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
-		userDao.saveOrUpdate(user3);
-		userDao.saveOrUpdate(user4);
+  @Test
+  public void testExists() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
+    userDao.saveOrUpdate(user3);
 
-		User userR1 = userDao.get(user1.getIdUser());
-		assertEquals("Users should match", user1, userR1);
-	}
+    assertTrue("User should exist.", userDao.exists(user2.getUsername()));
+    assertFalse("User should not exist.", userDao.exists("xkjhsfjlsjf"));
+  }
 
-	@Test
-	public void testUpdate() {
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
+  @Test
+  public void testGetById() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
+    userDao.saveOrUpdate(user3);
+    userDao.saveOrUpdate(user4);
 
-		user2.setUsername("modifiedUser");
-		userDao.saveOrUpdate(user2);
+    User userR1 = userDao.get(user1.getIdPerson());
+    assertEquals("Users should match", user1, userR1);
+  }
 
-		User retrieved = userDao.get(user2.getIdUser());
-		assertEquals("Retrieved user should be updated.", user2, retrieved);
-	}
+  @Test
+  public void testUpdate() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
 
-	@Test
-	public void testGetUsername() {
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
+    user2.setUsername("modifiedUser");
+    userDao.saveOrUpdate(user2);
 
-		User userR1 = userDao.get(user1.getUsername());
-		assertEquals("Should be the same username.", userR1.getUsername(), user1.getUsername());
+    User retrieved = userDao.get(user2.getIdPerson());
+    assertEquals("Retrieved user should be updated.", user2, retrieved);
+  }
 
-		User userR2 = userDao.get("abcd");
-		assertNull("Should be zeri users.", userR2);
-	}
-	
-	@Test
-	public void testDelete() {
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
+  @Test
+  public void testGetUsername() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
 
-		User userR1 = userDao.get(user1.getIdUser());
-		assertNotNull("User with ID " + user1.getIdUser()
-				+ " should not be null (deleted, actual)", userR1);
+    User userR1 = userDao.get(user1.getUsername());
+    assertEquals("Should be the same username.", userR1.getUsername(), user1.getUsername());
 
-		long idUser2 = user2.getIdUser();
-		
-		userDao.delete(idUser2);
-		User userR2 = userDao.get(idUser2);
-		
-		assertNull("User with ID " + idUser2
-				+ " should be null (deleted, actual)", userR2);
-	}
-	
-	@Test
-	public void testAddUserRole(){
-		userDao.saveOrUpdate(user1);
-		roleDao.saveOrUpdate(role1);
-		roleDao.saveOrUpdate(role2);
+    User userR2 = userDao.get("abcd");
+    assertNull("Should be zeri users.", userR2);
+  }
 
-		user1.getRoles().add(role1);
-		user1.getRoles().add(role2);
+  @Test
+  public void testDelete() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
 
-		userDao.saveOrUpdate(user1);
-		
-		assertEquals("User roles must be 2.", 2, user1.getRoles().size());
-		if (role1.getUsers().size()>0){
-		System.out.println(role1.getUsers().iterator().next().getAka());
-		}else{
-			System.out.println("Role1 has not users;");
-		}
-	}
-	
-	@Test
-	public void testRetrieving(){
-		userDao.saveOrUpdate(user1);
-		userDao.saveOrUpdate(user2);
-		userDao.saveOrUpdate(user3);
-		
-		List<User> users = userDao.getAllUsers();
-		for (User u:users){
-			System.out.println(u);
-		}
-	}
+    User userR1 = userDao.get(user1.getIdPerson());
+    assertNotNull("User with ID " + user1.getIdPerson() + " should not be null (deleted, actual)",
+        userR1);
+
+    long idUser2 = user2.getIdPerson();
+
+    userDao.delete(idUser2);
+    User userR2 = userDao.get(idUser2);
+
+    assertNull("User with ID " + idUser2 + " should be null (deleted, actual)", userR2);
+  }
+
+  @Test
+  public void testAddUserRole() {
+    userDao.saveOrUpdate(user1);
+    roleDao.saveOrUpdate(role1);
+    roleDao.saveOrUpdate(role2);
+
+    user1.getRoles().add(role1);
+    user1.getRoles().add(role2);
+
+    userDao.saveOrUpdate(user1);
+
+    assertEquals("User roles must be 2.", 2, user1.getRoles().size());
+    if (role1.getUsers().size() > 0) {
+      System.out.println(role1.getUsers().iterator().next().getAka());
+    } else {
+      System.out.println("Role1 has not users;");
+    }
+  }
+
+  @Test
+  public void testRetrieving() {
+    userDao.saveOrUpdate(user1);
+    userDao.saveOrUpdate(user2);
+    userDao.saveOrUpdate(user3);
+
+    List<User> users = userDao.getAllUsers();
+    for (User u : users) {
+      System.out.println(u);
+    }
+  }
 }

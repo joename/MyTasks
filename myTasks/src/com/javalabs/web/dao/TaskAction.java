@@ -29,9 +29,10 @@ public class TaskAction {
 	private String actionname;
 	@Column(name = "descripcion")
 	private String description;
+	@Column(name = "duracion")
 	private int duration;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUser", nullable = false)
+	@JoinColumn(name = "fkIfocUsuario", nullable = false)
 	private User user;
 	@Column(name = "timestamp")
 	private Date timestamp;

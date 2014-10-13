@@ -21,6 +21,7 @@ import com.javalabs.web.dao.Category;
 import com.javalabs.web.dao.CategoryDao;
 import com.javalabs.web.dao.Priority;
 import com.javalabs.web.dao.PriorityDao;
+import com.javalabs.web.dao.Role;
 import com.javalabs.web.dao.State;
 import com.javalabs.web.dao.StateDao;
 import com.javalabs.web.dao.Task;
@@ -59,8 +60,7 @@ public class TaskActionDaoTests {
 	private Category category = new Category("deutsch");
 	private Priority priority = new Priority("low");
 	private State state = new State("pending");
-	private User user = new User("jose", "jose", "jose@javalabs.com", true,
-			"ROLE_USER", "joe");
+	private User user = new User("jose", "joe", "jose", true, new Role("ROLE_USER"));
 
 	@Before
 	public void init() {

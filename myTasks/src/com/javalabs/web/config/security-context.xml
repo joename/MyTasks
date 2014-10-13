@@ -14,8 +14,8 @@
 		<security:authentication-provider>
 			<security:jdbc-user-service
 				data-source-ref="dataSource"
-				authorities-by-username-query='select username, rolename as authority from (t_user left join r_userrole on t_user.idUser = r_userrole.idUser) left join t_role on r_userrole.idRole = t_role.idRole where binary username = ?'
-				users-by-username-query='select username, password, enabled from t_user where binary username = ?'
+				authorities-by-username-query='select username, rolename as authority from (t_ifocusuario left join r_ifocusuariorole ON t_ifocusuario.fkPersona = r_ifocusuariorole.idPersona) left join t_role ON r_ifocusuariorole.idRole = t_role.idRole where binary username = ?'
+				users-by-username-query='select username, password, case enabled when 1 then "true" else "false" end enabled from t_ifocusuario where binary username = ?'
 				id="jdbcUserService" />
 		</security:authentication-provider>
 	</security:authentication-manager>

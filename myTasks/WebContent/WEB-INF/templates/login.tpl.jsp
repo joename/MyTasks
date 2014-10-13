@@ -14,6 +14,6 @@
 	<tiles:insertAttribute name="body" />
 	<!-- JavaScript =============================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<tiles:insertAttribute name="bottom" />
+	<tiles:insertAttribute name="afterfooter" />
 </body>
 </html>

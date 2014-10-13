@@ -2,10 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <h1>Create New User</h1>
 <form:form id="details" class="form-horizontal" method="POST"
-	action="${pageContext.request.contextPath}/user/add"
+	action="<c:url value="/user/add"/>"
 	commandName="user" role="form">
 	<div class="form-group">
 		<label for="username" class="col-sm-2 control-label">Username</label>
@@ -27,6 +26,7 @@
 			</div>
 		</div>
 	</div>
+	<%-- 
 	<div class="form-group">
 		<label for="email" class="col-sm-2 control-label">Email</label>
 		<div class="col-sm-10">
@@ -37,6 +37,7 @@
 			</div>
 		</div>
 	</div>
+	  --%>
 	<div class="form-group">
 		<label for="password" class="col-sm-2 control-label">Password</label>
 		<div class="col-sm-10">
