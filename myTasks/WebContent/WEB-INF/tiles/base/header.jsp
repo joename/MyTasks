@@ -5,7 +5,71 @@
 	uri="http://www.springframework.org/security/tags"%>
 <header>
 	<!-- Fixed navbar -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<!-- <button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>-->
+				<a class="navbar-brand"
+					href="<c:url value="/home"/>">SIFOC</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<!-- <ul class="nav navbar-nav">
+					<li class="active"><a
+						href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Link</a></li>
+					<li><a
+						href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Link</a></li>
+					<li><a
+						href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Link</a></li>
+					<li class="dropdown"><a
+						href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#"
+						class="dropdown-toggle" data-toggle="dropdown">Dropdown <span
+							class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a
+								href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Action</a></li>
+							<li><a
+								href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Another
+									action</a></li>
+							<li><a
+								href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Something
+									else here</a></li>
+							<li class="divider"></li>
+							<li class="dropdown-header">Nav header</li>
+							<li><a
+								href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">Separated
+									link</a></li>
+							<li><a
+								href="file:///C:/Documents%20and%20Settings/jmsanchez/Mis%20documentos/Dropbox/Web/html5/headerFooter.html#">One
+									more separated link</a></li>
+						</ul></li>
+				</ul>-->
+				<ul class="nav navbar-nav navbar-right">
+					<sec:authorize access="!isAuthenticated()">
+						<li><a href="<c:url value='/login'/>">Log in</a></li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown"><sec:authentication
+									property="principal.username" /> <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><sec:authorize access="isAuthenticated()">
+										<a href="<c:url value="/j_spring_security_logout"/>">Log
+											out</a>
+									</sec:authorize></li>
+							</ul></li>
+					</sec:authorize>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div><!--/.container-fluid -->
+	</div><!-- end Fixed navbar -->
+
+
+<%--	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -59,4 +123,5 @@
 		</div>
 	</div>
 	<!-- end Fixed navbar -->
+ --%>
 </header>

@@ -16,8 +16,6 @@
 <link href="<c:url value="/static/dist/css/bootstrap.min.css"/>"
 	rel="stylesheet">
 <link rel="stylesheet" type="text/css"
-	href="<c:url value="/static/css/main.css"/>">
-<link rel="stylesheet" type="text/css"
 	href="<c:url value="/static/css/default.css"/>">
 <tiles:insertAttribute name="includes"></tiles:insertAttribute>
 

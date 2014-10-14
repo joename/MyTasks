@@ -21,7 +21,7 @@ public class TaskAction {
 	@Column(name = "id")
 	private long idTaskAction;
 	@ManyToOne
-	@JoinColumn(name = "idTask", nullable = false)
+	@JoinColumn(name = "fkIfocTarea", nullable = false)
 	private Task task;
 	@Column(name = "fecha")
 	private Date date;

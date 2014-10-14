@@ -22,10 +22,10 @@ import org.hibernate.validator.constraints.NotBlank;
 public class User extends Person {
 
   @NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
-  @Size(min = 5, max = 45, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+  @Size(min = 4, max = 45, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
   @Column(name = "username")
   private String username;
-  @Size(min = 3, max = 6, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
+  @Size(min = 3, max = 15, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
   @Column(name = "aka")
   private String aka = "";
   @Column(name = "puesto")
@@ -44,7 +44,7 @@ public class User extends Person {
   private Boolean enabled = true;
   private Date timestamp;
   @ManyToMany(cascade = { CascadeType.ALL })
-  @JoinTable(name = "r_userrole", joinColumns = { @JoinColumn(name = "idUser") }, inverseJoinColumns = { @JoinColumn(name = "idRole") })
+  @JoinTable(name = "r_ifocusuariorole", joinColumns = { @JoinColumn(name = "idPersona") }, inverseJoinColumns = { @JoinColumn(name = "idRole") })
   private Set<Role> roles = new HashSet<Role>();
 
   public User() {
@@ -269,7 +269,7 @@ public class User extends Person {
     return "User [username=" + username + ", aka=" + aka + ", puesto=" + puesto + ", password="
         + password + ", passworddate=" + passworddate + ", level=" + level + ", extension="
         + extension + ", computername=" + computername + ", computerUsername=" + computerUsername
-        + ", enabled=" + enabled + ", timestamp=" + timestamp + ", roles=" + roles + "]";
+        + ", enabled=" + enabled + ", timestamp=" + timestamp + "]";
   }
 
 }
