@@ -14,7 +14,7 @@
 				readOnly="true" />
 		</div>
 	</div>
-	<form:hidden path="user.idUser" />
+	<form:hidden path="user.idPerson" />
 	<form:hidden path="date" />
 	<div class="form-group">
 		<label for="taskname" class="col-sm-2 control-label input-sm">Taskname</label>

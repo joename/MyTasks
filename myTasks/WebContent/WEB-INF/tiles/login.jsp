@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Init Container -->
-<div class="container">
+<div class="col-md-4 col-md-offset-4">
 	<h2 class="form-signin-heading">Inicia sessión</h2>
 	<form method="POST" action="<c:url value="/j_spring_security_check" />"
 		class="form-signin" role="form">

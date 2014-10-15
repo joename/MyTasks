@@ -14,8 +14,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>-->
-				<a class="navbar-brand"
-					href="<c:url value="/home"/>">SIFOC</a>
+				<a class="navbar-brand" href="<c:url value="/home"/>">SIFOC</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<!-- <ul class="nav navbar-nav">
@@ -50,26 +49,31 @@
 				</ul>-->
 				<ul class="nav navbar-nav navbar-right">
 					<sec:authorize access="!isAuthenticated()">
-						<li><a href="<c:url value='/login'/>">Log in</a></li>
+						<li><a href="<c:url value='/login'/>"><span
+								class="glyphicon glyphicon-user"></span>Log in</a></li>
 					</sec:authorize>
 					<sec:authorize access="isAuthenticated()">
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><sec:authentication
-									property="principal.username" /> <b class="caret"></b></a>
+						<li class="dropdown"><span class="glyphicon glyphicon-user"></span><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"><sec:authentication
+									property="principal.username" /><b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><sec:authorize access="isAuthenticated()">
+										<span class="glyphicon glyphicon-off"></span>
 										<a href="<c:url value="/j_spring_security_logout"/>">Log
 											out</a>
 									</sec:authorize></li>
 							</ul></li>
 					</sec:authorize>
 				</ul>
-			</div><!--/.nav-collapse -->
-		</div><!--/.container-fluid -->
-	</div><!-- end Fixed navbar -->
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+		<!--/.container-fluid -->
+	</div>
+	<!-- end Fixed navbar -->
 
 
-<%--	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<%--	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"

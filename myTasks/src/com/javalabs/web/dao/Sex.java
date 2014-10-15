@@ -31,6 +31,11 @@ public class Sex {
 		this.idSex = idSex;
 	}
 
+    public Sex(long idSex, String sexname) {
+        this.idSex = idSex;
+        this.sexname = sexname;
+    }
+
 	public Sex(String sexname) {
 		this.sexname = sexname;
 	}

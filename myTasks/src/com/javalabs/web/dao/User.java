@@ -69,7 +69,6 @@ public class User extends Person {
   }
 
   public User(String username,String aka, String password, Boolean enabled, Role role) {
-    super();
     this.username = username;
     this.aka = aka;
     this.password = password;

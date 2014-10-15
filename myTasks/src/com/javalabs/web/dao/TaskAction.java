@@ -57,6 +57,24 @@ public class TaskAction {
 		this.user = user;
 	}
 
+	/**
+     * @author Joe Sanchez
+     * @param task
+     * @param date
+     * @param action
+     * @param description
+     * @param user
+     */
+    public TaskAction(Task task, Date date, String action, String description,
+            User user, int duration) {
+        this.task = task;
+        this.date = new Date((date.getTime() / 1000) * 1000);
+        this.actionname = action;
+        this.description = description;
+        this.user = user;
+        this.duration = duration;
+    }
+	
 	public long getIdTaskAction() {
 		return idTaskAction;
 	}

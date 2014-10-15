@@ -23,14 +23,16 @@
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/login"
 			access="permitAll" />
-		<security:intercept-url pattern="/" access="permitAll" />
-		<security:intercept-url pattern="/home" access="permitAll" />
-		<security:intercept-url pattern="/admin"
-			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/static/**"
+			access="permitAll" />
 		<security:intercept-url pattern="/loggedout"
 			access="permitAll" />
+		<security:intercept-url pattern="/" access="isAuthenticated()" />
+		<security:intercept-url pattern="/home" access="isAuthenticated()" />
+		<security:intercept-url pattern="/admin"
+			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/user/add"
-			access="permitAll" />
+			access="isAuthenticated()" />
 		<security:intercept-url pattern="/task/add"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/task/upd/**"
@@ -41,8 +43,6 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/getactions/**"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/static/**"
-			access="permitAll" />
 		<security:intercept-url pattern="/error"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/**" access="denyAll" />

@@ -1,10 +1,8 @@
 package com.javalabs.web.dao;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,14 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "t_persona")
@@ -32,11 +24,14 @@ public class Person {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private long idPerson;
-  @Column(name = "fkSexo")
-  private long idSex;
   @ManyToOne
-  @JoinColumn(name = "fkIfocUsuario", nullable = false)
-  private User useredt;
+  @JoinColumn(name = "fkSexo", nullable = false)
+  private Sex sex;
+  //@ManyToOne
+  //@JoinColumn(name = "fkIfocUsuario", nullable = false)
+  //private User useredt;
+  @Column(name="fkIfocUsuario")
+  private long idUser;
   @Column(name = "nombre")
   private String name;
   @Column(name = "apellido1")
@@ -61,6 +56,14 @@ public class Person {
   private Date timestamp;
 
   public Person() {
+    Calendar newDate = Calendar.getInstance();
+    newDate.set(1900,01,01);
+    
+    sex = new Sex(1,"Hombre");
+    dob = newDate.getTime();
+    name = "nombre?";
+    surname1 = "apellido1?";
+    idUser = 1;
   }
 
   public long getIdPerson() {
@@ -71,20 +74,28 @@ public class Person {
     this.idPerson = idPerson;
   }
 
-  public long getIdSex() {
-    return idSex;
+  public Sex getSex() {
+    return sex;
   }
 
-  public void setIdSex(long idSex) {
-    this.idSex = idSex;
+  public void setSex(Sex sex) {
+    this.sex = sex;
   }
 
-  public User getUseredt() {
+/*  public User getUseredt() {
     return useredt;
   }
 
   public void setUseredt(User useredt) {
     this.useredt = useredt;
+  }*/
+
+  public long getIdUser() {
+    return idUser;
+  }
+
+  public void setIdUser(long idUser) {
+    this.idUser = idUser;
   }
 
   public String getName() {
@@ -192,7 +203,7 @@ public class Person {
     result = prime * result + ((dateout == null) ? 0 : dateout.hashCode());
     result = prime * result + ((dob == null) ? 0 : dob.hashCode());
     result = prime * result + (int) (idPerson ^ (idPerson >>> 32));
-    result = prime * result + (int) (idSex ^ (idSex >>> 32));
+    result = prime * result + ((sex == null) ? 0 : sex.hashCode());
     result = prime * result + ((idcard == null) ? 0 : idcard.hashCode());
     result = prime * result + ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
     result = prime * result + lopd;
@@ -232,7 +243,10 @@ public class Person {
       return false;
     if (idPerson != other.idPerson)
       return false;
-    if (idSex != other.idSex)
+    if (sex == null) {
+      if (other.sex != null)
+        return false;
+    } else if (!sex.equals(other.sex))
       return false;
     if (idcard == null) {
       if (other.idcard != null)
@@ -276,7 +290,7 @@ public class Person {
 
   @Override
   public String toString() {
-    return "Person [idPerson=" + idPerson + ", idSex=" + idSex + ", usuario=" + useredt + ", name="
+    return "Person [idPerson=" + idPerson + ", sex=" + sex + ", idUser=" + idUser + ", name="
         + name + ", surname1=" + surname1 + ", surname2=" + surname2 + ", idcard=" + idcard
         + ", observation=" + observation + ", dob=" + dob + ", datein=" + datein + ", dateout="
         + dateout + ", lastUpdate=" + lastUpdate + ", active=" + active + ", lopd=" + lopd

@@ -16,9 +16,9 @@
 			</div>
 			<div class="modal-body">
 				<div class="table-responsive">
-					<input type="hidden" ng-model="action.idTaskAction" />
-					<input type="hidden" ng-model="action.idTask" />
-					<input type="hidden" ng-model="action.user.idUser" />
+					<input type="hidden" ng-model="action.idTaskAction" /> <input
+						type="hidden" ng-model="action.idTask" /> <input type="hidden"
+						ng-model="action.user.idUser" />
 					<table class="table">
 						<tr>
 							<td>Actionname</td>
@@ -31,8 +31,8 @@
 						<tr>
 							<td>Date</td>
 							<td><input type="date" name="fecha"
-									placeholder="dd-MM-yyyy HH:mm:ss" size="16"
-									ng-model="data.action.date" /></td>
+								placeholder="dd-MM-yyyy HH:mm:ss" size="16"
+								ng-model="data.action.date" /></td>
 						</tr>
 						<tr>
 							<td>Duration</td>
@@ -48,7 +48,8 @@
 			<div class="modal-footer">
 				{{action.idTask}}
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" ng-click="sendaction($index);closeModal($index);getactions(${task.idTask})"
+				<button type="button"
+					ng-click="sendaction($index);closeModal($index);getactions(${task.idTask})"
 					class="btn btn-primary">Save changes{{action.idTask}}</button>
 			</div>
 		</div>
