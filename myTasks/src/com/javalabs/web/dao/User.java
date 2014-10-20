@@ -14,6 +14,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -28,21 +29,31 @@ public class User extends Person {
   @Size(min = 3, max = 15, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
   @Column(name = "aka")
   private String aka = "";
+  @JsonIgnore
   @Column(name = "puesto")
   private String puesto;
+  @JsonIgnore
   @NotBlank(groups = { FormValidationGroup.class })
   @Size(min = 5, max = 50, groups = { FormValidationGroup.class })
   private String password;
+  @JsonIgnore
   @Column(name = "fechaPassword")
   private Date passworddate;
+  @JsonIgnore
   @Column(name = "nivel")
   private byte level;
+  @JsonIgnore
   @Column(name = "extension")
   private String extension;
+  @JsonIgnore
   private String computername;
+  @JsonIgnore
   private String computerUsername;
+  @JsonIgnore
   private Boolean enabled = true;
+  @JsonIgnore
   private Date timestamp;
+  @JsonIgnore
   @ManyToMany(cascade = { CascadeType.ALL })
   @JoinTable(name = "r_ifocusuariorole", joinColumns = { @JoinColumn(name = "idPersona") }, inverseJoinColumns = { @JoinColumn(name = "idRole") })
   private Set<Role> roles = new HashSet<Role>();
@@ -188,7 +199,6 @@ public class User extends Person {
     result = prime * result + ((password == null) ? 0 : password.hashCode());
     result = prime * result + ((passworddate == null) ? 0 : passworddate.hashCode());
     result = prime * result + ((puesto == null) ? 0 : puesto.hashCode());
-    result = prime * result + ((roles == null) ? 0 : roles.hashCode());
     result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
     result = prime * result + ((username == null) ? 0 : username.hashCode());
     return result;
@@ -244,11 +254,6 @@ public class User extends Person {
       if (other.puesto != null)
         return false;
     } else if (!puesto.equals(other.puesto))
-      return false;
-    if (roles == null) {
-      if (other.roles != null)
-        return false;
-    } else if (!roles.equals(other.roles))
       return false;
     if (timestamp == null) {
       if (other.timestamp != null)

@@ -50,17 +50,17 @@
 				<ul class="nav navbar-nav navbar-right">
 					<sec:authorize access="!isAuthenticated()">
 						<li><a href="<c:url value='/login'/>"><span
-								class="glyphicon glyphicon-user"></span>Log in</a></li>
+								class="glyphicon glyphicon-user"></span> Log in</a></li>
 					</sec:authorize>
 					<sec:authorize access="isAuthenticated()">
-						<li class="dropdown"><span class="glyphicon glyphicon-user"></span><a
-							href="#" class="dropdown-toggle" data-toggle="dropdown"><sec:authentication
-									property="principal.username" /><b class="caret"></b></a>
+						<li class="dropdown"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"><span
+								class="glyphicon glyphicon-user"></span> <sec:authentication
+								property="principal.username" /><b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><sec:authorize access="isAuthenticated()">
-										<span class="glyphicon glyphicon-off"></span>
-										<a href="<c:url value="/j_spring_security_logout"/>">Log
-											out</a>
+										<a href="<c:url value="/j_spring_security_logout"/>"><span
+											class="glyphicon glyphicon-off"></span> Log out</a>
 									</sec:authorize></li>
 							</ul></li>
 					</sec:authorize>
