@@ -3,13 +3,23 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
-	<definition name="loginLayout" template ="/WEB-INF/templates/login.tpl.jsp">
+	<definition name="loginLayout" template="/WEB-INF/templates/login.tpl.jsp">
 		<put-attribute name="includes" value="" />
 		<put-attribute name="title" value="Login page" />
 		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
-		<put-attribute name="afterfooter" value="/WEB-INF/tiles/login.afterfooter.jsp" />
+		<put-attribute name="afterfooter"
+			value="/WEB-INF/tiles/login.afterfooter.jsp" />
 	</definition>
 	<definition name="baseLayout" template="/WEB-INF/templates/default.tpl.jsp">
+		<put-attribute name="includes" value="" />
+		<put-attribute name="title" value="Tiles tutorial homepage" />
+		<put-attribute name="header" value="/WEB-INF/tiles/base/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/tiles/base/menu.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tiles/base/body.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tiles/base/footer.jsp" />
+		<put-attribute name="afterfooter" value="" />
+	</definition>
+	<definition name="baseLayoutTaskApp" template="/WEB-INF/templates/defaulttaskapp.tpl.jsp">
 		<put-attribute name="includes" value="" />
 		<put-attribute name="title" value="Tiles tutorial homepage" />
 		<put-attribute name="header" value="/WEB-INF/tiles/base/header.jsp" />
@@ -26,7 +36,8 @@
 		<put-attribute name="title" value="Inicio SIFOC" />
 		<put-attribute name="includes" value="/WEB-INF/tiles/login.includes.jsp" />
 		<put-attribute name="body" value="/WEB-INF/tiles/login.jsp" />
-		<put-attribute name="afterfooter" value="/WEB-INF/tiles/login.afterfooter.jsp" />
+		<put-attribute name="afterfooter"
+			value="/WEB-INF/tiles/login.afterfooter.jsp" />
 	</definition>
 	<definition name="loggedout" extends="baseLayout">
 		<put-attribute name="title" value="Login page" />
@@ -41,22 +52,26 @@
 		<put-attribute name="body" value="/WEB-INF/tiles/denied.jsp" />
 	</definition>
 	<definition name="taskadd" extends="baseLayout">
-		<put-attribute name="title" value="Create Task" />
+		<put-attribute name="title" value="Crea Tarea" />
 		<put-attribute name="body" value="/WEB-INF/tiles/taskadd.jsp" />
 	</definition>
-	<definition name="taskupd" extends="baseLayout">
-		<put-attribute name="title" value="Create Task" />
+	<definition name="taskupd" extends="baseLayoutTaskApp">
+		<put-attribute name="title" value="Edita Tarea" />
 		<put-attribute name="body" value="/WEB-INF/tiles/taskupd.jsp" />
+		<put-attribute name="afterfooter"
+			value="/WEB-INF/tiles/taskupd.afterfooter.jsp" />
 	</definition>
 	<definition name="useradd" extends="baseLayout">
-		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
-		<put-attribute name="title" value="Create user" />
+		<put-attribute name="includes"
+			value="/WEB-INF/tiles/useradd.includes.jsp" />
+		<put-attribute name="title" value="Crea usuario" />
 		<put-attribute name="body" value="/WEB-INF/tiles/useradd.jsp" />
 		<put-attribute name="bottom" value="/WEB-INF/tiles/useradd.script.jsp" />
 	</definition>
 	<definition name="userupd" extends="baseLayout">
-		<put-attribute name="includes" value="/WEB-INF/tiles/useradd.includes.jsp" />
-		<put-attribute name="title" value="Create user" />
+		<put-attribute name="includes"
+			value="/WEB-INF/tiles/useradd.includes.jsp" />
+		<put-attribute name="title" value="Edita usuario" />
 		<put-attribute name="body" value="/WEB-INF/tiles/userupd.jsp" />
 		<put-attribute name="afterfooter" value="/WEB-INF/tiles/userupd.script.jsp" />
 	</definition>
@@ -65,15 +80,15 @@
 		<put-attribute name="body" value="/WEB-INF/tiles/error.jsp" />
 	</definition>
 	<definition name="taskadd" extends="baseLayout">
-		<put-attribute name="title" value="Task created" />
+		<put-attribute name="title" value="Tarea creada" />
 		<put-attribute name="body" value="/WEB-INF/tiles/taskadd.jsp" />
 	</definition>
 	<definition name="tasklst" extends="baseLayout">
-		<put-attribute name="title" value="Tasks" />
+		<put-attribute name="title" value="Listado de tareas" />
 		<put-attribute name="body" value="/WEB-INF/tiles/tasklst.jsp" />
 	</definition>
 	<definition name="usercreated" extends="baseLayout">
-		<put-attribute name="title" value="User created" />
+		<put-attribute name="title" value="Usuario creado" />
 		<put-attribute name="body" value="/WEB-INF/tiles/usercreated.jsp" />
 	</definition>
 </tiles-definitions>

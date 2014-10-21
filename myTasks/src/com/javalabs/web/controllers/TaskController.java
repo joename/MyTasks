@@ -281,24 +281,24 @@ public class TaskController {
 		return "tasklst";
 	}
 
-	// value = "/getactions/{id}" AND , @PathVariable Long id
-	@RequestMapping(value = "/getactions", method = RequestMethod.GET, produces = "application/json")
-	@ResponseBody
-	public Map<String, Object> getActions(Principal principal) {
-		logger.info("Task controller get actions...");
+    // value = "/getactions/{id}" AND , @PathVariable Long id
+    @RequestMapping(value = "/getactions/{idTask}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> getActions(Principal principal,
+            @PathVariable Long idTask) {
+        logger.info("Task controller get actions...");
 
-		List<TaskAction> actions = null;
+        List<TaskAction> actions = null;
 
-		if (principal == null) {
-			actions = new ArrayList<TaskAction>();
-		} else {
-			actions = taskActionService.getAllTaskActions();
-		}
+        if (principal == null) {
+            actions = new ArrayList<TaskAction>();
+        } else {
+            actions = taskActionService.getAllTaskActions(idTask);
+        }
 
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("actions", actions);
-		data.put("number", actions.size());
-
-		return data;
-	}
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("actions", actions);
+        data.put("number", actions.size());
+        return data;
+    }
 }

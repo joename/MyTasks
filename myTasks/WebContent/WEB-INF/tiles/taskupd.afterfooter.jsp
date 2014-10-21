@@ -6,3 +6,6 @@
     <script src="<c:url value="/static/script/taskupd.script.js"/>"></script>
     <script src="<c:url value="/static/script/angular-resource.js"/>"></script>
     <script src="<c:url value="/static/script/angular-route.js"/>"></script>
+    <!-- Angularjs from Google CND -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>

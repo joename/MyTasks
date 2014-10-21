@@ -27,8 +27,10 @@
 			access="permitAll" />
 		<security:intercept-url pattern="/loggedout"
 			access="permitAll" />
-		<security:intercept-url pattern="/" access="isAuthenticated()" />
-		<security:intercept-url pattern="/home" access="isAuthenticated()" />
+		<security:intercept-url pattern="/"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/home"
+			access="isAuthenticated()" />
 		<security:intercept-url pattern="/admin"
 			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/user/add"

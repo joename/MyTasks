@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!-- Modal -->
-<div class="modal fade" id="newAction" tabindex="-1"
-	role="dialog" aria-labelledby="newAction"
+<div class="modal fade" id="action{{action.idTaskAction}}" tabindex="-1"
+	role="dialog" aria-labelledby="action{{action.idTaskAction}}"
 	aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -32,7 +32,7 @@
 							<td>Fecha</td>
 							<td><input type="date" name="fecha"
 								placeholder="dd-MM-yyyy HH:mm:ss" size="16"
-								ng-model="data.action.date" /></td>
+								ng-model="data.action.date" readOnly="true" /></td>
 						</tr>
 						<tr>
 							<td>Duración</td>
@@ -48,7 +48,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 				<button type="button"
-					ng-click="sendaction('newModal');getactions(${task.idTask});closeModal('newAction')"
+					ng-click="sendaction($index);getactions($index);closeModal(${task.idTask})"
 					class="btn btn-primary">Guardar</button>
 			</div>
 		</div>
