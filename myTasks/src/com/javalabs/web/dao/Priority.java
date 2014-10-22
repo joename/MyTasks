@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,9 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "a_tareaprioridad")
-public class Priority {
+public class Priority implements Serializable {
 
-	@Id
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -1799383910932618330L;
+  
+  @Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id")
 	private long idTaskPriority = 0;

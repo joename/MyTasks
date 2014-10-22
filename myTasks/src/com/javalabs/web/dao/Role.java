@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,9 +15,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_role")
-public class Role {
+public class Role implements Serializable {
 
-	@Id
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -7640459199017664144L;
+  
+  @Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "idRole")
 	private long idRole;

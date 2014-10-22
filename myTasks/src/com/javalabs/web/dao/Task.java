@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,12 +20,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 //import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "t_ifoctarea")
-public class Task {
+public class Task implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7837940243769174039L;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
@@ -36,6 +44,7 @@ public class Task {
   private String description;
   @Column(name = "fecha")
   private Date date;
+  @JsonIgnore
   @Column(name = "fechaAproxRes")
   private Date deadline;
   @NotNull
@@ -51,15 +60,19 @@ public class Task {
   @ManyToOne
   @JoinColumn(name = "fkIfocUsuario")
   private User user;
+  @JsonIgnore
   @ManyToOne
   @JoinColumn(name = "fkIfocUsuarioRes", nullable = true)
   private User userResponsible;
+  @JsonIgnore
   @Column(name = "valoracion")
   private String evaluation;
   @Column(name = "pdte")
   private int pending;
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "task")
+  @JsonIgnore
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval = true)
   private List<TaskAction> actions = new ArrayList<TaskAction>();
+  @JsonIgnore
   @Column(name = "timestamp")
   private Timestamp timestamp;
 

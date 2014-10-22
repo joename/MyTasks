@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,9 +14,14 @@ import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "a_sexo")
-public class Sex {
+public class Sex implements Serializable{
 
-	@Id
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 2246062810708701747L;
+  
+  @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private long idSex;

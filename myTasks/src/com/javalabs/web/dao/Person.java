@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -18,8 +19,12 @@ import javax.persistence.Table;
 @Table(name = "t_persona")
 @Inheritance(strategy = InheritanceType.JOINED)
 // Highly normalized
-public class Person {
-
+public class Person implements Serializable {
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5933940911745664663L;
+  
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")

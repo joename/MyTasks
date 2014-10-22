@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,9 +15,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_ifoctareaaccion")
-public class TaskAction {
+public class TaskAction  implements Serializable {
 
-	@Id
+	/**
+   * 
+   */
+  private static final long serialVersionUID = -1417037023329788687L;
+  @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private long idTaskAction;

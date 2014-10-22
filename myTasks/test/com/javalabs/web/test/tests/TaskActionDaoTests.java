@@ -68,7 +68,9 @@ public class TaskActionDaoTests {
 
     jdbc.execute("delete from t_ifoctarea");
     jdbc.execute("delete from t_ifoctareaaccion");
+    logger.info("---- before delete t_ifocusuario...");
     jdbc.execute("delete from t_ifocusuario");
+    logger.info("---- after delete t_ifocusuario...");
     jdbc.execute("delete from a_ifoctareacategoria");
     jdbc.execute("delete from a_tareaprioridad");
     jdbc.execute("delete from a_tareaestado");
@@ -76,22 +78,28 @@ public class TaskActionDaoTests {
 
   @Test
   public void testTaskActionCreate() {
+    logger.info("---- Init testTaskActionCreate...");
     taskPriorityDao.saveOrUpdate(priority);
     taskCategoryDao.saveOrUpdate(category);
     taskStateDao.saveOrUpdate(state);
     userDao.saveOrUpdate(user);
 
+    logger.info("---- new Date instance...");
     Date rightnow = Calendar.getInstance().getTime();
-
+    logger.info(" before new task");
     Task t1 = new Task("My first task", "This is a task", rightnow, rightnow, category, priority,
         state, user, user, "okey", 0);
-
+    logger.info(" after new task");
+    logger.info(" before new taskaction1");
     TaskAction ta1 = new TaskAction(t1, rightnow, "Task action 1", "Task action 1 description",
         user, 20);
+    logger.info(" before new taskaction2");
     TaskAction ta2 = new TaskAction(t1, rightnow, "Task action 2", "Task action 2 description",
         user, 10);
+    logger.info(" before new taskaction3");
     TaskAction ta3 = new TaskAction(t1, rightnow, "Task action 3", "Task action 3 description",
         user, 25);
+    logger.info(" before new taskaction4");
     TaskAction ta4 = new TaskAction(t1, rightnow, "Task action 4", "Task action 4 description",
         user, 5);
 
@@ -99,14 +107,16 @@ public class TaskActionDaoTests {
     t1.addAction(ta2);
     t1.addAction(ta3);
     t1.addAction(ta4);
-
+    logger.info(" before task save1");
     taskDao.save(t1);
-
+    logger.info(" before new taskaction1");
     Task t2a = new Task("My first task", "This is a task", rightnow, rightnow, category, priority,
         state, user, user, "okey", 0);
+    logger.info(" before new taskaction21");
     TaskAction ta21 = new TaskAction(t2a, rightnow, "Task action 1", "Task action 21 description",
         user);
     t2a.addAction(ta21);
+    logger.info(" before task save2");
     taskDao.save(t2a);
 
     assertTrue("Task duration should be 60 min.", t1.getDuration() == 60);

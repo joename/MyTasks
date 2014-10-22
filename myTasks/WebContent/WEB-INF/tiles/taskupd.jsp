@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/tiles/notifications.jsp"%>
 <div id="body" class="col-md-10">
 	<div class="col-md-6">
 		<h1>Edita tarea</h1>
 		<form:form method="POST" class="form-horizontal"
-			action="<c:url value='/task/upd'/>" commandName="task">
+			action="${pageContext.request.contextPath}/task/upd" commandName="task">
 			<div class="form-group">
 				<label for="idTask" class="col-sm-2 control-label input-sm">id
 					Task</label>
@@ -138,7 +140,7 @@
 		<h2>Actions</h2>
 		<button data-toggle="modal" data-target="#newAction"
 			class="btn btn-success btn-sm" data-dismiss="modal">Nueva
-			acción</button>
+			acción ${fn:length(task.actions)}</button>
 		<c:if test="${!empty task.actions}">
 			<div id="actions" ng-controller="ActionCtrl as act"
 				ng-init="getactions(${task.idTask})">

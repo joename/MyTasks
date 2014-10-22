@@ -22,6 +22,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @PrimaryKeyJoinColumn(name = "fkPersona", referencedColumnName = "id")
 public class User extends Person {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5066662391273271705L;
+  
   @NotBlank(groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
   @Size(min = 4, max = 45, groups = { PersistenceValidationGroup.class, FormValidationGroup.class })
   @Column(name = "username")

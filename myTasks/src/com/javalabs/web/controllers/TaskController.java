@@ -62,6 +62,11 @@ public class TaskController {
 	}
 
 	@Autowired
+    public void setTaskActionService(TaskActionService taskActionService) {
+        this.taskActionService = taskActionService;
+    }
+	
+	@Autowired
 	public void setCategoryService(CategoryService categoryService) {
 		this.categoryService = categoryService;
 	}

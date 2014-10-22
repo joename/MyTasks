@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,16 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "a_ifoctareacategoria")
-public class Category {
+public class Category implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 9182601404422292098L;
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private long idTaskCategory;
+  @JsonIgnore
   @Column(name = "orden")
   private long sortOrder;
   @NotBlank

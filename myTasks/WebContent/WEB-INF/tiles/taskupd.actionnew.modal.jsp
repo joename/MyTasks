@@ -22,12 +22,9 @@
 							<td>Fecha</td>
 							<td><input type="date" name="fecha" size="16"
 								value="${new Date()}" readOnly="true" /></td>
-						</tr>
-						<tr>
 							<td>Duración</td>
 							<td><input type="text" size="10" name="duration" /></td>
-						</tr>
-						<tr>
+						</tr>						<tr>
 							<td>Acción</td>
 							<td><input type="text" name="actionname" /></td>
 						</tr>

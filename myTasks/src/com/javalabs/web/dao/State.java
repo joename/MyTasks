@@ -1,5 +1,6 @@
 package com.javalabs.web.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,9 +12,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "a_tareaestado")
-public class State {
+public class State implements Serializable{
 
-	@Id
+	/**
+   * 
+   */
+  private static final long serialVersionUID = 5377933871372470464L;
+  
+  @Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "id")
 	private long idTaskState;
